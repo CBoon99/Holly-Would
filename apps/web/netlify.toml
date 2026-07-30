@@ -1,15 +1,20 @@
-# Holly Would — Netlify + Next.js (same methodology as Devils Advocates)
-# Site base directory in Netlify UI should be: apps/web
-# Docs: https://docs.netlify.com/frameworks/next-js/overview/
+# Holly Would — Netlify + Next.js
+# In Netlify UI set Base directory to: apps/web
+# Do NOT set a custom Publish directory (plugin owns it).
 
 [build]
   command = "npm run build"
+  # publish is managed by @netlify/plugin-nextjs — leave unset in UI
 
 [build.environment]
   NODE_VERSION = "22"
+  NPM_FLAGS = "--include=dev"
   SECRETS_SCAN_OMIT_KEYS = "ELEVENLABS_API_KEY,OPENAI_API_KEY,DEEPGRAM_API_KEY,CLERK_SECRET_KEY,DATABASE_URL"
+  # Ephemeral FS on Netlify
+  DATA_DIR = "/tmp/holly-would-data"
 
-# Netlify Next runtime auto-provisions the adapter — do not pin [[plugins]] here.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [[headers]]
   for = "/*"
@@ -19,7 +24,6 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(self), microphone=(self), geolocation=()"
     X-DNS-Prefetch-Control = "off"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
 
 [[headers]]
   for = "/_next/static/*"

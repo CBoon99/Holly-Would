@@ -2,18 +2,22 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  poweredByHeader: false,
   experimental: {
     serverActions: {
       bodySizeLimit: "32mb",
     },
   },
-  // Allow loading media from local storage path via API only
-  webpack: (config) => {
-    config.externals = config.externals || [];
-    return config;
+  // Include seed JSON + scripts in serverless bundle
+  outputFileTracingIncludes: {
+    "/**": [
+      "./src/scripts/**/*",
+      "../../content/seed/**/*",
+    ],
   },
-  // Project root for monorepo
   outputFileTracingRoot: path.join(__dirname, "../.."),
+  serverExternalPackages: [],
 };
 
 export default nextConfig;

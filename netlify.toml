@@ -1,6 +1,6 @@
-# Holly Would monorepo root — mirrors Devils Advocates pattern.
-# Prefer setting Netlify "Base directory" to apps/web in the UI.
-# This file keeps git-linked deploys working if base is repo root.
+# Holly Would monorepo root
+# Netlify: Base directory = apps/web  (set in UI)
+# This root file is a fallback if base is left at repo root.
 
 [build]
   base = "apps/web"
@@ -8,3 +8,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  DATA_DIR = "/tmp/holly-would-data"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

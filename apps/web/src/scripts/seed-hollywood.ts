@@ -239,7 +239,9 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
   );
 }
 
-async function main() {
+export async function seedHollywoodCatalogue(opts?: {
+  forceOffline?: boolean;
+}): Promise<number> {
   loadEnvFiles();
   resetVoiceProvider();
   resetSttProvider();
@@ -255,20 +257,25 @@ async function main() {
     ]);
   }
 
-  const cataloguePath = path.join(
-    projectRoot(),
-    "content/seed/hollywood-catalogue.json"
-  );
+  const candidates = [
+    path.join(projectRoot(), "content/seed/hollywood-catalogue.json"),
+    path.join(process.cwd(), "content/seed/hollywood-catalogue.json"),
+    path.join(process.cwd(), "../../content/seed/hollywood-catalogue.json"),
+  ];
+  const cataloguePath = candidates.find((p) => fs.existsSync(p));
+  if (!cataloguePath) {
+    throw new Error("hollywood-catalogue.json not found");
+  }
   const catalogue = JSON.parse(fs.readFileSync(cataloguePath, "utf8")) as {
     scenes: SceneSeed[];
   };
 
-  // Also keep The Last Call if present
-  const lastCallPath = path.join(
-    projectRoot(),
-    "content/seed/scene-the-last-call.json"
-  );
-  if (fs.existsSync(lastCallPath)) {
+  const lastCallCandidates = [
+    path.join(projectRoot(), "content/seed/scene-the-last-call.json"),
+    path.join(process.cwd(), "../../content/seed/scene-the-last-call.json"),
+  ];
+  const lastCallPath = lastCallCandidates.find((p) => fs.existsSync(p));
+  if (lastCallPath) {
     const lc = JSON.parse(fs.readFileSync(lastCallPath, "utf8"));
     catalogue.scenes.unshift({
       ...lc,
@@ -285,14 +292,12 @@ async function main() {
     });
   }
 
-  const forceOffline = process.env.HOLLYWOOD_SEED_LIVE_TTS !== "1";
+  const forceOffline =
+    opts?.forceOffline ?? process.env.HOLLYWOOD_SEED_LIVE_TTS !== "1";
   console.log(
     `Seeding ${catalogue.scenes.length} Hollywood-style ORIGINAL scenes (${
       forceOffline ? "offline audio — fast" : "live TTS"
     })…`
-  );
-  console.log(
-    "Rights: platform_original only — not Casablanca / GWTW / Wayne licensed scripts."
   );
 
   for (const scene of catalogue.scenes) {
@@ -303,9 +308,21 @@ async function main() {
     `SELECT COUNT(*) as n FROM scenes WHERE publication_status = 'published'`
   );
   console.log(`\nDone. Published scenes: ${count?.n ?? "?"}`);
+  return count?.n ?? 0;
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+async function main() {
+  await seedHollywoodCatalogue();
+}
+
+// Auto-run when executed as CLI: `tsx src/scripts/seed-hollywood.ts`
+const isCli =
+  typeof require !== "undefined" &&
+  typeof module !== "undefined" &&
+  require.main === module;
+if (isCli) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

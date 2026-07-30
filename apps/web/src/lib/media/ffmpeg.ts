@@ -51,13 +51,63 @@ export function runFfmpeg(args: string[]): Promise<void> {
   });
 }
 
-/** Generate a short spoken partner line via macOS `say` + ffmpeg, or sine fallback. */
+/** Write a minimal mono 16-bit PCM WAV without ffmpeg (serverless-safe). */
+export function writeSilentWav(
+  outWav: string,
+  durationMs: number,
+  sampleRate = 48000
+): number {
+  const samples = Math.max(1, Math.floor((durationMs / 1000) * sampleRate));
+  const dataSize = samples * 2;
+  const buf = Buffer.alloc(44 + dataSize);
+  buf.write("RIFF", 0);
+  buf.writeUInt32LE(36 + dataSize, 4);
+  buf.write("WAVE", 8);
+  buf.write("fmt ", 12);
+  buf.writeUInt32LE(16, 16);
+  buf.writeUInt16LE(1, 20); // PCM
+  buf.writeUInt16LE(1, 22); // mono
+  buf.writeUInt32LE(sampleRate, 24);
+  buf.writeUInt32LE(sampleRate * 2, 28);
+  buf.writeUInt16LE(2, 32);
+  buf.writeUInt16LE(16, 34);
+  buf.write("data", 36);
+  buf.writeUInt32LE(dataSize, 40);
+  // soft click tone so audio element has signal
+  for (let i = 0; i < samples; i++) {
+    const t = i / sampleRate;
+    const env = Math.min(1, t * 10) * Math.min(1, (durationMs / 1000 - t) * 10);
+    const sample = Math.sin(2 * Math.PI * 220 * t) * 0.15 * env;
+    buf.writeInt16LE(Math.max(-32767, Math.min(32767, Math.floor(sample * 32767))), 44 + i * 2);
+  }
+  fs.mkdirSync(path.dirname(outWav), { recursive: true });
+  fs.writeFileSync(outWav, buf);
+  return durationMs;
+}
+
+export function hasFfmpeg(): boolean {
+  try {
+    execFileSync(ffmpegBin(), ["-version"], { stdio: "pipe" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Generate a short spoken partner line via macOS `say` + ffmpeg, or pure WAV fallback. */
 export async function synthesizeSeedLine(
   text: string,
   outWav: string
 ): Promise<{ durationMs: number }> {
   fs.mkdirSync(path.dirname(outWav), { recursive: true });
   const aiff = outWav.replace(/\.wav$/i, ".aiff");
+  // ~80ms per word, min 1.2s
+  const approxMs = Math.max(1200, Math.round(text.split(/\s+/).length * 320));
+
+  if (!hasFfmpeg()) {
+    writeSilentWav(outWav, approxMs);
+    return { durationMs: approxMs };
+  }
 
   try {
     execFileSync("say", ["-v", "Daniel", "-o", aiff, text], { stdio: "pipe" });
@@ -79,22 +129,30 @@ export async function synthesizeSeedLine(
       /* ignore */
     }
   } catch {
-    // Fallback: 1.2s tone (when `say` unavailable)
-    await runFfmpeg([
-      "-y",
-      "-f",
-      "lavfi",
-      "-i",
-      "sine=frequency=220:duration=1.2",
-      "-ar",
-      "48000",
-      "-ac",
-      "1",
-      outWav,
-    ]);
+    try {
+      await runFfmpeg([
+        "-y",
+        "-f",
+        "lavfi",
+        "-i",
+        `sine=frequency=220:duration=${(approxMs / 1000).toFixed(2)}`,
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        outWav,
+      ]);
+    } catch {
+      writeSilentWav(outWav, approxMs);
+      return { durationMs: approxMs };
+    }
   }
 
-  return { durationMs: probeDurationMs(outWav) };
+  try {
+    return { durationMs: probeDurationMs(outWav) };
+  } catch {
+    return { durationMs: approxMs };
+  }
 }
 
 export type MixTrack = {
