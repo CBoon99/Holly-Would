@@ -231,18 +231,65 @@ export function PerformanceStudio({
 
   const currentLine = manifest?.lines[lineIndex] ?? null;
 
+  /**
+   * Other actor speaks. Prefer browser SpeechSynthesis (works after Start click
+   * on every major browser) then fall back to pre-baked partner WAV files.
+   */
   const playPartnerLine = useCallback(async (line: ManifestLine) => {
     if (cancelledRef.current) return;
     stopPartnerAudio();
+    try {
+      window.speechSynthesis?.cancel();
+    } catch {
+      /* ignore */
+    }
     setPhase("partner");
 
+    const text = (line.text || "").trim();
+    const wordMs = Math.max(2500, Math.round(text.split(/\s+/).length * 380));
+
+    // 1) Browser voice — most reliable "other actor" path (no network file needed)
+    const spoke = await new Promise<boolean>((resolve) => {
+      if (typeof window === "undefined" || !window.speechSynthesis || !text) {
+        resolve(false);
+        return;
+      }
+      try {
+        // Chrome: voices may be empty until this is called once
+        void window.speechSynthesis.getVoices();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-US";
+        u.rate = 0.95;
+        u.pitch = 1;
+        u.volume = 1;
+        const voices = window.speechSynthesis.getVoices();
+        const en =
+          voices.find((v) => /en[-_]?US/i.test(v.lang) && /samantha|daniel|alex|google|microsoft|premium|natural/i.test(v.name)) ||
+          voices.find((v) => /^en/i.test(v.lang)) ||
+          voices[0];
+        if (en) u.voice = en;
+        let done = false;
+        const finish = (ok: boolean) => {
+          if (done) return;
+          done = true;
+          resolve(ok);
+        };
+        u.onend = () => finish(true);
+        u.onerror = () => finish(false);
+        window.speechSynthesis.speak(u);
+        // Safety if onend never fires (Safari glitch)
+        setTimeout(() => finish(true), wordMs + 4000);
+      } catch {
+        resolve(false);
+      }
+    });
+    if (spoke || cancelledRef.current) return;
+
+    // 2) Pre-baked partner file (espeak/EL/OpenAI WAV)
     if (!line.partnerAudioUrl) {
-      // No audio — brief pause then advance once
       await new Promise((r) => setTimeout(r, 400));
       return;
     }
-
-    // Absolute URL — relative paths sometimes fail after navigations
     const src = line.partnerAudioUrl.startsWith("http")
       ? line.partnerAudioUrl
       : `${window.location.origin}${line.partnerAudioUrl}`;
@@ -261,7 +308,6 @@ export function PerformanceStudio({
         audio.onerror = null;
         resolve();
       };
-      // Safety timeout so we never hang or loop forever
       const maxMs = Math.max(line.expectedDurationMs + 4000, 12000);
       const t = setTimeout(finish, maxMs);
       audio.onended = () => {
@@ -273,27 +319,10 @@ export function PerformanceStudio({
         finish();
       };
       audio.src = src;
-      const tryPlay = () => {
-        void audio.play().catch(() => {
-          // One retry after short delay (autoplay / decode race)
-          setTimeout(() => {
-            void audio.play().catch(() => {
-              clearTimeout(t);
-              finish();
-            });
-          }, 200);
-        });
-      };
-      if (audio.readyState >= 2) tryPlay();
-      else {
-        audio.oncanplaythrough = () => {
-          audio.oncanplaythrough = null;
-          tryPlay();
-        };
-        audio.load();
-        // Fallback if canplaythrough never fires
-        setTimeout(tryPlay, 400);
-      }
+      void audio.play().catch(() => {
+        clearTimeout(t);
+        finish();
+      });
     });
   }, []);
 
@@ -467,7 +496,7 @@ export function PerformanceStudio({
     lineIndexRef.current = 0;
     setLineIndex(0);
     advancingRef.current = false;
-    // Unlock browser audio in the same user gesture as "Start take"
+    // Unlock HTML audio + speech synthesis in the same click as "Start take"
     try {
       const unlock = new Audio();
       unlock.src =
@@ -475,6 +504,19 @@ export function PerformanceStudio({
       unlock.volume = 0.01;
       await unlock.play().catch(() => undefined);
       unlock.pause();
+    } catch {
+      /* ignore */
+    }
+    try {
+      if (window.speechSynthesis) {
+        void window.speechSynthesis.getVoices();
+        // Warm the engine with a silent-ish short utterance volume 0
+        const warm = new SpeechSynthesisUtterance(".");
+        warm.volume = 0.01;
+        warm.rate = 2;
+        window.speechSynthesis.speak(warm);
+        window.speechSynthesis.cancel();
+      }
     } catch {
       /* ignore */
     }
@@ -649,7 +691,7 @@ export function PerformanceStudio({
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-wide text-stage-mist">
                 {phase === "partner"
-                  ? "Partner speaking — listen"
+                  ? "🔊 Other actor speaking — turn volume up"
                   : phase === "countdown"
                     ? "Get ready"
                     : phase === "record"
