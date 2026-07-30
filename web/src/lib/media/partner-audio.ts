@@ -31,17 +31,35 @@ export async function generatePartnerLineAudio(input: {
   voiceProfileId?: string;
   ownerDialogueEventId: string;
 }): Promise<PartnerLineResult> {
+  const liveOnly =
+    process.env.HOLLYWOOD_SEED_LIVE_TTS === "1" ||
+    process.env.PARTNER_AUDIO_LIVE_ONLY === "1";
+
   if (isLiveVoiceConfigured()) {
     try {
       return await generateViaElevenLabs(input);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
+      // Never replace failed TTS with a sine "hum" when live was requested —
+      // that poisoned the catalogue and sounded like broken product.
+      if (liveOnly || /quota|401|402|payment/i.test(msg)) {
+        console.error(
+          `ElevenLabs failed for line ${input.sequence} (no hum fallback):`,
+          msg.slice(0, 200)
+        );
+        throw e;
+      }
       console.warn(
         `ElevenLabs failed for line ${input.sequence}, using offline seed:`,
         msg.slice(0, 160)
       );
       return generateViaOfflineSeed(input);
     }
+  }
+  if (liveOnly) {
+    throw new Error(
+      "Live partner audio required but ELEVENLABS_API_KEY is not configured"
+    );
   }
   return generateViaOfflineSeed(input);
 }
