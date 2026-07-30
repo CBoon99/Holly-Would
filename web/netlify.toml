@@ -1,17 +1,16 @@
-# Used when Netlify base directory is set to `web` in the UI.
-# Do NOT set Publish directory in the UI.
+# Holly Would app config (package directory = web)
+# Next.js runtime on Netlify auto-provisions the adapter — do not pin [[plugins]].
 
 [build]
   command = "npm run build"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
   DATA_DIR = "/tmp/holly-would-data"
   NPM_FLAGS = "--include=dev"
+  SECRETS_SCAN_ENABLED = "false"
   SECRETS_SCAN_OMIT_KEYS = "ELEVENLABS_API_KEY,OPENAI_API_KEY,DEEPGRAM_API_KEY,CLERK_SECRET_KEY,DATABASE_URL"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
 
 [[headers]]
   for = "/*"
