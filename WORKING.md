@@ -36,6 +36,14 @@ npm run dev --prefix apps/web
 
 ## Changelog
 
+### 2026-07-30 (GitHub + Holly Would brand)
+
+- **Repo live:** https://github.com/CBoon99/Holly-Would (`main` pushed)
+- Brand: **Holly Would** — series · technical · hilarious
+- Netlify methodology copied from Devils Advocates (`apps/web/netlify.toml`, base `apps/web`)
+- Secrets **not** committed; local tokens remain in `apps/web/.env.local`
+- Next: connect Netlify site → set env vars → green deploy
+
 ### 2026-07-30 (Hollywood catalogue)
 
 - **11 original scenes** seeded (Casablanca/Scarlett/Wayne *energy*, not licensed scripts).
