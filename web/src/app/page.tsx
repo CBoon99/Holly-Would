@@ -7,8 +7,12 @@ export const runtime = "nodejs";
 
 export default async function HomePage() {
   ensureMigrated();
-  // Always ensure seed on this instance (Netlify /tmp is per-function)
-  await ensureAppReady();
+  // Don't fight a force-live reseed; only ensure if empty
+  try {
+    await ensureAppReady();
+  } catch {
+    /* seed may already be running */
+  }
   const scenes = listPublishedScenes();
 
   return (

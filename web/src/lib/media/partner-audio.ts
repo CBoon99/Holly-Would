@@ -131,7 +131,9 @@ async function generateViaElevenLabs(input: {
     "partner",
     `line_${input.sequence}.wav`,
   ]);
-  const stored = await getStorage().putFile(objectKey, tmpWav);
+  const stored = await getStorage().putFile(objectKey, tmpWav, {
+    overwrite: true,
+  });
 
   try {
     fs.unlinkSync(tmpMp3);
@@ -140,6 +142,10 @@ async function generateViaElevenLabs(input: {
     /* ignore */
   }
 
+  run(`DELETE FROM media_assets WHERE id = ? OR object_key = ?`, [
+    assetId,
+    stored.objectKey,
+  ]);
   run(
     `INSERT INTO media_assets
       (id, owner_type, owner_id, asset_type, storage_provider, bucket, object_key,
@@ -204,13 +210,19 @@ async function generateViaOfflineSeed(input: {
     "partner",
     `line_${input.sequence}.wav`,
   ]);
-  const stored = await getStorage().putFile(objectKey, tmpWav);
+  const stored = await getStorage().putFile(objectKey, tmpWav, {
+    overwrite: true,
+  });
   try {
     fs.unlinkSync(tmpWav);
   } catch {
     /* ignore */
   }
 
+  run(`DELETE FROM media_assets WHERE id = ? OR object_key = ?`, [
+    assetId,
+    stored.objectKey,
+  ]);
   run(
     `INSERT INTO media_assets
       (id, owner_type, owner_id, asset_type, storage_provider, bucket, object_key,
