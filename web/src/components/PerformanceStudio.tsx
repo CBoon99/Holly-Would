@@ -242,9 +242,17 @@ export function PerformanceStudio({
       return;
     }
 
+    // Absolute URL — relative paths sometimes fail after navigations
+    const src = line.partnerAudioUrl.startsWith("http")
+      ? line.partnerAudioUrl
+      : `${window.location.origin}${line.partnerAudioUrl}`;
+
     await new Promise<void>((resolve) => {
       const audio = new Audio();
       partnerAudioRef.current = audio;
+      audio.preload = "auto";
+      audio.volume = 1;
+      audio.muted = false;
       let settled = false;
       const finish = () => {
         if (settled) return;
@@ -253,13 +261,9 @@ export function PerformanceStudio({
         audio.onerror = null;
         resolve();
       };
-      audio.onended = finish;
-      audio.onerror = finish;
       // Safety timeout so we never hang or loop forever
-      const maxMs = Math.max(line.expectedDurationMs + 3000, 8000);
+      const maxMs = Math.max(line.expectedDurationMs + 4000, 12000);
       const t = setTimeout(finish, maxMs);
-      audio.src = line.partnerAudioUrl!;
-      audio.play().catch(() => finish());
       audio.onended = () => {
         clearTimeout(t);
         finish();
@@ -268,6 +272,28 @@ export function PerformanceStudio({
         clearTimeout(t);
         finish();
       };
+      audio.src = src;
+      const tryPlay = () => {
+        void audio.play().catch(() => {
+          // One retry after short delay (autoplay / decode race)
+          setTimeout(() => {
+            void audio.play().catch(() => {
+              clearTimeout(t);
+              finish();
+            });
+          }, 200);
+        });
+      };
+      if (audio.readyState >= 2) tryPlay();
+      else {
+        audio.oncanplaythrough = () => {
+          audio.oncanplaythrough = null;
+          tryPlay();
+        };
+        audio.load();
+        // Fallback if canplaythrough never fires
+        setTimeout(tryPlay, 400);
+      }
     });
   }, []);
 
@@ -441,6 +467,17 @@ export function PerformanceStudio({
     lineIndexRef.current = 0;
     setLineIndex(0);
     advancingRef.current = false;
+    // Unlock browser audio in the same user gesture as "Start take"
+    try {
+      const unlock = new Audio();
+      unlock.src =
+        "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+      unlock.volume = 0.01;
+      await unlock.play().catch(() => undefined);
+      unlock.pause();
+    } catch {
+      /* ignore */
+    }
     try {
       await ensureMic();
     } catch (e) {
