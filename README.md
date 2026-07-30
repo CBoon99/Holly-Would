@@ -25,7 +25,7 @@ All catalogue dialogue is **platform-original** (Hollywood energy, not licensed 
 ## Quick start (local)
 
 ```bash
-cd apps/web
+cd web
 npm install
 npm run db:seed:hollywood   # 11 original scenes
 npm run dev -- -p 3456
@@ -36,13 +36,13 @@ Open http://localhost:3456
 ## One-command automation
 
 ```bash
-cd apps/web
+cd web
 npm run automate:hollywood
 ```
 
 ## Secrets (never commit)
 
-Copy `apps/web/.env.example` → `apps/web/.env.local`:
+Copy `web/.env.example` → `web/.env.local`:
 
 - `ELEVENLABS_API_KEY` (+ optional voice IDs)
 - `DEEPGRAM_API_KEY` / `OPENAI_API_KEY` (feedback STT)
@@ -52,20 +52,24 @@ See `TOKENS.md`.
 
 ## Netlify deploy (Devils Advocates methodology)
 
-1. Connect GitHub repo **Holly-Would** to Netlify  
-2. **Base directory:** `apps/web`  
-3. **Build command:** `npm run build`  
-4. **Node:** 22  
-5. Set env vars in Netlify UI (same names as `.env.local`)  
-6. Enable **Next.js** runtime (auto)
+Same pattern as [evils-advocates.netlify.app](https://evils-advocates.netlify.app): Next app in **`web/`**.
 
-`apps/web/netlify.toml` holds headers + build defaults.
+1. Connect GitHub repo **Holly-Would** to Netlify  
+2. **Base directory:** `web`  
+3. **Build command:** `npm run build`  
+4. **Publish directory:** leave **blank**  
+5. **Node:** 22  
+6. Env: `DATA_DIR=/tmp/holly-would-data` + API keys  
+7. Trigger **Clear cache and deploy**  
+8. After green: visit `/api/bootstrap` once, then `/`
+
+`web/netlify.toml` includes `@netlify/plugin-nextjs`.
 
 ## Scripts
 
 | Command | Purpose |
 |---------|---------|
-| `npm run dev` | Local server |
+| `npm run dev` | Local server (from repo root or `web/`) |
 | `npm run verify` | Typecheck + unit tests |
 | `npm run db:seed:hollywood` | Seed catalogue |
 | `npm run automate` | Env → migrate → seed → verify |

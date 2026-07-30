@@ -211,7 +211,7 @@ A rule without an enforcement class must not be added here.
 | Current phase | **Phase 0 / V1 local complete** (M0-V1-SPRINT) |
 | Next logical mission | **M1 — Postgres + Redis + S3 parity** or **M3 — ElevenLabs adapter** |
 | Backlog file | `missions/BACKLOG.md` |
-| Repo status | Runnable Next.js app under `apps/web`; evidence in `missions/M0-V1-SPRINT/evidence/` |
+| Repo status | Runnable Next.js app under `web`; evidence in `missions/M0-V1-SPRINT/evidence/` |
 
 ---
 

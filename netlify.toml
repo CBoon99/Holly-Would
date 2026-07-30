@@ -1,14 +1,18 @@
-# Holly Would monorepo root
-# Netlify: Base directory = apps/web  (set in UI)
-# This root file is a fallback if base is left at repo root.
+# Holly Would — Netlify (Devils Advocates methodology)
+# UI settings (Site configuration → Build & deploy):
+#   Base directory:  web
+#   Build command:   npm run build
+#   Publish dir:     (leave blank — Next plugin owns it)
+#   Node version:    22
 
 [build]
-  base = "apps/web"
+  base = "web"
   command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "22"
   DATA_DIR = "/tmp/holly-would-data"
+  NPM_FLAGS = "--include=dev"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

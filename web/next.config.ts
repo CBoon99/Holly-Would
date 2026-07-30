@@ -9,15 +9,12 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "32mb",
     },
   },
-  // Include seed JSON + scripts in serverless bundle
+  // Keep seed content inside the package for Netlify file tracing
   outputFileTracingIncludes: {
-    "/**": [
-      "./src/scripts/**/*",
-      "../../content/seed/**/*",
-    ],
+    "/**": ["./content/seed/**/*", "./src/scripts/**/*"],
   },
-  outputFileTracingRoot: path.join(__dirname, "../.."),
-  serverExternalPackages: [],
+  // monorepo root is one level up from web/
+  outputFileTracingRoot: path.join(__dirname, ".."),
 };
 
 export default nextConfig;

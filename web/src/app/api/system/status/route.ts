@@ -13,9 +13,9 @@ export async function GET() {
     sttConfigured: isSttConfigured(),
     services: serviceInventory(),
     automation: {
-      seed: "npm run db:seed --prefix apps/web",
-      verify: "npm run verify --prefix apps/web",
-      full: "npm run automate --prefix apps/web",
+      seed: "npm run db:seed --prefix web",
+      verify: "npm run verify --prefix web",
+      full: "npm run automate --prefix web",
     },
   });
 }

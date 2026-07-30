@@ -10,26 +10,30 @@ export function isServerlessHost(): boolean {
   );
 }
 
-/** Project root: monorepo root (content/seed, etc.) */
+/** Monorepo / package root for seed JSON. */
 export function projectRoot(): string {
-  // On Netlify, cwd is apps/web during functions; monorepo root is one up or process.cwd
   if (process.env.PROJECT_ROOT) {
     return path.resolve(process.env.PROJECT_ROOT);
   }
-  // Prefer apps/web/../.. when running from apps/web
-  const candidate = path.resolve(process.cwd(), "../..");
-  if (fs.existsSync(path.join(candidate, "content"))) return candidate;
-  if (fs.existsSync(path.join(process.cwd(), "content"))) return process.cwd();
-  return path.resolve(process.cwd(), "../..");
+  // Prefer package-local content/ (works on Netlify with base=web)
+  if (fs.existsSync(path.join(process.cwd(), "content/seed"))) {
+    return process.cwd();
+  }
+  // monorepo root (local: web/../)
+  const up = path.resolve(process.cwd(), "..");
+  if (fs.existsSync(path.join(up, "content/seed"))) return up;
+  if (fs.existsSync(path.join(up, "web/content/seed"))) return path.join(up, "web");
+  return process.cwd();
 }
 
 export function dataDir(): string {
-  // Serverless: always /tmp (writable)
   if (isServerlessHost()) {
     return process.env.DATA_DIR || "/tmp/holly-would-data";
   }
   const raw = process.env.DATA_DIR || path.join(projectRoot(), ".data");
-  return path.isAbsolute(raw) ? raw : path.resolve(process.cwd(), raw);
+  // when projectRoot is web/, .data lives at monorepo or web
+  if (path.isAbsolute(raw)) return raw;
+  return path.resolve(process.cwd(), raw);
 }
 
 export function storageRoot(): string {

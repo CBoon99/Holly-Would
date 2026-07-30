@@ -44,7 +44,7 @@ async function main() {
   // Optional live smoke: only if ffmpeg present
   console.log("\n▶ offline mix smoke via seed already creates partner assets");
   console.log("\n=== Automation complete ===");
-  console.log("Start app: npm run dev --prefix apps/web");
+  console.log("Start app: npm run dev --prefix web");
   console.log("Status API: GET /api/system/status");
 }
 

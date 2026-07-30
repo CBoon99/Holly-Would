@@ -11,8 +11,8 @@ export function loadEnvFiles(): string[] {
   const candidates = [
     path.join(process.cwd(), ".env.local"),
     path.join(process.cwd(), ".env"),
-    path.join(projectRoot(), "apps/web/.env.local"),
-    path.join(projectRoot(), "apps/web/.env"),
+    path.join(projectRoot(), "web/.env.local"),
+    path.join(projectRoot(), "web/.env"),
     path.join(projectRoot(), ".env.local"),
     path.join(projectRoot(), ".env"),
   ];

@@ -1,0 +1,122 @@
+{
+  "slug": "the-last-call",
+  "title": "The Last Call",
+  "film_title": "Platform Originals: The Last Call",
+  "genre": "drama",
+  "difficulty": "beginner",
+  "duration_ms": 75000,
+  "premise": "Two friends share a final phone call the night before one of them leaves the city for good. What was left unsaid finally surfaces.",
+  "content_warnings": [],
+  "rights": {
+    "classification": "platform_original",
+    "status": "approved",
+    "basis": "Work made for the platform; no third-party film audio or script.",
+    "can_stream": true,
+    "can_display_script": true,
+    "can_transform_audio": true,
+    "can_record_user": true,
+    "can_download": true,
+    "can_share": false,
+    "can_monetise": false,
+    "territories": ["*"]
+  },
+  "situation_before": "Maya and Jordan have been best friends since school. Jordan is moving overseas tomorrow. They have avoided a real goodbye.",
+  "characters": [
+    {
+      "key": "maya",
+      "name": "Maya",
+      "playable": true,
+      "description": "Warm, guarded, stays in the city. Wants honesty before Jordan leaves.",
+      "objective": "Get Jordan to admit this friendship still matters before the call ends.",
+      "obstacles": "Fear of seeming needy; Jordan deflects with humour.",
+      "emotional_start": "brittle calm",
+      "age_range": "25-35",
+      "accent": "neutral"
+    },
+    {
+      "key": "jordan",
+      "name": "Jordan",
+      "playable": true,
+      "description": "Leaving at dawn. Uses lightness to avoid grief.",
+      "objective": "Keep the goodbye light so neither of them falls apart.",
+      "obstacles": "Maya will not accept a shallow farewell.",
+      "emotional_start": "forced cheer",
+      "age_range": "25-35",
+      "accent": "neutral"
+    }
+  ],
+  "relationship": "Lifelong friends; romantic tension never named.",
+  "director_note": "Keep it intimate and conversational. Silence is part of the scene. Do not rush the final beat.",
+  "dialogue": [
+    {
+      "seq": 1,
+      "character": "jordan",
+      "text": "Hey. I wasn't sure you'd pick up this late.",
+      "emotion": "casual",
+      "expected_pause_after_ms": 400
+    },
+    {
+      "seq": 2,
+      "character": "maya",
+      "text": "Of course I picked up. You leave in six hours.",
+      "emotion": "steady",
+      "expected_pause_after_ms": 500
+    },
+    {
+      "seq": 3,
+      "character": "jordan",
+      "text": "Don't make it sound like a funeral. It's just a job.",
+      "emotion": "deflecting",
+      "expected_pause_after_ms": 400
+    },
+    {
+      "seq": 4,
+      "character": "maya",
+      "text": "It's not just a job, Jordan. It's the end of us living on the same street.",
+      "emotion": "direct",
+      "expected_pause_after_ms": 700
+    },
+    {
+      "seq": 5,
+      "character": "jordan",
+      "text": "We'll call. Video. Time zones are just maths.",
+      "emotion": "reassuring",
+      "expected_pause_after_ms": 400
+    },
+    {
+      "seq": 6,
+      "character": "maya",
+      "text": "Maths doesn't replace the way you knock on my door when the power goes out.",
+      "emotion": "soft",
+      "expected_pause_after_ms": 800
+    },
+    {
+      "seq": 7,
+      "character": "jordan",
+      "text": "...Yeah. I know.",
+      "emotion": "cracking",
+      "expected_pause_after_ms": 900
+    },
+    {
+      "seq": 8,
+      "character": "maya",
+      "text": "Then say it. Say you'll miss this. Not the city. This.",
+      "emotion": "urgent",
+      "expected_pause_after_ms": 600
+    },
+    {
+      "seq": 9,
+      "character": "jordan",
+      "text": "I'll miss you, Maya. More than I planned to.",
+      "emotion": "honest",
+      "expected_pause_after_ms": 700
+    },
+    {
+      "seq": 10,
+      "character": "maya",
+      "text": "Good. Now go pack. And text me from the airport — not a joke. A real text.",
+      "emotion": "warm resolve",
+      "expected_pause_after_ms": 500
+    }
+  ]
+}

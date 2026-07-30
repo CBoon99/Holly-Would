@@ -28,27 +28,36 @@
 
 ```bash
 cd "Documents/Acting practice, in real movies scences"
-npm install --prefix apps/web
-npm run db:seed --prefix apps/web
-npm run dev --prefix apps/web
+npm install --prefix web
+npm run db:seed --prefix web
+npm run dev --prefix web
 # open http://localhost:3000
 ```
 
 ## Changelog
 
+### 2026-07-30 (Netlify layout + holly-would)
+
+- Restructured app to repo-root `web/` (same pattern as Devils Advocates).
+- Root + `web/netlify.toml`: base `web`, Next plugin, `DATA_DIR=/tmp/holly-would-data`.
+- Netlify site name for now: **holly-would** → `https://holly-would.netlify.app`
+- Seed JSON also at `web/content/seed/` for serverless file tracing.
+- After green deploy: open `/api/bootstrap` once to seed catalogue on cold storage.
+
+
 ### 2026-07-30 (GitHub + Holly Would brand)
 
 - **Repo live:** https://github.com/CBoon99/Holly-Would (`main` pushed)
 - Brand: **Holly Would** — series · technical · hilarious
-- Netlify methodology copied from Devils Advocates (`apps/web/netlify.toml`, base `apps/web`)
-- Secrets **not** committed; local tokens remain in `apps/web/.env.local`
+- Netlify methodology copied from Devils Advocates (`web/netlify.toml`, base `web`)
+- Secrets **not** committed; local tokens remain in `web/.env.local`
 - Next: connect Netlify site → set env vars → green deploy
 
 ### 2026-07-30 (Hollywood catalogue)
 
 - **11 original scenes** seeded (Casablanca/Scarlett/Wayne *energy*, not licensed scripts).
 - Filters: difficulty, tone, rudeness, funny, style (incl. `john-wayne-type`, `southern-belle`, café noir).
-- Command: `npm run db:seed:hollywood --prefix apps/web`
+- Command: `npm run db:seed:hollywood --prefix web`
 - Rights: all `platform_original` / approved.
 
 ### 2026-07-30 (Token harvest from disk)
@@ -60,7 +69,7 @@ npm run dev --prefix apps/web
 
 ### 2026-07-30 (Full automation layer)
 
-- One-command: `npm run automate --prefix apps/web` (env → migrate → seed TTS → verify).
+- One-command: `npm run automate --prefix web` (env → migrate → seed TTS → verify).
 - Automated feedback on mix complete (STT via ElevenLabs Scribe when permitted; timing always).
 - Continuous guided mode (auto-advance user windows).
 - Token inventory: `TOKENS.md` + `GET /api/system/status`.
@@ -68,7 +77,7 @@ npm run dev --prefix apps/web
 
 ### 2026-07-30 (M3 live)
 
-- ElevenLabs key stored in `apps/web/.env.local` only (gitignored). **Rotate key** — it was shared in chat.
+- ElevenLabs key stored in `web/.env.local` only (gitignored). **Rotate key** — it was shared in chat.
 - Restricted key: no `voices_read`; TTS works with pinned voice Adam `pNInz6obpgDQGcFmaJgB`.
 - Reseeded **The Last Call** partner lines (5) via ElevenLabs live TTS — observed.
 
@@ -76,8 +85,8 @@ npm run dev --prefix apps/web
 
 - Picked **ElevenLabs adapter** next (easiest with API token; scales partner TTS).
 - `VoiceSynthesisProvider` + `ElevenLabsVoiceProvider`; internal `voice_profiles` + `generation_records`.
-- Seed uses live TTS when `ELEVENLABS_API_KEY` is in `apps/web/.env.local`; else offline fallback.
-- Commands: `npm run voices:check --prefix apps/web`, then `npm run db:seed --prefix apps/web`.
+- Seed uses live TTS when `ELEVENLABS_API_KEY` is in `web/.env.local`; else offline fallback.
+- Commands: `npm run voices:check --prefix web`, then `npm run db:seed --prefix web`.
 
 ### 2026-07-29
 

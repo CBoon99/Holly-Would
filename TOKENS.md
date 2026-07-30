@@ -1,11 +1,11 @@
 # Tokens for full automation
 
-Paste secrets into **`apps/web/.env.local`** only (gitignored). Never commit.
+Paste secrets into **`web/.env.local`** only (gitignored). Never commit.
 
 After pasting, run:
 
 ```bash
-npm run automate --prefix apps/web
+npm run automate --prefix web
 ```
 
 ## Required for current automation

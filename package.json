@@ -1,15 +1,17 @@
 {
-  "name": "acting-platform",
+  "name": "holly-would",
   "version": "0.1.0",
   "private": true,
-  "description": "Audio-first interactive scene acting platform — Phase 0 / V1",
+  "description": "Holly Would — series · technical · hilarious. Hollywood acting practice.",
   "scripts": {
-    "dev": "npm run dev --prefix apps/web",
-    "build": "npm run build --prefix apps/web",
-    "start": "npm run start --prefix apps/web",
-    "verify": "npm run verify --prefix apps/web",
-    "db:seed": "npm run db:seed --prefix apps/web",
-    "db:push": "npm run db:push --prefix apps/web"
+    "dev": "npm run dev --prefix web",
+    "build": "npm run build --prefix web",
+    "start": "npm run start --prefix web",
+    "verify": "npm run verify --prefix web",
+    "db:seed": "npm run db:seed --prefix web",
+    "db:seed:hollywood": "npm run db:seed:hollywood --prefix web",
+    "automate": "npm run automate --prefix web",
+    "automate:hollywood": "npm run automate:hollywood --prefix web"
   },
   "engines": {
     "node": ">=20"

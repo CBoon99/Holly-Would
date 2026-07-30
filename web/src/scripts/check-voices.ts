@@ -7,7 +7,7 @@ function loadEnvLocal() {
   const candidates = [
     path.join(process.cwd(), ".env.local"),
     path.join(process.cwd(), ".env"),
-    path.join(projectRoot(), "apps/web/.env.local"),
+    path.join(projectRoot(), "web/.env.local"),
   ];
   for (const p of candidates) {
     if (!fs.existsSync(p)) continue;
@@ -31,7 +31,7 @@ function loadEnvLocal() {
 async function main() {
   loadEnvLocal();
   if (!isLiveVoiceConfigured()) {
-    console.error("ELEVENLABS_API_KEY not set. Add it to apps/web/.env.local");
+    console.error("ELEVENLABS_API_KEY not set. Add it to web/.env.local");
     process.exit(1);
   }
   const p = getVoiceProvider();
