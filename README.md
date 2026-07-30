@@ -52,9 +52,10 @@ See `TOKENS.md`.
 
 ## Live host (primary)
 
-**https://holly-would.netlify.app** — production for now.
+**Primary:** https://holly-would-web-production.up.railway.app  
+**Also:** https://holly-would.netlify.app
 
-Railway was started (`holly-would` project + volume) then **parked**: Nixpacks build failed on `tsconfig.tsbuildinfo` cache mount. Retry later with a Dockerfile if needed.
+Railway uses Docker + volume `/data` + Postgres. Netlify remains a secondary host.
 
 ## Netlify deploy (site: **holly-would**)
 

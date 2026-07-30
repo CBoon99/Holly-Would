@@ -1,12 +1,11 @@
-# Holly Would web service (use when Railway Root Directory = web)
-
+# Holly Would — Railway (Dockerfile, not Nixpacks)
 [build]
-builder = "NIXPACKS"
-buildCommand = "npm ci && npm run build"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "npx next start -H 0.0.0.0 -p ${PORT:-3000}"
-healthcheckPath = "/api/system/status"
+# Dockerfile CMD owns start; longer grace for cold seed
+healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10

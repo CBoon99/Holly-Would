@@ -21,7 +21,7 @@
 |------|-------|
 | Docs / profile / brief | Present |
 | Application code | **V1 Phase 0 loop runnable** (M0-V1-SPRINT) |
-| Deploy | **Primary: Netlify** `https://holly-would.netlify.app` · Railway parked (build fail) |
+| Deploy | **Primary: Railway** `https://holly-would-web-production.up.railway.app` · Netlify still live |
 | Verify | typecheck + unit tests + API mix smoke pass |
 
 ## How to run
@@ -35,6 +35,13 @@ npm run dev --prefix web
 ```
 
 ## Changelog
+
+### 2026-07-30 (Railway LIVE — works first time)
+
+- Dockerfile + ffmpeg + volume `/data` + Postgres service online.
+- Seeded 21 scenes to durable volume; session + partner audio verified.
+- URL: https://holly-would-web-production.up.railway.app
+
 
 ### 2026-07-30 (Team path: renames + durable storage scaffold)
 
