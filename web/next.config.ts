@@ -11,10 +11,14 @@ const nextConfig: NextConfig = {
   },
   // Keep seed content inside the package for Netlify file tracing
   outputFileTracingIncludes: {
-    "/**": ["./content/seed/**/*", "./src/scripts/**/*"],
+    "/**": ["./content/seed/**/*"],
   },
-  // monorepo root is one level up from web/
-  outputFileTracingRoot: path.join(__dirname, ".."),
+  // Never ship local secrets into the serverless bundle
+  outputFileTracingExcludes: {
+    "/**": ["./.env", "./.env.*", "./.env.local", "**/.env", "**/.env.*"],
+  },
+  // package_path=web — trace from this package, not monorepo parent
+  outputFileTracingRoot: path.join(__dirname),
 };
 
 export default nextConfig;

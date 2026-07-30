@@ -1,21 +1,23 @@
 # Holly Would — Netlify (site: holly-would)
 #
-# UI / API settings (must match Devils Advocates monorepo fix):
+# Site settings (API / UI):
 #   Base directory:     (blank)
 #   Package directory:  web
 #   Build command:      npm run build
-#   Publish directory:  .next
+#   Publish directory:  (BLANK — Next runtime must own this)
 #   Node:               22
 #
-# Next.js runtime auto-provisions the adapter — do not pin [[plugins]] at root.
-# App-level env headers live in web/netlify.toml when package_path=web.
+# Do NOT set publish/.next in the UI or here — that ships static chunks only
+# and drops the SSR function (Netlify default "Page not found").
 
 [build]
   command = "npm run build"
-  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
   DATA_DIR = "/tmp/holly-would-data"
   NPM_FLAGS = "--include=dev"
   SECRETS_SCAN_ENABLED = "false"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

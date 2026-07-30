@@ -12,3 +12,6 @@ web/.next/
 web/.data/
 *.log
 .turbo/
+
+.netlify/
+web/.netlify/
