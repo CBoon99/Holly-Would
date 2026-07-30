@@ -1,0 +1,10 @@
+# Holly Would monorepo root — mirrors Devils Advocates pattern.
+# Prefer setting Netlify "Base directory" to apps/web in the UI.
+# This file keeps git-linked deploys working if base is repo root.
+
+[build]
+  base = "apps/web"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "22"

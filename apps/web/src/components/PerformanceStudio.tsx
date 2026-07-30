@@ -1,0 +1,762 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+
+type ManifestLine = {
+  dialogueEventId: string;
+  sequenceNumber: number;
+  characterName: string;
+  isUser: boolean;
+  text: string;
+  emotionTag: string | null;
+  partnerAudioUrl: string | null;
+  expectedDurationMs: number;
+  pauseAfterMs: number;
+};
+
+type Manifest = {
+  sceneTitle: string;
+  selectedCharacterName: string;
+  lines: ManifestLine[];
+  preparation: {
+    situationBefore: string | null;
+    relationship: string | null;
+    directorNote: string | null;
+    objective: string | null;
+    obstacles: string | null;
+    emotionalStart: string | null;
+  };
+  rights: {
+    canRecordUser: boolean;
+    canDisplayScript: boolean;
+  };
+};
+
+type TakeFeedback = {
+  disclaimer: string;
+  summary: string[];
+  sttUsed: boolean;
+  provider: string | null;
+  lines: Array<{
+    sequenceNumber: number;
+    expectedText: string;
+    transcriptText: string;
+    scriptCoverage: number;
+    observations: string[];
+  }>;
+};
+
+type Phase =
+  | "loading"
+  | "prep"
+  | "countdown"
+  | "partner"
+  | "record"
+  | "idle"
+  | "uploading"
+  | "mixing"
+  | "review"
+  | "error";
+
+type Mode = "line_by_line" | "continuous_guided";
+
+/**
+ * Scene runner with ref-based index (no stale closures) and a lock so
+ * partner audio cannot re-enter / glitch-loop.
+ */
+export function PerformanceStudio({
+  sceneVersionId,
+  characterId,
+}: {
+  sceneVersionId: string;
+  characterId: string;
+}) {
+  const [phase, setPhase] = useState<Phase>("loading");
+  const [error, setError] = useState<string | null>(null);
+  const [manifest, setManifest] = useState<Manifest | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [takeId, setTakeId] = useState<string | null>(null);
+  const [lineIndex, setLineIndex] = useState(0);
+  const [countdown, setCountdown] = useState(3);
+  const [level, setLevel] = useState(0);
+  const [uploaded, setUploaded] = useState<Record<string, boolean>>({});
+  const [mixUrl, setMixUrl] = useState<string | null>(null);
+  const [recording, setRecording] = useState(false);
+  const [mode, setMode] = useState<Mode>("line_by_line");
+  const [feedback, setFeedback] = useState<TakeFeedback | null>(null);
+
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const modeRef = useRef<Mode>("line_by_line");
+  const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const partnerAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  /** Always-current index — prevents partner loop from stale closures */
+  const lineIndexRef = useRef(0);
+  const manifestRef = useRef<Manifest | null>(null);
+  const takeIdRef = useRef<string | null>(null);
+  /** Prevent re-entrant advance (the glitch-loop root cause) */
+  const advancingRef = useRef(false);
+  const sessionBusyRef = useRef(false);
+  const cancelledRef = useRef(false);
+
+  const userLinesDone = manifest
+    ? manifest.lines
+        .filter((l) => l.isUser)
+        .every((l) => uploaded[l.dialogueEventId])
+    : false;
+
+  const stopMeter = () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = null;
+  };
+
+  const stopPartnerAudio = () => {
+    const a = partnerAudioRef.current;
+    if (a) {
+      try {
+        a.onended = null;
+        a.onerror = null;
+        a.pause();
+        a.removeAttribute("src");
+        a.load();
+      } catch {
+        /* ignore */
+      }
+      partnerAudioRef.current = null;
+    }
+  };
+
+  const startMeter = (stream: MediaStream) => {
+    if (audioCtxRef.current) return;
+    const ctx = new AudioContext();
+    audioCtxRef.current = ctx;
+    const source = ctx.createMediaStreamSource(stream);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 256;
+    source.connect(analyser);
+    analyserRef.current = analyser;
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    const tick = () => {
+      if (!analyserRef.current) return;
+      analyserRef.current.getByteTimeDomainData(data);
+      let sum = 0;
+      for (let i = 0; i < data.length; i++) {
+        const v = (data[i] - 128) / 128;
+        sum += v * v;
+      }
+      setLevel(Math.min(1, Math.sqrt(sum / data.length) * 4));
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    tick();
+  };
+
+  const ensureMic = useCallback(async () => {
+    if (streamRef.current) return streamRef.current;
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        channelCount: 1,
+      },
+    });
+    streamRef.current = stream;
+    startMeter(stream);
+    return stream;
+  }, []);
+
+  useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
+
+  useEffect(() => {
+    manifestRef.current = manifest;
+  }, [manifest]);
+
+  useEffect(() => {
+    takeIdRef.current = takeId;
+  }, [takeId]);
+
+  useEffect(() => {
+    cancelledRef.current = false;
+    let alive = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/performance-sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sceneVersionId,
+            selectedCharacterId: characterId,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Failed to start session");
+        if (!alive || cancelledRef.current) return;
+        setSessionId(data.sessionId);
+        setTakeId(data.takeId);
+        takeIdRef.current = data.takeId;
+        setManifest(data.manifest);
+        manifestRef.current = data.manifest;
+        lineIndexRef.current = 0;
+        setLineIndex(0);
+        setPhase("prep");
+      } catch (e) {
+        if (alive) {
+          setError(e instanceof Error ? e.message : "Failed");
+          setPhase("error");
+        }
+      }
+    })();
+    return () => {
+      alive = false;
+      cancelledRef.current = true;
+      stopMeter();
+      stopPartnerAudio();
+      if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+      streamRef.current?.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+      try {
+        audioCtxRef.current?.close();
+      } catch {
+        /* ignore */
+      }
+      audioCtxRef.current = null;
+    };
+  }, [sceneVersionId, characterId]);
+
+  const currentLine = manifest?.lines[lineIndex] ?? null;
+
+  const playPartnerLine = useCallback(async (line: ManifestLine) => {
+    if (cancelledRef.current) return;
+    stopPartnerAudio();
+    setPhase("partner");
+
+    if (!line.partnerAudioUrl) {
+      // No audio — brief pause then advance once
+      await new Promise((r) => setTimeout(r, 400));
+      return;
+    }
+
+    await new Promise<void>((resolve) => {
+      const audio = new Audio();
+      partnerAudioRef.current = audio;
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        audio.onended = null;
+        audio.onerror = null;
+        resolve();
+      };
+      audio.onended = finish;
+      audio.onerror = finish;
+      // Safety timeout so we never hang or loop forever
+      const maxMs = Math.max(line.expectedDurationMs + 3000, 8000);
+      const t = setTimeout(finish, maxMs);
+      audio.src = line.partnerAudioUrl!;
+      audio.play().catch(() => finish());
+      audio.onended = () => {
+        clearTimeout(t);
+        finish();
+      };
+      audio.onerror = () => {
+        clearTimeout(t);
+        finish();
+      };
+    });
+  }, []);
+
+  const startRecordingLine = useCallback(async (line: ManifestLine) => {
+    if (cancelledRef.current) return;
+    try {
+      const stream = await ensureMic();
+      chunksRef.current = [];
+      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
+        : "audio/webm";
+      const mr = new MediaRecorder(stream, { mimeType: mime });
+      mediaRecorderRef.current = mr;
+      mr.ondataavailable = (ev) => {
+        if (ev.data.size > 0) chunksRef.current.push(ev.data);
+      };
+      mr.start(100);
+      setRecording(true);
+      setPhase("record");
+
+      if (modeRef.current === "continuous_guided") {
+        const ms = Math.min(Math.max(line.expectedDurationMs + 1500, 2500), 12000);
+        if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+        autoTimerRef.current = setTimeout(() => {
+          void finishUserLine(line);
+        }, ms);
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Microphone failed");
+      setPhase("error");
+    }
+  }, [ensureMic]);
+
+  const beginUserLine = useCallback(
+    async (line: ManifestLine) => {
+      if (cancelledRef.current) return;
+      setPhase("countdown");
+      for (let i = 3; i >= 1; i--) {
+        if (cancelledRef.current) return;
+        setCountdown(i);
+        await new Promise((r) => setTimeout(r, 550));
+      }
+      setCountdown(0);
+      await startRecordingLine(line);
+    },
+    [startRecordingLine]
+  );
+
+  /**
+   * Run the scene from `index` forward through any partner lines,
+   * then stop on the next user line (or idle if done).
+   * Non-recursive + single-flight lock = no partner glitch loop.
+   */
+  const goToIndex = useCallback(
+    async (startIndex: number) => {
+      if (cancelledRef.current) return;
+      if (advancingRef.current) return;
+      advancingRef.current = true;
+
+      try {
+        const m = manifestRef.current;
+        if (!m) return;
+
+        let index = startIndex;
+        while (index < m.lines.length) {
+          if (cancelledRef.current) return;
+
+          lineIndexRef.current = index;
+          setLineIndex(index);
+          const line = m.lines[index];
+
+          if (line.isUser) {
+            // Hand control to the user — exit loop until they finish the line
+            await beginUserLine(line);
+            return;
+          }
+
+          await playPartnerLine(line);
+          index += 1;
+        }
+
+        // Past last line
+        lineIndexRef.current = m.lines.length;
+        setLineIndex(m.lines.length);
+        setPhase("idle");
+      } finally {
+        advancingRef.current = false;
+      }
+    },
+    [beginUserLine, playPartnerLine]
+  );
+
+  const uploadingRef = useRef(false);
+
+  const finishUserLine = useCallback(
+    async (forcedLine?: ManifestLine) => {
+      if (cancelledRef.current) return;
+      if (uploadingRef.current) return;
+      if (autoTimerRef.current) {
+        clearTimeout(autoTimerRef.current);
+        autoTimerRef.current = null;
+      }
+
+      const m = manifestRef.current;
+      const idx = lineIndexRef.current;
+      const line = forcedLine || m?.lines[idx];
+      const tid = takeIdRef.current;
+      if (!line || !tid || !line.isUser) return;
+
+      uploadingRef.current = true;
+      setRecording(false);
+      setPhase("uploading");
+
+      try {
+        const mr = mediaRecorderRef.current;
+        let blob: Blob;
+        if (mr && mr.state !== "inactive") {
+          blob = await new Promise<Blob>((resolve) => {
+            mr.onstop = () => {
+              resolve(
+                new Blob(chunksRef.current, {
+                  type: mr.mimeType || "audio/webm",
+                })
+              );
+            };
+            mr.stop();
+          });
+        } else {
+          blob = new Blob(chunksRef.current, { type: "audio/webm" });
+        }
+        mediaRecorderRef.current = null;
+        chunksRef.current = [];
+
+        if (blob.size < 100) {
+          setError("Recording was empty — check your microphone and try again.");
+          setPhase("error");
+          return;
+        }
+
+        const form = new FormData();
+        form.append("dialogueEventId", line.dialogueEventId);
+        form.append("file", blob, `line-${line.sequenceNumber}.webm`);
+
+        const res = await fetch(`/api/takes/${tid}/upload`, {
+          method: "POST",
+          body: form,
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error || "Upload failed");
+          setPhase("error");
+          return;
+        }
+
+        setUploaded((u) => ({ ...u, [line.dialogueEventId]: true }));
+        // Continue from the *next* line (partners auto-play until next user line)
+        await goToIndex(idx + 1);
+      } finally {
+        uploadingRef.current = false;
+      }
+    },
+    [goToIndex]
+  );
+
+  const startScene = async () => {
+    if (!manifestRef.current) return;
+    stopPartnerAudio();
+    setUploaded({});
+    setMixUrl(null);
+    setFeedback(null);
+    lineIndexRef.current = 0;
+    setLineIndex(0);
+    advancingRef.current = false;
+    try {
+      await ensureMic();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Mic permission denied");
+      setPhase("error");
+      return;
+    }
+    await goToIndex(0);
+  };
+
+  const finishMix = async () => {
+    const tid = takeIdRef.current;
+    if (!tid) return;
+    stopPartnerAudio();
+    setPhase("mixing");
+    setError(null);
+    const res = await fetch(`/api/takes/${tid}/complete`, { method: "POST" });
+    const data = await res.json();
+    if (!res.ok) {
+      setError(data.error || "Mix failed");
+      setPhase("error");
+      return;
+    }
+    const url = `/api/media/${data.mixAssetId}/play?t=${Date.now()}`;
+    setMixUrl(url);
+    if (data.feedback) setFeedback(data.feedback);
+    else {
+      try {
+        const fr = await fetch(`/api/takes/${tid}/feedback`);
+        const fj = await fr.json();
+        if (fj.feedback) setFeedback(fj.feedback);
+      } catch {
+        /* ignore */
+      }
+    }
+    setPhase("review");
+  };
+
+  const anotherTake = async () => {
+    if (!sessionId) return;
+    stopPartnerAudio();
+    const res = await fetch(`/api/performance-sessions/${sessionId}/new-take`, {
+      method: "POST",
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      setError(data.error || "Could not start take");
+      return;
+    }
+    setTakeId(data.takeId);
+    takeIdRef.current = data.takeId;
+    setUploaded({});
+    setMixUrl(null);
+    setFeedback(null);
+    lineIndexRef.current = 0;
+    setLineIndex(0);
+    advancingRef.current = false;
+    setPhase("prep");
+  };
+
+  if (phase === "loading") {
+    return <p className="text-stage-mist">Preparing scene session…</p>;
+  }
+
+  if (phase === "error") {
+    return (
+      <div className="panel space-y-3 p-6">
+        <h2 className="font-display text-xl text-stage-coral">Something went wrong</h2>
+        <p className="text-sm text-stage-mist">{error}</p>
+        <button className="btn-ghost" onClick={() => window.location.reload()}>
+          Reload
+        </button>
+      </div>
+    );
+  }
+
+  if (!manifest) return null;
+
+  const progress = Math.round(
+    (Object.keys(uploaded).length /
+      Math.max(1, manifest.lines.filter((l) => l.isUser).length)) *
+      100
+  );
+
+  return (
+    <div className="space-y-6">
+      <div className="space-y-1">
+        <p className="text-xs uppercase tracking-widest text-stage-mint">
+          {mode === "continuous_guided" ? "Continuous guided" : "Line-by-line"} ·{" "}
+          {manifest.selectedCharacterName}
+        </p>
+        <h1 className="font-display text-3xl text-white">{manifest.sceneTitle}</h1>
+      </div>
+
+      {phase === "prep" && (
+        <div className="panel space-y-4 p-6">
+          <h2 className="font-display text-xl text-white">Before you begin</h2>
+          <PrepRow label="Situation" value={manifest.preparation.situationBefore} />
+          <PrepRow label="Relationship" value={manifest.preparation.relationship} />
+          <PrepRow label="Your objective" value={manifest.preparation.objective} />
+          <PrepRow label="Obstacles" value={manifest.preparation.obstacles} />
+          <PrepRow label="Emotional start" value={manifest.preparation.emotionalStart} />
+          <PrepRow label="Director" value={manifest.preparation.directorNote} />
+
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-wide text-stage-mist">Mode</p>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                className={mode === "line_by_line" ? "btn-primary" : "btn-ghost"}
+                onClick={() => setMode("line_by_line")}
+              >
+                Line-by-line
+              </button>
+              <button
+                type="button"
+                className={
+                  mode === "continuous_guided" ? "btn-primary" : "btn-ghost"
+                }
+                onClick={() => setMode("continuous_guided")}
+              >
+                Continuous guided
+              </button>
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-white/10 bg-black/20 p-4">
+            <p className="text-xs uppercase tracking-wide text-stage-mist">Script</p>
+            <ol className="mt-3 space-y-2 text-sm">
+              {manifest.lines.map((l) => (
+                <li
+                  key={l.dialogueEventId}
+                  className={l.isUser ? "text-stage-gold" : "text-stage-mist"}
+                >
+                  <span className="font-semibold">{l.characterName}: </span>
+                  {manifest.rights.canDisplayScript ? l.text : "—"}
+                  {l.isUser ? " (you)" : " (partner)"}
+                </li>
+              ))}
+            </ol>
+          </div>
+          <button className="btn-primary" onClick={() => void startScene()}>
+            Start take
+          </button>
+        </div>
+      )}
+
+      {(phase === "countdown" ||
+        phase === "partner" ||
+        phase === "record" ||
+        phase === "uploading" ||
+        phase === "idle") && (
+        <div className="panel space-y-5 p-6">
+          <div className="flex items-center justify-between text-xs text-stage-mist">
+            <span>
+              Line {Math.min(lineIndex + 1, manifest.lines.length)} /{" "}
+              {manifest.lines.length}
+            </span>
+            <span>Your lines: {progress}%</span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full bg-stage-gold transition-all"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+
+          {currentLine && (
+            <div className="space-y-2">
+              <p className="text-xs uppercase tracking-wide text-stage-mist">
+                {phase === "partner"
+                  ? "Partner speaking — listen"
+                  : phase === "countdown"
+                    ? "Get ready"
+                    : phase === "record"
+                      ? "Your line — recording"
+                      : phase === "uploading"
+                        ? "Saving your line…"
+                        : "Scene complete"}
+              </p>
+              <p className="font-display text-2xl text-white">
+                <span className="text-stage-mist">{currentLine.characterName}: </span>
+                {currentLine.text}
+              </p>
+            </div>
+          )}
+
+          {phase === "countdown" && (
+            <p className="font-display text-6xl text-stage-gold">{countdown || "—"}</p>
+          )}
+
+          <div className="space-y-2">
+            <p className="text-xs text-stage-mist">Microphone level</p>
+            <div className="h-3 overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full bg-stage-mint transition-[width] duration-75"
+                style={{ width: `${Math.round(level * 100)}%` }}
+              />
+            </div>
+          </div>
+
+          {phase === "record" && (
+            <button
+              className="btn-primary w-full"
+              onClick={() => void finishUserLine()}
+            >
+              {recording ? "Done with line — next" : "Stop"}
+            </button>
+          )}
+
+          {phase === "idle" && (
+            <div className="space-y-3">
+              <p className="text-sm text-stage-mist">
+                All lines captured. Mix the scene and listen back.
+              </p>
+              <button
+                className="btn-primary w-full"
+                disabled={!userLinesDone}
+                onClick={() => void finishMix()}
+              >
+                Mix scene + listen
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {phase === "mixing" && (
+        <div className="panel p-6 text-stage-mist">
+          Mixing your take with the partner… almost ready to listen.
+        </div>
+      )}
+
+      {phase === "review" && (
+        <div className="panel space-y-4 p-6">
+          <h2 className="font-display text-2xl text-white">Listen to your take</h2>
+          {mixUrl ? (
+            <div className="space-y-2">
+              <audio
+                key={mixUrl}
+                controls
+                controlsList="nodownload"
+                className="w-full"
+                src={mixUrl}
+                preload="auto"
+              />
+              <a
+                className="text-sm text-stage-gold underline"
+                href={mixUrl}
+                download={`take-${takeId || "mix"}.m4a`}
+              >
+                Download mix
+              </a>
+            </div>
+          ) : (
+            <p className="text-sm text-stage-coral">
+              Mix URL missing — try Another take, then mix again.
+            </p>
+          )}
+
+          {feedback && (
+            <div className="space-y-3 rounded-xl border border-stage-mint/30 bg-stage-mint/5 p-4">
+              <p className="text-xs uppercase tracking-wide text-stage-mint">
+                Automated feedback
+              </p>
+              <p className="text-xs text-stage-mist">{feedback.disclaimer}</p>
+              <ul className="list-disc space-y-1 pl-5 text-sm text-white/90">
+                {feedback.summary.map((s, i) => (
+                  <li key={i}>{s}</li>
+                ))}
+              </ul>
+              {feedback.lines.map((l) => (
+                <div
+                  key={l.sequenceNumber}
+                  className="rounded-lg border border-white/10 bg-black/20 p-3 text-sm"
+                >
+                  <p className="font-medium text-white">
+                    Line {l.sequenceNumber} ·{" "}
+                    {Math.round(l.scriptCoverage * 100)}% words detected
+                  </p>
+                  {l.transcriptText ? (
+                    <p className="mt-1 text-stage-mist">Heard: “{l.transcriptText}”</p>
+                  ) : null}
+                  <ul className="mt-2 list-disc space-y-0.5 pl-4 text-stage-mist">
+                    {l.observations.map((o, i) => (
+                      <li key={i}>{o}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-3">
+            <button className="btn-primary" onClick={() => void anotherTake()}>
+              Another take
+            </button>
+            <a className="btn-ghost" href="/library">
+              My takes
+            </a>
+            <a className="btn-ghost" href="/">
+              Catalogue
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PrepRow({ label, value }: { label: string; value: string | null }) {
+  if (!value) return null;
+  return (
+    <div>
+      <p className="text-xs uppercase tracking-wide text-stage-mist">{label}</p>
+      <p className="mt-1 text-sm text-white/90">{value}</p>
+    </div>
+  );
+}

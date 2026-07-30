@@ -1,0 +1,17 @@
+{
+  "name": "acting-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Audio-first interactive scene acting platform — Phase 0 / V1",
+  "scripts": {
+    "dev": "npm run dev --prefix apps/web",
+    "build": "npm run build --prefix apps/web",
+    "start": "npm run start --prefix apps/web",
+    "verify": "npm run verify --prefix apps/web",
+    "db:seed": "npm run db:seed --prefix apps/web",
+    "db:push": "npm run db:push --prefix apps/web"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,53 @@
+# Evidence — M0-V1-SPRINT
+Date: 2026-07-29
+Claims use labels: Observed · Tested · Inferred · Not verified
+
+## Commands
+
+### npm install
+Observed: exit 0 (after removing better-sqlite3; using node:sqlite)
+
+### npm run db:seed --prefix apps/web
+Observed: exit 0
+```
+Seeded scene: The Last Call
+  playable: Maya
+  partner lines with audio generated
+  rights: approved (platform_original)
+```
+
+### npm run verify --prefix apps/web
+Observed: exit 0
+- typecheck: pass
+- vitest: 2 files, 4 tests pass
+
+### npm run build --prefix apps/web
+Observed: exit 0
+- Next.js 15.2.4 production build success
+- Routes include catalogue, perform, library, performance/mix APIs
+
+### API smoke (dev server :3456)
+Observed:
+1. GET /api/scenes → The Last Call published with rights
+2. POST /api/performance-sessions → 10 lines, 5 user lines
+3. POST /api/takes/{id}/upload ×5 user lines → asset IDs
+4. POST /api/takes/{id}/complete → status completed, mixAssetId set
+5. GET /api/media/{mixId}/play → HTTP 200, file size 370149 bytes
+6. ffprobe duration ≈ 23.28s
+
+## Phase 0 acceptance
+
+| Criterion | Result |
+|-----------|--------|
+| User performs one character | Tested (API line uploads as Maya) |
+| Hears coherent mix of take + partner | Tested (mixed AAC with partner stems + user WAVs) |
+| Rights gate | Tested (unit + seed approved only) |
+| Immutable masters | Observed (putBytes refuses overwrite) |
+| No bulk film ingest | Observed (single original seed) |
+| Local only, no prod deploy | Observed |
+
+## Stack deviations (documented ADRs)
+
+- Next.js modular monolith (not NestJS yet) — ADR-001
+- node:sqlite instead of Postgres/better-sqlite3 — ADR-002
+- In-process mix job (not Redis) — acceptable Phase 0

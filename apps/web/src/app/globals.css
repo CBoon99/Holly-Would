@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0b0c10;
+  --panel: #12141c;
+  --line: #2a3042;
+  --text: #e8ecf7;
+  --muted: #a8b2d1;
+  --gold: #e8c547;
+  --coral: #ff6b6b;
+  --mint: #4ecdc4;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: radial-gradient(1200px 600px at 10% -10%, #1a2035 0%, var(--bg) 55%);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(232, 197, 71, 0.35);
+}
+
+.panel {
+  @apply rounded-2xl border border-white/10 bg-ink-900/80 shadow-xl backdrop-blur;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition;
+}
+
+.btn-primary {
+  @apply btn bg-stage-gold text-ink-950 hover:brightness-110 disabled:opacity-40;
+}
+
+.btn-ghost {
+  @apply btn border border-white/15 bg-white/5 text-white hover:bg-white/10 disabled:opacity-40;
+}
+
+.btn-danger {
+  @apply btn border border-stage-coral/40 bg-stage-coral/10 text-stage-coral hover:bg-stage-coral/20;
+}
