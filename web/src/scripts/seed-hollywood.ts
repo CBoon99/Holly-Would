@@ -341,9 +341,13 @@ export async function seedHollywoodCatalogue(opts?: {
     );
   }
 
-  // 3) Factory batches (batch-001, batch-002, … toward thousands)
+  // 3) Factory batches (batch-001, …) — opt-in only.
+  // Default product seed is handcrafted quality (≥25 well-done originals).
+  // Set SEED_FACTORY=1 to add bulk scale scenes toward thousands.
+  const wantFactory =
+    process.env.SEED_FACTORY === "1" || process.env.SEED_FACTORY === "true";
   const batchDir = path.join(seedRoot, "batches");
-  if (fs.existsSync(batchDir)) {
+  if (wantFactory && fs.existsSync(batchDir)) {
     const files = fs
       .readdirSync(batchDir)
       .filter((f) => f.endsWith(".json"))
@@ -354,6 +358,10 @@ export async function seedHollywoodCatalogue(opts?: {
       ) as { scenes?: SceneSeed[] };
       pushScenes(batch.scenes || [], `batches/${f}`);
     }
+  } else if (!wantFactory) {
+    console.log(
+      "  (factory batches skipped — set SEED_FACTORY=1 for bulk scale)"
+    );
   }
 
   if (!scenes.length) throw new Error("No scenes found under content/seed");

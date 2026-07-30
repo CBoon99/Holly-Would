@@ -1,5 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
+  "starter_target": 25,
+  "handcrafted_count": 26,
   "batches": [
     "batches/batch-001-factory.json"
   ],
@@ -7,9 +9,11 @@
     "hollywood-catalogue.json",
     "scene-the-last-call.json"
   ],
+  "default_seed": "handcrafted only (≥25 well-done originals)",
+  "factory_seed": "opt-in via SEED_FACTORY=1",
   "target": "thousands of original scenes",
   "milestones": {
-    "now": "~180 handcrafted + factory scenes",
+    "now": "26 quality handcrafted + Last Call starter",
     "next": "1000 via factory batches + human QA sample",
     "later": "10000 with on-demand TTS + Postgres catalogue"
   },
@@ -18,6 +22,6 @@
     "no licensed film scripts",
     "no franchise character names",
     "both roles playable",
-    "partner audio via batch TTS job \u2014 not full cold-start reseed of thousands"
+    "partner audio via batch TTS job — not full cold-start reseed of thousands"
   ]
 }

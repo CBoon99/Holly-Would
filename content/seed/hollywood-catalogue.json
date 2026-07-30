@@ -2280,6 +2280,678 @@
           "expected_pause_after_ms": 500
         }
       ]
+    },
+    {
+      "slug": "glass-elevator",
+      "title": "Glass Elevator",
+      "film_title": "Platform Originals: Glass Elevator",
+      "hollywood_vibe": "Corporate tower · power imbalance · doors that won't open",
+      "genre": "workplace-thriller",
+      "difficulty": "intermediate",
+      "tone": "tense",
+      "rudeness": "mild",
+      "funny": false,
+      "style_tags": [
+        "executive",
+        "associate",
+        "ambition",
+        "after-hours"
+      ],
+      "duration_ms": 78000,
+      "premise": "Stuck between floors after a board fight, a junior and a senior finally say what the meeting couldn't.",
+      "situation_before": "The vote went wrong. The elevator stopped. Only two people left.",
+      "relationship": "Mentor and protégé — or predator and prey.",
+      "director_note": "Polite language, lethal subtext. Never shout. Let silence do the cutting.",
+      "characters": [
+        {
+          "key": "ross",
+          "name": "Ross",
+          "playable": true,
+          "style_tags": [
+            "executive",
+            "controlled"
+          ],
+          "description": "Senior partner who never loses in public.",
+          "objective": "Keep loyalty without admitting fault.",
+          "obstacles": "The junior's new leverage.",
+          "emotional_start": "ice calm",
+          "age_range": "45-55",
+          "accent": "american"
+        },
+        {
+          "key": "sloane",
+          "name": "Sloane",
+          "playable": true,
+          "style_tags": [
+            "associate",
+            "sharp"
+          ],
+          "description": "Has the deck of emails that could end him.",
+          "objective": "Force a real offer, not a threat.",
+          "obstacles": "Fear; career ruin.",
+          "emotional_start": "tight control",
+          "age_range": "28-38",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "ross",
+          "text": "You can stop staring at the panel. It isn't going to invent a floor for you.",
+          "emotion": "cool",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 2,
+          "character": "sloane",
+          "text": "I'm staring at options. You should try it sometime.",
+          "emotion": "edge",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 3,
+          "character": "ross",
+          "text": "Careful. Clever looks like mutiny in this building.",
+          "emotion": "warning",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "sloane",
+          "text": "Mutiny is when the crew is wrong. I have the numbers.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "ross",
+          "text": "Then name your price before the doors open and we both have to smile again.",
+          "emotion": "bargain",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 6,
+          "character": "sloane",
+          "text": "I want the seat. Not a promise. Not a maybe after Q3.",
+          "emotion": "direct",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "ross",
+          "text": "And if I say no?",
+          "emotion": "test",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 8,
+          "character": "sloane",
+          "text": "Then the board gets a very educational packet. Still smiling optional.",
+          "emotion": "steel",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "midnight-rehearsal",
+      "title": "Midnight Rehearsal",
+      "film_title": "Platform Originals: Midnight Rehearsal",
+      "hollywood_vibe": "Empty theatre · two actors · the scene that hurts",
+      "genre": "backstage-drama",
+      "difficulty": "advanced",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "actor",
+        "director-actor",
+        "craft",
+        "intimacy"
+      ],
+      "duration_ms": 82000,
+      "premise": "After everyone leaves, two performers argue about whether the work is truth or vanity.",
+      "situation_before": "Tech is gone. House lights half-dim. The opening is tomorrow.",
+      "relationship": "Exes who still share a stage.",
+      "director_note": "Craft language. Let ego and care fight. Don't play 'actors being cute.'",
+      "characters": [
+        {
+          "key": "leo",
+          "name": "Leo",
+          "playable": true,
+          "style_tags": [
+            "actor",
+            "intense"
+          ],
+          "description": "Wants the scene raw.",
+          "objective": "Get a real take before opening.",
+          "obstacles": "Her walls; his temper.",
+          "emotional_start": "wired",
+          "age_range": "30-40",
+          "accent": "american"
+        },
+        {
+          "key": "nora",
+          "name": "Nora",
+          "playable": true,
+          "style_tags": [
+            "actor",
+            "precise"
+          ],
+          "description": "Protects herself with technique.",
+          "objective": "Stay safe without going dead.",
+          "obstacles": "His pressure; the past.",
+          "emotional_start": "armored",
+          "age_range": "30-40",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "leo",
+          "text": "You're playing the idea of the character. Not the person.",
+          "emotion": "blunt",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "nora",
+          "text": "And you're playing your need to be right. Different show.",
+          "emotion": "cut",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 3,
+          "character": "leo",
+          "text": "I'm asking for risk. That's the job.",
+          "emotion": "push",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 4,
+          "character": "nora",
+          "text": "Risk is fine. Being used as your emotional gym is not.",
+          "emotion": "hard-truth",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 5,
+          "character": "leo",
+          "text": "Then mark it. Or walk. Don't half-act me to death.",
+          "emotion": "frayed",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "nora",
+          "text": "I stay. But you don't get to call my boundaries 'blocking.'",
+          "emotion": "firm",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "leo",
+          "text": "…Fair. From the top. Softer entrance. I'll listen.",
+          "emotion": "yield",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 8,
+          "character": "nora",
+          "text": "Good. Then maybe tomorrow we have a play — not a fight with lighting.",
+          "emotion": "soft-edge",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "red-eye-gate",
+      "title": "Red-Eye Gate",
+      "film_title": "Platform Originals: Red-Eye Gate",
+      "hollywood_vibe": "Airport at 2 a.m. · last boarding · almost goodbye",
+      "genre": "romcom-drama",
+      "difficulty": "beginner",
+      "tone": "romantic",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "traveler",
+        "ex",
+        "gate",
+        "second-chance"
+      ],
+      "duration_ms": 76000,
+      "premise": "Two people who swore they were done run into each other at the only open coffee cart.",
+      "situation_before": "Flight delayed. Pride not delayed.",
+      "relationship": "Exes with unfinished logistics and feelings.",
+      "director_note": "Humor first, ache under it. Keep it human, not sitcom loud.",
+      "characters": [
+        {
+          "key": "sam",
+          "name": "Sam",
+          "playable": true,
+          "style_tags": [
+            "traveler",
+            "deflect"
+          ],
+          "description": "Jokes when scared.",
+          "objective": "Leave without reopening everything.",
+          "obstacles": "The delay; their history.",
+          "emotional_start": "forced lightness",
+          "age_range": "28-38",
+          "accent": "american"
+        },
+        {
+          "key": "riley",
+          "name": "Riley",
+          "playable": true,
+          "style_tags": [
+            "ex",
+            "direct"
+          ],
+          "description": "Tired of almosts.",
+          "objective": "Get a real answer before boarding.",
+          "obstacles": "Sam's jokes.",
+          "emotional_start": "tired honesty",
+          "age_range": "28-38",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "sam",
+          "text": "Of all the terminals in all the world… you had to need caffeine.",
+          "emotion": "joke-armor",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "riley",
+          "text": "Don't do movie lines. Just say hi like a person.",
+          "emotion": "flat",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "sam",
+          "text": "Hi. You look… sleep-deprived. In a powerful way.",
+          "emotion": "soft-tease",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 4,
+          "character": "riley",
+          "text": "I'm flying to start over. You're not part of the brochure.",
+          "emotion": "boundary",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "sam",
+          "text": "Then why are you still standing here?",
+          "emotion": "gentle-call",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "riley",
+          "text": "Because I rehearse leaving better than I do it.",
+          "emotion": "admit",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 7,
+          "character": "sam",
+          "text": "Miss the flight. One coffee. No brochure language.",
+          "emotion": "offer",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "riley",
+          "text": "One coffee. If you say 'what if' I walk. Deal?",
+          "emotion": "soft-steel",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "basement-tapes",
+      "title": "Basement Tapes",
+      "film_title": "Platform Originals: Basement Tapes",
+      "hollywood_vibe": "Band practice room · last song · who quits first",
+      "genre": "music-drama",
+      "difficulty": "intermediate",
+      "tone": "dramatic",
+      "rudeness": "mild",
+      "funny": false,
+      "style_tags": [
+        "musician",
+        "bandmate",
+        "ambition",
+        "loyalty"
+      ],
+      "duration_ms": 79000,
+      "premise": "A label offer means one member has to become the face — or the band dies.",
+      "situation_before": "Amps off. Contract on the amp head.",
+      "relationship": "Best friends since seventeen; rivals since the demo.",
+      "director_note": "Love and resentment in the same breath. Don't make it a screaming match.",
+      "characters": [
+        {
+          "key": "jude",
+          "name": "Jude",
+          "playable": true,
+          "style_tags": [
+            "front",
+            "hungry"
+          ],
+          "description": "Wants the deal.",
+          "objective": "Get a yes without becoming the villain.",
+          "obstacles": "Guilt; their history.",
+          "emotional_start": "amped quiet",
+          "age_range": "24-34",
+          "accent": "american"
+        },
+        {
+          "key": "chris",
+          "name": "Chris",
+          "playable": true,
+          "style_tags": [
+            "bandmate",
+            "proud"
+          ],
+          "description": "Built the sound; not the poster.",
+          "objective": "Keep dignity — or burn the deal.",
+          "obstacles": "Money; loyalty.",
+          "emotional_start": "hurt still",
+          "age_range": "24-34",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "jude",
+          "text": "They want a face. Not a democracy. That's the email.",
+          "emotion": "blunt",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 2,
+          "character": "chris",
+          "text": "Funny. I thought they wanted a band.",
+          "emotion": "bitter",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 3,
+          "character": "jude",
+          "text": "We can still write together. Just… I talk to cameras.",
+          "emotion": "bargain",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "chris",
+          "text": "You already talk like the cameras are in the room.",
+          "emotion": "cut",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "jude",
+          "text": "So say no. We stay broke and pure. I'll live with it if you will.",
+          "emotion": "challenge",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 6,
+          "character": "chris",
+          "text": "I won't live with being your ghostwriter with a drum stool.",
+          "emotion": "raw",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 7,
+          "character": "jude",
+          "text": "Then rewrite the deal with me. Or walk. Don't bleed on the songs and call it loyalty.",
+          "emotion": "hard-care",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 8,
+          "character": "chris",
+          "text": "…One more night. We play it like equals. Tomorrow we sign — or we don't.",
+          "emotion": "resolve",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "snow-line",
+      "title": "Snow Line",
+      "film_title": "Platform Originals: Snow Line",
+      "hollywood_vibe": "Mountain radio hut · storm · two strangers who need the same channel",
+      "genre": "survival-drama",
+      "difficulty": "beginner",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "ranger",
+        "climber",
+        "storm",
+        "trust"
+      ],
+      "duration_ms": 77000,
+      "premise": "A ranger and a climber share the last working radio while the pass closes.",
+      "situation_before": "Whiteout. One bunk. One antenna.",
+      "relationship": "Strangers forced into partnership.",
+      "director_note": "Practical urgency. Warmth sneaks in without speechifying.",
+      "characters": [
+        {
+          "key": "park",
+          "name": "Park",
+          "playable": true,
+          "style_tags": [
+            "ranger",
+            "steady"
+          ],
+          "description": "Knows the mountain's moods.",
+          "objective": "Keep both alive and the channel clear.",
+          "obstacles": "Ego; weather.",
+          "emotional_start": "professional calm",
+          "age_range": "35-50",
+          "accent": "american"
+        },
+        {
+          "key": "devon",
+          "name": "Devon",
+          "playable": true,
+          "style_tags": [
+            "climber",
+            "impatient"
+          ],
+          "description": "Summits or breaks.",
+          "objective": "Get a rescue window — or go anyway.",
+          "obstacles": "Park's rules.",
+          "emotional_start": "edge",
+          "age_range": "25-40",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "devon",
+          "text": "If we wait for perfect weather we die of patience.",
+          "emotion": "push",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 2,
+          "character": "park",
+          "text": "If we walk into that wind we die of math. Wind wins.",
+          "emotion": "flat-fact",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 3,
+          "character": "devon",
+          "text": "My partner's still out there.",
+          "emotion": "fear",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "park",
+          "text": "I know. That's why we don't waste the radio on panic.",
+          "emotion": "firm-kind",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "devon",
+          "text": "Then give me a plan that isn't 'sit and hope.'",
+          "emotion": "demand",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "park",
+          "text": "Dawn. Break. We rope to the marker. You follow my pace or you stay.",
+          "emotion": "command",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 7,
+          "character": "devon",
+          "text": "…I'll follow. Just don't treat me like a tourist.",
+          "emotion": "yield",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "park",
+          "text": "Tourists don't ask for plans. Rest. When the storm softens, we move.",
+          "emotion": "quiet-respect",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "kitchen-midnight",
+      "title": "Kitchen at Midnight",
+      "film_title": "Platform Originals: Kitchen at Midnight",
+      "hollywood_vibe": "Family house · inheritance talk · leftover cake",
+      "genre": "family-drama",
+      "difficulty": "intermediate",
+      "tone": "dramatic",
+      "rudeness": "mild",
+      "funny": true,
+      "style_tags": [
+        "siblings",
+        "inheritance",
+        "home",
+        "grief"
+      ],
+      "duration_ms": 80000,
+      "premise": "Two siblings divide a house and a lifetime of unfinished sentences.",
+      "situation_before": "Funeral leftovers. One will stays unread on the table.",
+      "relationship": "Siblings who love each other badly.",
+      "director_note": "Humor is a defense. Let grief show without melodrama.",
+      "characters": [
+        {
+          "key": "max",
+          "name": "Max",
+          "playable": true,
+          "style_tags": [
+            "older-sib",
+            "practical"
+          ],
+          "description": "Wants it done clean.",
+          "objective": "Sell and move on.",
+          "obstacles": "Guilt; memories.",
+          "emotional_start": "brisk",
+          "age_range": "35-50",
+          "accent": "american"
+        },
+        {
+          "key": "jo",
+          "name": "Jo",
+          "playable": true,
+          "style_tags": [
+            "younger-sib",
+            "feeling"
+          ],
+          "description": "Not ready to erase the rooms.",
+          "objective": "Keep something real.",
+          "obstacles": "Money; Max's pace.",
+          "emotional_start": "raw soft",
+          "age_range": "30-45",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "max",
+          "text": "We can fight over the china or we can sleep. I vote sleep.",
+          "emotion": "dry",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "jo",
+          "text": "You always vote for the exit. Some of us still live in the rooms.",
+          "emotion": "hurt",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 3,
+          "character": "max",
+          "text": "I lived here too. I just don't confuse dust with devotion.",
+          "emotion": "defensive",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "jo",
+          "text": "Then take the money. Leave me the kitchen. I know that sounds insane.",
+          "emotion": "plead",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 5,
+          "character": "max",
+          "text": "It sounds like a mortgage with feelings.",
+          "emotion": "half-joke",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 6,
+          "character": "jo",
+          "text": "Feelings paid for this house more than the bank did.",
+          "emotion": "fierce",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "max",
+          "text": "…Okay. We list in thirty days. Until then, you stay. I help clean. No ghost speeches.",
+          "emotion": "soften",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 8,
+          "character": "jo",
+          "text": "Deal. Pass the cake. Ghosts hate lemon.",
+          "emotion": "wet-laugh",
+          "expected_pause_after_ms": 500
+        }
+      ]
     }
   ]
 }
