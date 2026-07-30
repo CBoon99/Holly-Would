@@ -15,7 +15,7 @@ const display = Fraunces({
 export const metadata: Metadata = {
   title: "Holly Would — Hollywood acting practice",
   description:
-    "Series · technical · hilarious. Audio-first Hollywood scene practice. Filter, perform, listen back.",
+    "Audio-first Hollywood scene practice. Original rights-safe scenes — filter, perform, listen back.",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
             <a href="/" className="font-display text-xl tracking-tight text-white">
               Holly Would
               <span className="ml-2 rounded-full bg-stage-gold/15 px-2 py-0.5 text-xs font-sans font-medium text-stage-gold">
-                series · hilarious
+                acting · craft
               </span>
             </a>
             <nav className="flex gap-4 text-sm text-stage-mist">

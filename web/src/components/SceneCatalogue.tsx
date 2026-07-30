@@ -1,10 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { CatalogueScene } from "@/lib/scene/manifest";
 
-export function SceneCatalogue({ scenes }: { scenes: CatalogueScene[] }) {
+export function SceneCatalogue({
+  scenes: initialScenes,
+}: {
+  scenes: CatalogueScene[];
+}) {
+  const [scenes, setScenes] = useState(initialScenes);
+  const [loading, setLoading] = useState(initialScenes.length === 0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [difficulty, setDifficulty] = useState<string>("all");
   const [tone, setTone] = useState<string>("all");
   const [rudeness, setRudeness] = useState<string>("all");
@@ -12,11 +19,47 @@ export function SceneCatalogue({ scenes }: { scenes: CatalogueScene[] }) {
   const [style, setStyle] = useState<string>("all");
   const [q, setQ] = useState("");
 
+  // If SSR returned empty (cold start / failed seed), recover from API
+  useEffect(() => {
+    if (initialScenes.length > 0) {
+      setScenes(initialScenes);
+      setLoading(false);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      setLoadError(null);
+      try {
+        await fetch("/api/bootstrap", { cache: "no-store" });
+        const res = await fetch("/api/scenes", { cache: "no-store" });
+        const data = await res.json();
+        if (cancelled) return;
+        const next = (data.scenes || []) as CatalogueScene[];
+        setScenes(next);
+        if (next.length === 0) {
+          setLoadError(
+            "Catalogue is empty on this host. Use the Railway production URL if you landed on a stale deploy."
+          );
+        }
+      } catch {
+        if (!cancelled) setLoadError("Could not load scenes. Refresh and try again.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [initialScenes]);
+
   const styleOptions = useMemo(() => {
     const set = new Set<string>();
     for (const s of scenes) {
       s.styleTags.forEach((t) => set.add(t));
-      s.playableCharacters.forEach((c) => c.styleTags.forEach((t) => set.add(t)));
+      s.playableCharacters.forEach((c) =>
+        c.styleTags.forEach((t) => set.add(t))
+      );
     }
     return Array.from(set).sort();
   }, [scenes]);
@@ -52,18 +95,58 @@ export function SceneCatalogue({ scenes }: { scenes: CatalogueScene[] }) {
     });
   }, [scenes, difficulty, tone, rudeness, funnyOnly, style, q]);
 
+  const clearFilters = () => {
+    setDifficulty("all");
+    setTone("all");
+    setRudeness("all");
+    setFunnyOnly(false);
+    setStyle("all");
+    setQ("");
+  };
+
+  if (loading) {
+    return (
+      <div className="panel p-8 text-stage-mist">
+        <p className="font-medium text-white">Loading scene catalogue…</p>
+        <p className="mt-2 text-sm">Preparing partner lines and rights records.</p>
+      </div>
+    );
+  }
+
+  if (loadError && scenes.length === 0) {
+    return (
+      <div className="panel space-y-3 p-8">
+        <p className="font-medium text-stage-coral">Catalogue unavailable</p>
+        <p className="text-sm text-stage-mist">{loadError}</p>
+        <p className="text-sm text-stage-mist">
+          Production:{" "}
+          <a
+            className="text-stage-gold underline"
+            href="https://holly-would-web-production.up.railway.app"
+          >
+            holly-would-web-production.up.railway.app
+          </a>
+        </p>
+        <button type="button" className="btn-primary" onClick={() => location.reload()}>
+          Refresh
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="panel space-y-4 p-5">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="font-display text-2xl text-white">Hollywood catalogue</h2>
+            <h2 className="font-display text-2xl text-white">Scene catalogue</h2>
             <p className="text-xs text-stage-mist">
-              Original scenes with classic movie energy · filter like a casting board
+              Original acting scenes · classic Hollywood craft energy · rights-safe
             </p>
           </div>
           <p className="text-sm text-stage-gold">
-            {filtered.length} scene{filtered.length === 1 ? "" : "s"}
+            {filtered.length} of {scenes.length} scene
+            {scenes.length === 1 ? "" : "s"}
           </p>
         </div>
 
@@ -73,7 +156,7 @@ export function SceneCatalogue({ scenes }: { scenes: CatalogueScene[] }) {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="noir, cowboy, funny…"
+              placeholder="noir, western, courtroom…"
               className="mt-1 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white"
             />
           </label>
@@ -120,39 +203,34 @@ export function SceneCatalogue({ scenes }: { scenes: CatalogueScene[] }) {
               ...styleOptions.map((t) => [t, labelStyle(t)] as [string, string]),
             ]}
           />
-          <label className="flex items-center gap-2 pt-6 text-sm text-white">
+          <label className="flex items-end gap-2 text-xs text-stage-mist">
             <input
               type="checkbox"
               checked={funnyOnly}
               onChange={(e) => setFunnyOnly(e.target.checked)}
-              className="h-4 w-4"
+              className="mb-2.5"
             />
             Funny only
           </label>
         </div>
-
-        <p className="text-[11px] leading-relaxed text-stage-mist/80">
-          Tip: pick <span className="text-stage-gold">western-hero</span> /{" "}
-          <span className="text-stage-gold">john-wayne-type</span> to act as the
-          tough cowboy.{" "}
-          <span className="text-stage-gold">southern-belle</span> for Scarlett-energy.
-          These are original scripts inspired by Hollywood eras — not licensed studio
-          films.
-        </p>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="panel p-8 text-stage-mist">
-          No scenes match those filters. Clear a filter and try again.
+        <div className="panel space-y-3 p-8 text-stage-mist">
+          <p className="font-medium text-white">No scenes match these filters</p>
+          <p className="text-sm">
+            {scenes.length} scene{scenes.length === 1 ? "" : "s"} in the catalogue — clear
+            filters to see them all.
+          </p>
+          <button type="button" className="btn-primary" onClick={clearFilters}>
+            Clear filters
+          </button>
         </div>
       ) : (
-        <ul className="grid gap-4 md:grid-cols-2">
+        <ul className="grid gap-4 sm:grid-cols-2">
           {filtered.map((s) => (
-            <li key={s.id} className="panel flex flex-col p-6">
-              <div className="mb-3 flex flex-wrap gap-2 text-xs">
-                {s.genre && (
-                  <span className="rounded-full bg-white/10 px-2 py-0.5">{s.genre}</span>
-                )}
+            <li key={s.id} className="panel flex flex-col p-5">
+              <div className="mb-2 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-wide">
                 {s.difficulty && (
                   <span className="rounded-full bg-white/10 px-2 py-0.5">
                     {s.difficulty}
@@ -182,29 +260,19 @@ export function SceneCatalogue({ scenes }: { scenes: CatalogueScene[] }) {
                 {s.description}
               </p>
               <p className="mt-3 text-xs text-stage-mist">
-                ~{Math.round(s.durationMs / 1000)}s
+                ~{Math.round(s.durationMs / 1000)}s · original dialogue
               </p>
               <div className="mt-4 flex flex-col gap-2">
                 {s.sceneVersionId &&
-                  s.playableCharacters.map((c) => {
-                    const isWayne = c.styleTags.some((t) =>
-                      /wayne|western-hero|sheriff/i.test(t)
-                    );
-                    const isScarlett = c.styleTags.some((t) =>
-                      /southern-belle|fiery/i.test(t)
-                    );
-                    return (
-                      <Link
-                        key={c.id}
-                        href={`/perform/${s.sceneVersionId}?character=${c.id}`}
-                        className="btn-primary w-full text-center"
-                      >
-                        Perform as {c.name}
-                        {isWayne ? " · cowboy lead" : ""}
-                        {isScarlett ? " · southern fire" : ""}
-                      </Link>
-                    );
-                  })}
+                  s.playableCharacters.map((c) => (
+                    <Link
+                      key={c.id}
+                      href={`/perform/${s.sceneVersionId}?character=${c.id}`}
+                      className="btn-primary w-full text-center"
+                    >
+                      Perform as {c.name}
+                    </Link>
+                  ))}
               </div>
             </li>
           ))}
@@ -212,6 +280,10 @@ export function SceneCatalogue({ scenes }: { scenes: CatalogueScene[] }) {
       )}
     </div>
   );
+}
+
+function labelStyle(t: string): string {
+  return t.replace(/-/g, " ");
 }
 
 function FilterSelect({
@@ -241,21 +313,4 @@ function FilterSelect({
       </select>
     </label>
   );
-}
-
-function labelStyle(tag: string): string {
-  const map: Record<string, string> = {
-    "john-wayne-type": "John Wayne–type (cowboy lead)",
-    "western-hero": "Western hero",
-    "southern-belle": "Southern belle (Scarlett energy)",
-    "cafe-owner": "Café owner (Casablanca energy)",
-    "old-flame": "Old flame",
-    "femme-fatale": "Femme fatale",
-    detective: "Detective",
-    "rom-com-lead": "Rom-com lead",
-    screwball: "Screwball comedy",
-    smuggler: "Space smuggler",
-    diva: "Stage diva",
-  };
-  return map[tag] || tag.replace(/-/g, " ");
 }

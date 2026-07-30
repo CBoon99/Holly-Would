@@ -26,7 +26,9 @@ async function handle(req: Request) {
     url.searchParams.get("live") === "1" ||
     process.env.HOLLYWOOD_SEED_LIVE_TTS === "1";
 
-  if (force) {
+  // Never wipe-before-seed on a flaky host: that left the catalogue empty.
+  // Force reseed overwrites per-scene (seedOne deletes by slug) without blanking the library first.
+  if (force && url.searchParams.get("wipe") === "1") {
     wipeCatalogueForReseed();
   }
 

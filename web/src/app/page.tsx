@@ -7,49 +7,47 @@ export const runtime = "nodejs";
 
 export default async function HomePage() {
   ensureMigrated();
-  // Don't fight a force-live reseed; only ensure if empty
   try {
     await ensureAppReady();
   } catch {
     /* seed may already be running */
   }
-  const scenes = listPublishedScenes();
+  let scenes = listPublishedScenes();
+  // One more attempt if empty (cold volume / race)
+  if (scenes.length === 0) {
+    try {
+      await ensureAppReady({ force: false, liveTts: true });
+      scenes = listPublishedScenes();
+    } catch {
+      /* client catalogue will recover */
+    }
+  }
 
   return (
     <div className="space-y-8">
       <section className="space-y-3">
         <p className="text-sm uppercase tracking-[0.2em] text-stage-mint">
-          Hollywood practice · audio first
+          Audio-first acting practice
         </p>
         <h1 className="font-display text-4xl leading-tight text-white md:text-5xl">
           Holly Would.
           <br />
-          <span className="text-stage-mist">Filter. Pick a role. Listen back.</span>
+          <span className="text-stage-mist">
+            Choose a scene. Play a role. Hear the take.
+          </span>
         </h1>
         <p className="max-w-2xl text-stage-mist">
-          Series · technical · hilarious. Original Hollywood-energy scenes — noir
-          cafés, western streets, southern estates, rom-coms. Filter by difficulty,
-          tone, rudeness, funny, or character style.
+          Professional scene practice with original, rights-safe dialogue — noir,
+          western, romance, thriller, courtroom. Filter by craft, not by pirated
+          scripts.
         </p>
         <p className="max-w-2xl text-xs text-stage-mist/70">
-          Rights-safe platform-original dialogue — not licensed studio film scripts.
+          Platform-original scenes inspired by classic Hollywood energy. Not
+          licensed studio film dialogue.
         </p>
       </section>
 
-      {scenes.length === 0 ? (
-        <div className="panel space-y-3 p-8 text-stage-mist">
-          <p className="font-medium text-white">Catalogue is warming up…</p>
-          <p className="text-sm">
-            If this stays empty on Netlify, open{" "}
-            <a className="text-stage-gold underline" href="/api/bootstrap">
-              /api/bootstrap
-            </a>{" "}
-            once, then refresh.
-          </p>
-        </div>
-      ) : (
-        <SceneCatalogue scenes={scenes} />
-      )}
+      <SceneCatalogue scenes={scenes} />
     </div>
   );
 }
