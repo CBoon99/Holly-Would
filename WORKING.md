@@ -21,7 +21,7 @@
 |------|-------|
 | Docs / profile / brief | Present |
 | Application code | **V1 Phase 0 loop runnable** (M0-V1-SPRINT) |
-| Deploy | Local only |
+| Deploy | **Primary: Netlify** `https://holly-would.netlify.app` · Railway parked (build fail) |
 | Verify | typecheck + unit tests + API mix smoke pass |
 
 ## How to run
@@ -35,6 +35,14 @@ npm run dev --prefix web
 ```
 
 ## Changelog
+
+### 2026-07-30 (Railway parked — Netlify primary)
+
+- Attempted Railway project `holly-would` (volume `/data`, domain created).
+- Build failed: Nixpacks tried to cache-mount `tsconfig.tsbuildinfo` as a directory (`not a directory`).
+- **Decision:** stop fighting Railway for now. Primary live host = **Netlify**.
+- Railway project left in account for a later Dockerfile-based retry.
+- Stable-ID catalogue seed + session bootstrap already on Netlify.
 
 ### 2026-07-30 (Netlify layout + holly-would)
 

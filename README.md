@@ -50,6 +50,12 @@ Copy `web/.env.example` → `web/.env.local`:
 
 See `TOKENS.md`.
 
+## Live host (primary)
+
+**https://holly-would.netlify.app** — production for now.
+
+Railway was started (`holly-would` project + volume) then **parked**: Nixpacks build failed on `tsconfig.tsbuildinfo` cache mount. Retry later with a Dockerfile if needed.
+
 ## Netlify deploy (site: **holly-would**)
 
 Live target: **https://holly-would.netlify.app**  

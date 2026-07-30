@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-/** True on Netlify / Lambda-style hosts (ephemeral disk). */
+/** True on Netlify / Lambda-style hosts (ephemeral disk, no durable volume). */
 export function isServerlessHost(): boolean {
   return Boolean(
     process.env.NETLIFY ||
@@ -15,6 +15,11 @@ export function isServerlessHost(): boolean {
       process.env.CONTEXT === "production" ||
       process.env.CONTEXT === "deploy-preview"
   );
+}
+
+/** Railway (or other long-lived hosts) — prefer DATA_DIR volume when set. */
+export function isRailwayHost(): boolean {
+  return Boolean(process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_PROJECT_ID);
 }
 
 /** Monorepo / package root for seed JSON. */
@@ -34,13 +39,19 @@ export function projectRoot(): string {
 }
 
 export function dataDir(): string {
-  if (isServerlessHost()) {
-    return process.env.DATA_DIR || "/tmp/holly-would-data";
+  // Explicit DATA_DIR always wins (Railway volume → /data)
+  if (process.env.DATA_DIR) {
+    return path.isAbsolute(process.env.DATA_DIR)
+      ? process.env.DATA_DIR
+      : path.resolve(process.cwd(), process.env.DATA_DIR);
   }
-  const raw = process.env.DATA_DIR || path.join(projectRoot(), ".data");
-  // when projectRoot is web/, .data lives at monorepo or web
-  if (path.isAbsolute(raw)) return raw;
-  return path.resolve(process.cwd(), raw);
+  if (isServerlessHost()) {
+    return "/tmp/holly-would-data";
+  }
+  if (isRailwayHost()) {
+    return "/data";
+  }
+  return path.join(projectRoot(), ".data");
 }
 
 export function storageRoot(): string {

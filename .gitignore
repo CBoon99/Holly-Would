@@ -15,3 +15,6 @@ web/.data/
 
 .netlify/
 web/.netlify/
+
+*.tsbuildinfo
+web/tsconfig.tsbuildinfo

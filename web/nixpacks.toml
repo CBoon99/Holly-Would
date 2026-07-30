@@ -1,0 +1,3 @@
+# PARKED — Railway build failed (Nixpacks cache mount on tsconfig.tsbuildinfo).
+# Primary host is Netlify: https://holly-would.netlify.app
+# Retry Railway later with a Dockerfile, not Nixpacks auto-cache.
