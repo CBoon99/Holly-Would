@@ -50,20 +50,36 @@ Copy `web/.env.example` → `web/.env.local`:
 
 See `TOKENS.md`.
 
-## Netlify deploy (Devils Advocates methodology)
+## Netlify deploy (site: **holly-would**)
 
+Live target: **https://holly-would.netlify.app**  
 Same pattern as [evils-advocates.netlify.app](https://evils-advocates.netlify.app): Next app in **`web/`**.
 
-1. Connect GitHub repo **Holly-Would** to Netlify  
-2. **Base directory:** `web`  
-3. **Build command:** `npm run build`  
-4. **Publish directory:** leave **blank**  
-5. **Node:** 22  
-6. Env: `DATA_DIR=/tmp/holly-would-data` + API keys  
-7. Trigger **Clear cache and deploy**  
-8. After green: visit `/api/bootstrap` once, then `/`
+GitHub `main` already has the `web/` layout + Next plugin. If you still see Netlify’s “Page not found”, the **UI build settings** are wrong (not the code).
 
-`web/netlify.toml` includes `@netlify/plugin-nextjs`.
+### Site configuration → Build & deploy → Continuous deployment
+
+| Setting | Value |
+|--------|--------|
+| Repository | `CBoon99/Holly-Would` |
+| **Base directory** | `web` |
+| **Build command** | `npm run build` |
+| **Publish directory** | **leave blank** (do not set `web`, `out`, or `.next`) |
+| Node | `22` |
+
+### Environment variables
+
+- `DATA_DIR` = `/tmp/holly-would-data`
+- `ELEVENLABS_API_KEY` (+ optional voice IDs)
+- `DEEPGRAM_API_KEY` / `OPENAI_API_KEY` (optional STT)
+
+### Redeploy
+
+**Deploys → Trigger deploy → Clear cache and deploy site**
+
+When green: open `https://holly-would.netlify.app/api/bootstrap` once, then `/`.
+
+`web/netlify.toml` pins `@netlify/plugin-nextjs` (also a production dependency).
 
 ## Scripts
 
