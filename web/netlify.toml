@@ -1,8 +1,10 @@
-# Holly Would app (package directory = web)
-# CRITICAL: no publish directory — @netlify/plugin-nextjs owns output + SSR function.
+# Holly Would (base directory = web)
+# Publish MUST be ".next" (not blank and not ".") so it never equals base.
+# @netlify/plugin-nextjs is installed from package.json dependencies.
 
 [build]
   command = "npm run build"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"

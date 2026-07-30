@@ -1,23 +1,21 @@
-# Holly Would — Netlify (site: holly-would)
+# Holly Would — Netlify site: holly-would
 #
-# Site settings (API / UI):
-#   Base directory:     (blank)
-#   Package directory:  web
+# Required site settings (Devils Advocates collision fix):
+#   Base directory:     web
+#   Package directory:  (blank)
 #   Build command:      npm run build
-#   Publish directory:  (BLANK — Next runtime must own this)
+#   Publish directory:  .next   ← must NOT equal base (or Next plugin fails)
 #   Node:               22
 #
-# Do NOT set publish/.next in the UI or here — that ships static chunks only
-# and drops the SSR function (Netlify default "Page not found").
+# Root config is intentionally minimal — with base=web Netlify reads web/netlify.toml.
 
 [build]
+  base = "web"
   command = "npm run build"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
   DATA_DIR = "/tmp/holly-would-data"
   NPM_FLAGS = "--include=dev"
   SECRETS_SCAN_ENABLED = "false"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
