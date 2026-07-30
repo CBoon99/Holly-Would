@@ -95,10 +95,13 @@ export async function ensureAppReady(opts?: {
       );
       if (liveTts) {
         process.env.HOLLYWOOD_SEED_LIVE_TTS = "1";
+        // Prefer real speech: OpenAI when EL is out of quota (never silent hum)
+        process.env.PARTNER_AUDIO_LIVE_ONLY = "0";
       } else {
         process.env.HOLLYWOOD_SEED_LIVE_TTS = "0";
       }
       resetVoiceProvider();
+      // forceOffline only means "skip ElevenLabs first hop" — OpenAI/espeak still run
       await seedHollywoodCatalogue({ forceOffline: !liveTts });
       console.log(
         `ensureAppReady: seeded catalogue (liveTts=${liveTts})`
