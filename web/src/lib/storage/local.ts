@@ -2,16 +2,12 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { ensureDataDirs, storageRoot } from "../paths";
+import type { ObjectStorage, StoredObject } from "./types";
 
-export type StoredObject = {
-  objectKey: string;
-  absolutePath: string;
-  sizeBytes: number;
-  checksumSha256: string;
-};
+export type { StoredObject };
 
 /** S3-shaped local storage. Masters are never overwritten in place. */
-export class LocalObjectStorage {
+export class LocalObjectStorage implements ObjectStorage {
   constructor(private root = storageRoot()) {
     ensureDataDirs();
   }
@@ -62,11 +58,14 @@ export class LocalObjectStorage {
     return fs.readFileSync(this.resolve(objectKey));
   }
 
+  async materialize(objectKey: string): Promise<string> {
+    return this.resolve(objectKey);
+  }
+
   openReadStream(objectKey: string): fs.ReadStream {
     return fs.createReadStream(this.resolve(objectKey));
   }
 
-  /** New unique key under masters/ or derivatives/ */
   masterKey(parts: string[]): string {
     return path.posix.join("masters", ...parts);
   }

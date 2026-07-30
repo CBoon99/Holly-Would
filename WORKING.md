@@ -36,6 +36,14 @@ npm run dev --prefix web
 
 ## Changelog
 
+### 2026-07-30 (Team path: renames + durable storage scaffold)
+
+- Renamed franchise-hot titles/characters (Border Café, Open Line, Two Doors, Last Bell, etc.).
+- Softened style tags; rights note on catalogue.
+- `getStorage()` + S3/R2 adapter when env set; local fallback.
+- Docs: `docs/DURABLE_SETUP.md`. Neon still TODO (own DATABASE_URL, not shared).
+
+
 ### 2026-07-30 (Catalogue wave 2 — well-known film energy)
 
 - +10 original scenes (Oz / Godfather / Titanic / Hitchcock / Jaws / Rocky / Tiffany / Die Hard / Matrix / Pride energy).

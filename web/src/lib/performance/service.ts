@@ -2,7 +2,7 @@ import { many, one, run } from "../db/client";
 import { id, nowIso } from "../ids";
 import { buildClientManifest } from "../scene/manifest";
 import { assertCanPerform } from "../rights/engine";
-import { storage } from "../storage/local";
+import { getStorage } from "../storage";
 import { mixTimeline, probeDurationMs } from "../media/ffmpeg";
 import fs from "fs";
 import path from "path";
@@ -165,7 +165,7 @@ export async function uploadSegment(input: {
     : input.mimeType.includes("mp4")
       ? "m4a"
       : "webm";
-  const objectKey = storage.masterKey([
+  const objectKey = getStorage().masterKey([
     "takes",
     input.takeId,
     "segments",
@@ -181,7 +181,7 @@ export async function uploadSegment(input: {
     durationMs = 0;
   }
 
-  const stored = await storage.putBytes(objectKey, input.bytes);
+  const stored = await getStorage().putBytes(objectKey, input.bytes);
   try {
     fs.unlinkSync(tmp);
   } catch {
@@ -340,6 +340,7 @@ async function runMix(
   const tracks: { path: string; startMs: number; gainDb?: number }[] = [];
   let cursor = 0;
 
+  const store = getStorage();
   for (const line of manifest.lines) {
     if (line.isUser) {
       const seg = segments.find((s) => s.dialogue_event_id === line.dialogueEventId);
@@ -350,7 +351,7 @@ async function runMix(
       );
       if (!asset) continue;
       tracks.push({
-        path: storage.resolve(asset.object_key),
+        path: await store.materialize(asset.object_key),
         startMs: cursor,
         gainDb: 0,
       });
@@ -367,7 +368,7 @@ async function runMix(
         );
         if (asset) {
           tracks.push({
-            path: storage.resolve(asset.object_key),
+            path: await store.materialize(asset.object_key),
             startMs: cursor,
             gainDb: -1,
           });
@@ -381,26 +382,29 @@ async function runMix(
   }
 
   const outAssetId = id("mix");
-  const outKey = storage.derivativeKey(["mixes", takeId, `${outAssetId}.m4a`]);
+  const outKey = store.derivativeKey(["mixes", takeId, `${outAssetId}.m4a`]);
   const tmpOut = path.join(os.tmpdir(), `${outAssetId}.m4a`);
 
   await mixTimeline(tracks, tmpOut, cursor + 500);
-  const stored = await storage.putFile(outKey, tmpOut);
+  const stored = await store.putFile(outKey, tmpOut);
   try {
     fs.unlinkSync(tmpOut);
   } catch {
     /* ignore */
   }
 
-  const durationMs = probeDurationMs(storage.resolve(stored.objectKey));
+  const mixLocal = await store.materialize(stored.objectKey);
+  const durationMs = probeDurationMs(mixLocal);
+  const provider = process.env.S3_BUCKET || process.env.R2_BUCKET ? "s3" : "local";
   run(
     `INSERT INTO media_assets
       (id, owner_type, owner_id, asset_type, storage_provider, bucket, object_key,
        mime_type, size_bytes, checksum_sha256, duration_ms, status, metadata_json, created_at)
-     VALUES (?, 'take', ?, 'final_mix', 'local', 'private', ?, 'audio/mp4', ?, ?, ?, 'ready', ?, ?)`,
+     VALUES (?, 'take', ?, 'final_mix', ?, 'private', ?, 'audio/mp4', ?, ?, ?, 'ready', ?, ?)`,
     [
       outAssetId,
       takeId,
+      provider,
       stored.objectKey,
       stored.sizeBytes,
       stored.checksumSha256,

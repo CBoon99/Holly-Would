@@ -20,6 +20,7 @@
     "postinstall": "echo 'ready'"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1098.0",
     "@netlify/plugin-nextjs": "^5.15.13",
     "nanoid": "^5.1.0",
     "next": "^15.5.22",

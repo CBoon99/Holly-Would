@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { one } from "@/lib/db/client";
-import { storage } from "@/lib/storage/local";
+import { getStorage } from "@/lib/storage";
 import { ensureAppReady } from "@/lib/bootstrap";
-import fs from "fs";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -21,11 +20,17 @@ export async function GET(
   if (!asset || asset.status !== "ready") {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  const full = storage.resolve(asset.object_key);
-  if (!fs.existsSync(full)) {
+  let buf: Buffer;
+  try {
+    const store = getStorage();
+    const exists = await Promise.resolve(store.exists(asset.object_key));
+    if (!exists) {
+      return NextResponse.json({ error: "Missing file" }, { status: 404 });
+    }
+    buf = Buffer.from(await Promise.resolve(store.read(asset.object_key)));
+  } catch {
     return NextResponse.json({ error: "Missing file" }, { status: 404 });
   }
-  const buf = fs.readFileSync(full);
   // Browsers need a real audio/* type to play takes
   let mime = asset.mime_type || "application/octet-stream";
   const key = asset.object_key.toLowerCase();

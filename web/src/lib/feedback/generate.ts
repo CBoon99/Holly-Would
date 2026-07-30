@@ -1,5 +1,5 @@
 import { many, one, run } from "../db/client";
-import { storage } from "../storage/local";
+import { getStorage } from "../storage";
 import { getSttProvider, isSttConfigured } from "../providers/stt-registry";
 import {
   buildLineFeedback,
@@ -59,9 +59,11 @@ export async function generateTakeFeedback(takeId: string): Promise<TakeFeedback
         `SELECT object_key, mime_type FROM media_assets WHERE id = ?`,
         [seg.recording_asset_id]
       );
-      if (asset && fs.existsSync(storage.resolve(asset.object_key))) {
+      if (asset && (await Promise.resolve(getStorage().exists(asset.object_key)))) {
         try {
-          const bytes = storage.read(asset.object_key);
+          const bytes = Buffer.from(
+            await Promise.resolve(getStorage().read(asset.object_key))
+          );
           const stt = getSttProvider();
           const keyterms = expectedText
             .split(/\s+/)

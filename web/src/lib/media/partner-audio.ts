@@ -8,7 +8,7 @@ import {
   upsertVoiceProfile,
 } from "../providers/voice-profiles";
 import { synthesizeSeedLine, runFfmpeg, probeDurationMs } from "./ffmpeg";
-import { storage } from "../storage/local";
+import { getStorage } from "../storage";
 import { id, stableId, nowIso } from "../ids";
 import { run } from "../db/client";
 
@@ -125,13 +125,13 @@ async function generateViaElevenLabs(input: {
   const durationMs = probeDurationMs(tmpWav);
 
   const assetId = stableId("asset", input.ownerDialogueEventId, "partner");
-  const objectKey = storage.masterKey([
+  const objectKey = getStorage().masterKey([
     "scenes",
     input.sceneId,
     "partner",
     `line_${input.sequence}.wav`,
   ]);
-  const stored = await storage.putFile(objectKey, tmpWav);
+  const stored = await getStorage().putFile(objectKey, tmpWav);
 
   try {
     fs.unlinkSync(tmpMp3);
@@ -198,13 +198,13 @@ async function generateViaOfflineSeed(input: {
   const tmpWav = path.join(os.tmpdir(), `seed_${input.sequence}_${id("off")}.wav`);
   const { durationMs } = await synthesizeSeedLine(input.text, tmpWav);
   const assetId = stableId("asset", input.ownerDialogueEventId, "partner");
-  const objectKey = storage.masterKey([
+  const objectKey = getStorage().masterKey([
     "scenes",
     input.sceneId,
     "partner",
     `line_${input.sequence}.wav`,
   ]);
-  const stored = await storage.putFile(objectKey, tmpWav);
+  const stored = await getStorage().putFile(objectKey, tmpWav);
   try {
     fs.unlinkSync(tmpWav);
   } catch {

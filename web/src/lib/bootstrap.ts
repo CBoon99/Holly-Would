@@ -28,7 +28,7 @@ export async function ensureAppReady(): Promise<void> {
       [CANONICAL_VERSION_ID]
     );
     const hasLatestWave = one<{ id: string }>(
-      `SELECT id FROM scenes WHERE slug = 'yellow-mile'`
+      `SELECT id FROM scenes WHERE slug = 'bright-road'`
     );
     const count = one<{ n: number }>(
       `SELECT COUNT(*) as n FROM scenes WHERE publication_status = 'published'`
