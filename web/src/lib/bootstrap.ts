@@ -101,13 +101,18 @@ export async function ensureAppReady(opts?: {
       if (liveTts) {
         process.env.HOLLYWOOD_SEED_LIVE_TTS = "1";
         process.env.PARTNER_AUDIO_LIVE_ONLY = "0";
-        // Full voice bake of 100+ scenes is a batch job — not cold-start
-        process.env.SKIP_PARTNER_AUDIO =
-          process.env.SKIP_PARTNER_AUDIO || "1";
       } else {
         process.env.HOLLYWOOD_SEED_LIVE_TTS = "0";
+      }
+      // Quality starter (~25–30 scenes): bake partner speech (EL→OpenAI→espeak).
+      // Bulk factory scale: set SKIP_PARTNER_AUDIO=1 (or SEED_FACTORY=1) so cold-start
+      // does not block on hundreds of TTS calls.
+      if (process.env.SKIP_PARTNER_AUDIO == null) {
         process.env.SKIP_PARTNER_AUDIO =
-          process.env.SKIP_PARTNER_AUDIO || "1";
+          process.env.SEED_FACTORY === "1" ||
+          process.env.SEED_FACTORY === "true"
+            ? "1"
+            : "0";
       }
       resetVoiceProvider();
       // Catalogue first (hundreds/thousands of scripts). Voices: batch job later.
