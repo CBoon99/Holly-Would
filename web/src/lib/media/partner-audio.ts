@@ -9,7 +9,7 @@ import {
 } from "../providers/voice-profiles";
 import { synthesizeSeedLine, runFfmpeg, probeDurationMs } from "./ffmpeg";
 import { storage } from "../storage/local";
-import { id, nowIso } from "../ids";
+import { id, stableId, nowIso } from "../ids";
 import { run } from "../db/client";
 
 export type PartnerLineResult = {
@@ -124,12 +124,12 @@ async function generateViaElevenLabs(input: {
   ]);
   const durationMs = probeDurationMs(tmpWav);
 
-  const assetId = id("asset");
+  const assetId = stableId("asset", input.ownerDialogueEventId, "partner");
   const objectKey = storage.masterKey([
     "scenes",
     input.sceneId,
     "partner",
-    `line_${input.sequence}_${assetId}.wav`,
+    `line_${input.sequence}.wav`,
   ]);
   const stored = await storage.putFile(objectKey, tmpWav);
 
@@ -197,12 +197,12 @@ async function generateViaOfflineSeed(input: {
 }): Promise<PartnerLineResult> {
   const tmpWav = path.join(os.tmpdir(), `seed_${input.sequence}_${id("off")}.wav`);
   const { durationMs } = await synthesizeSeedLine(input.text, tmpWav);
-  const assetId = id("asset");
+  const assetId = stableId("asset", input.ownerDialogueEventId, "partner");
   const objectKey = storage.masterKey([
     "scenes",
     input.sceneId,
     "partner",
-    `line_${input.sequence}_${assetId}.wav`,
+    `line_${input.sequence}.wav`,
   ]);
   const stored = await storage.putFile(objectKey, tmpWav);
   try {

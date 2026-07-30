@@ -8,7 +8,7 @@ import path from "path";
 import { migrate } from "../lib/db/migrate";
 import { one, run, getSqlite } from "../lib/db/client";
 import { ensureDataDirs, projectRoot } from "../lib/paths";
-import { id, nowIso } from "../lib/ids";
+import { id, stableId, nowIso } from "../lib/ids";
 import { generatePartnerLineAudio } from "../lib/media/partner-audio";
 import { loadEnvFiles } from "../lib/env";
 import { resetVoiceProvider } from "../lib/providers/registry";
@@ -83,21 +83,22 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
     `);
   }
 
-  const filmId = id("film");
+  // Stable IDs: same slug → same IDs on every Netlify instance /tmp seed
+  const filmId = stableId("film", scene.slug);
   run(
     `INSERT INTO films (id, canonical_title, release_year, rights_classification, synopsis, created_at)
      VALUES (?, ?, 2026, 'platform_original', ?, ?)`,
     [filmId, scene.film_title, scene.premise, t]
   );
 
-  const editionId = id("ed");
+  const editionId = stableId("ed", scene.slug);
   run(
     `INSERT INTO editions (id, film_id, edition_name, status, created_at)
      VALUES (?, ?, 'Platform original audio v1', 'active', ?)`,
     [editionId, filmId, t]
   );
 
-  const sceneId = id("sc");
+  const sceneId = stableId("sc", scene.slug);
   run(
     `INSERT INTO scenes
       (id, edition_id, title, slug, description, duration_ms, genre, difficulty,
@@ -135,7 +136,7 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
        can_download, can_share, can_monetise, territories_json)
      VALUES (?, 'scene', ?, '*', 'approved', ?, 'seed-hollywood', ?, ?, 1, 1, 1, 1, 1, 0, 0, '["*"]')`,
     [
-      id("rights"),
+      stableId("rights", scene.slug),
       sceneId,
       "Platform-original Hollywood-style scene; not a licensed studio film or script.",
       t,
@@ -148,7 +149,7 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
     [t, sceneId]
   );
 
-  const versionId = id("sv");
+  const versionId = stableId("sv", scene.slug, "v1");
   run(
     `INSERT INTO scene_versions (id, scene_id, version, status, created_at)
      VALUES (?, ?, 1, 'published', ?)`,
@@ -157,7 +158,7 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
 
   const charIds: Record<string, string> = {};
   scene.characters.forEach((c, i) => {
-    const cid = id("ch");
+    const cid = stableId("ch", scene.slug, c.key);
     charIds[c.key] = cid;
     run(
       `INSERT INTO characters
@@ -191,7 +192,7 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
   for (const line of scene.dialogue) {
     const characterId = charIds[line.character];
     if (!characterId) throw new Error(`${scene.slug}: unknown ${line.character}`);
-    const deId = id("de");
+    const deId = stableId("de", scene.slug, line.seq);
     const audio = await generatePartnerLineAudio({
       text: line.text,
       sceneId,

@@ -7,11 +7,9 @@ export const runtime = "nodejs";
 
 export default async function HomePage() {
   ensureMigrated();
-  let scenes = listPublishedScenes();
-  if (scenes.length === 0) {
-    await ensureAppReady();
-    scenes = listPublishedScenes();
-  }
+  // Always ensure seed on this instance (Netlify /tmp is per-function)
+  await ensureAppReady();
+  const scenes = listPublishedScenes();
 
   return (
     <div className="space-y-8">

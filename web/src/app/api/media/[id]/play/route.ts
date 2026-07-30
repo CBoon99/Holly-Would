@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { one } from "@/lib/db/client";
 import { storage } from "@/lib/storage/local";
-import { migrate } from "@/lib/db/migrate";
-import { ensureDataDirs } from "@/lib/paths";
+import { ensureAppReady } from "@/lib/bootstrap";
 import fs from "fs";
 
 export const dynamic = "force-dynamic";
@@ -12,10 +11,9 @@ export async function GET(
   _req: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
-  ensureDataDirs();
-  migrate();
+  await ensureAppReady();
   const { id } = await ctx.params;
-  const asset = one<{
+  let asset = one<{
     object_key: string;
     mime_type: string;
     status: string;

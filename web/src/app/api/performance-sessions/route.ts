@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createPerformanceSession } from "@/lib/performance/service";
 import { getDevUser } from "@/lib/auth";
-import { migrate } from "@/lib/db/migrate";
-import { ensureDataDirs } from "@/lib/paths";
+import { ensureAppReady } from "@/lib/bootstrap";
 
 export const dynamic = "force-dynamic";
 
@@ -13,8 +12,8 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: Request) {
-  ensureDataDirs();
-  migrate();
+  // Seed catalogue on this instance if /tmp is empty (Netlify multi-instance)
+  await ensureAppReady();
   try {
     const json = await req.json();
     const body = bodySchema.parse(json);

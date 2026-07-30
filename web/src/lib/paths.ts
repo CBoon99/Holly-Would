@@ -5,8 +5,15 @@ import fs from "fs";
 export function isServerlessHost(): boolean {
   return Boolean(
     process.env.NETLIFY ||
+      process.env.NETLIFY_DEV === "true" ||
       process.env.AWS_LAMBDA_FUNCTION_NAME ||
-      process.env.NETLIFY_DEV === "true"
+      process.env.AWS_EXECUTION_ENV ||
+      process.env.LAMBDA_TASK_ROOT ||
+      // Netlify Next runtime often sets these without NETLIFY=true
+      process.env.URL?.includes("netlify.app") ||
+      process.env.DEPLOY_URL?.includes("netlify.app") ||
+      process.env.CONTEXT === "production" ||
+      process.env.CONTEXT === "deploy-preview"
   );
 }
 

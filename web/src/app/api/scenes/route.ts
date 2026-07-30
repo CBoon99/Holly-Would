@@ -8,10 +8,7 @@ export const maxDuration = 60;
 
 export async function GET() {
   ensureMigrated();
-  let scenes = listPublishedScenes();
-  if (scenes.length === 0) {
-    await ensureAppReady();
-    scenes = listPublishedScenes();
-  }
+  await ensureAppReady();
+  const scenes = listPublishedScenes();
   return NextResponse.json({ scenes });
 }
