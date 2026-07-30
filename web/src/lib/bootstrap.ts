@@ -16,22 +16,17 @@ function catalogueLooksSeeded(): boolean {
     `SELECT id FROM scene_versions WHERE id = ?`,
     [CANONICAL_VERSION_ID]
   );
-  const hasLatestWave = one<{ id: string }>(
-    `SELECT id FROM scenes WHERE slug = 'bright-road'`
-  );
-  const hasFactory = one<{ id: string }>(
-    `SELECT id FROM scenes WHERE slug LIKE 'noir-closed-door%' LIMIT 1`
+  // Wave of quality handcrafted starters (not thin factory titles)
+  const hasQualityWave = one<{ id: string }>(
+    `SELECT id FROM scenes WHERE slug = 'glass-elevator'`
   );
   const count = one<{ n: number }>(
     `SELECT COUNT(*) as n FROM scenes WHERE publication_status = 'published'`
   );
-  const min = Number(process.env.SEED_MIN_SCENES || 100);
-  // Full product bar: handcrafted + factory batch (toward thousands)
+  // Default product bar: ≥25 well-done originals. Factory bulk is opt-in.
+  const min = Number(process.env.SEED_MIN_SCENES || 25);
   return Boolean(
-    hasStable &&
-      hasLatestWave &&
-      hasFactory &&
-      (count?.n ?? 0) >= Math.min(min, 80)
+    hasStable && hasQualityWave && (count?.n ?? 0) >= min
   );
 }
 
