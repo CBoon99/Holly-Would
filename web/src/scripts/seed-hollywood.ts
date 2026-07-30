@@ -83,15 +83,18 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
     `);
   }
 
-  // Stable IDs: same slug → same IDs on every Netlify instance /tmp seed
+  // Stable IDs: same slug → same IDs on every host
   const filmId = stableId("film", scene.slug);
+  const editionId = stableId("ed", scene.slug);
+  // Clear prior film/edition rows (reseed-safe)
+  run(`DELETE FROM editions WHERE id = ? OR film_id = ?`, [editionId, filmId]);
+  run(`DELETE FROM films WHERE id = ?`, [filmId]);
   run(
     `INSERT INTO films (id, canonical_title, release_year, rights_classification, synopsis, created_at)
      VALUES (?, ?, 2026, 'platform_original', ?, ?)`,
     [filmId, scene.film_title, scene.premise, t]
   );
 
-  const editionId = stableId("ed", scene.slug);
   run(
     `INSERT INTO editions (id, film_id, edition_name, status, created_at)
      VALUES (?, ?, 'Platform original audio v1', 'active', ?)`,
@@ -188,19 +191,43 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
   if (forceOffline) delete process.env.ELEVENLABS_API_KEY;
   resetVoiceProvider();
 
+  // Scale: catalogue structure first; partner audio via TTS when available.
+  // SKIP_PARTNER_AUDIO=1 seeds hundreds of scenes without blocking on voice APIs.
+  const skipAudio =
+    process.env.SKIP_PARTNER_AUDIO === "1" ||
+    process.env.SKIP_PARTNER_AUDIO === "true";
+
   let timeline = 0;
   for (const line of scene.dialogue) {
     const characterId = charIds[line.character];
     if (!characterId) throw new Error(`${scene.slug}: unknown ${line.character}`);
     const deId = stableId("de", scene.slug, line.seq);
-    const audio = await generatePartnerLineAudio({
-      text: line.text,
-      sceneId,
-      sequence: line.seq,
-      ownerDialogueEventId: deId,
-    });
+    let assetId: string | null = null;
+    let lineMs = Math.max(
+      1200,
+      Math.round(line.text.split(/\s+/).length * 320)
+    );
+
+    if (!skipAudio) {
+      try {
+        const audio = await generatePartnerLineAudio({
+          text: line.text,
+          sceneId,
+          sequence: line.seq,
+          ownerDialogueEventId: deId,
+        });
+        assetId = audio.assetId;
+        lineMs = audio.durationMs;
+      } catch (e) {
+        console.warn(
+          `  audio skip ${scene.slug}#${line.seq}:`,
+          e instanceof Error ? e.message.slice(0, 100) : e
+        );
+      }
+    }
+
     const startMs = timeline;
-    const endMs = timeline + audio.durationMs;
+    const endMs = timeline + lineMs;
     run(
       `INSERT INTO dialogue_events
         (id, scene_version_id, character_id, sequence_number, start_ms, end_ms,
@@ -217,7 +244,7 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
         line.text,
         line.emotion,
         line.expected_pause_after_ms,
-        audio.assetId,
+        assetId,
       ]
     );
     timeline = endMs + line.expected_pause_after_ms;
@@ -258,50 +285,94 @@ export async function seedHollywoodCatalogue(opts?: {
     ]);
   }
 
-  const candidates = [
-    path.join(projectRoot(), "content/seed/hollywood-catalogue.json"),
-    path.join(process.cwd(), "content/seed/hollywood-catalogue.json"),
-    path.join(process.cwd(), "../../content/seed/hollywood-catalogue.json"),
-  ];
-  const cataloguePath = candidates.find((p) => fs.existsSync(p));
-  if (!cataloguePath) {
-    throw new Error("hollywood-catalogue.json not found");
-  }
-  const catalogue = JSON.parse(fs.readFileSync(cataloguePath, "utf8")) as {
-    scenes: SceneSeed[];
+  /** Load handcrafted + factory batches (path to thousands of originals). */
+  const seedRoots = [
+    path.join(projectRoot(), "content/seed"),
+    path.join(process.cwd(), "content/seed"),
+    path.join(process.cwd(), "../../content/seed"),
+  ].filter((p) => fs.existsSync(p));
+  const seedRoot = seedRoots[0];
+  if (!seedRoot) throw new Error("content/seed not found");
+
+  const scenes: SceneSeed[] = [];
+  const seenSlug = new Set<string>();
+
+  const pushScenes = (list: SceneSeed[], label: string) => {
+    let n = 0;
+    for (const s of list) {
+      if (!s?.slug || seenSlug.has(s.slug)) continue;
+      seenSlug.add(s.slug);
+      scenes.push(s);
+      n++;
+    }
+    console.log(`  +${n} from ${label}`);
   };
 
-  const lastCallCandidates = [
-    path.join(projectRoot(), "content/seed/scene-the-last-call.json"),
-    path.join(process.cwd(), "../../content/seed/scene-the-last-call.json"),
-  ];
-  const lastCallPath = lastCallCandidates.find((p) => fs.existsSync(p));
-  if (lastCallPath) {
-    const lc = JSON.parse(fs.readFileSync(lastCallPath, "utf8"));
-    catalogue.scenes.unshift({
-      ...lc,
-      hollywood_vibe: "Intimate modern drama · phone call · raw honesty",
-      tone: lc.tone || "dramatic",
-      rudeness: lc.rudeness || "clean",
-      funny: false,
-      style_tags: lc.style_tags || ["modern", "friends", "goodbye"],
-      film_title: lc.film_title,
-      characters: lc.characters.map((c: Char) => ({
-        ...c,
-        style_tags: c.style_tags || [],
-      })),
-    });
+  // 1) Handcrafted hollywood catalogue
+  const hand = path.join(seedRoot, "hollywood-catalogue.json");
+  if (fs.existsSync(hand)) {
+    const catalogue = JSON.parse(fs.readFileSync(hand, "utf8")) as {
+      scenes: SceneSeed[];
+    };
+    pushScenes(catalogue.scenes || [], "hollywood-catalogue.json");
   }
+
+  // 2) Last Call
+  const lastCallPath = path.join(seedRoot, "scene-the-last-call.json");
+  if (fs.existsSync(lastCallPath)) {
+    const lc = JSON.parse(fs.readFileSync(lastCallPath, "utf8"));
+    pushScenes(
+      [
+        {
+          ...lc,
+          hollywood_vibe: "Intimate modern drama · phone call · raw honesty",
+          tone: lc.tone || "dramatic",
+          rudeness: lc.rudeness || "clean",
+          funny: false,
+          style_tags: lc.style_tags || ["modern", "friends", "goodbye"],
+          film_title: lc.film_title,
+          characters: lc.characters.map((c: Char) => ({
+            ...c,
+            style_tags: c.style_tags || [],
+          })),
+        },
+      ],
+      "scene-the-last-call.json"
+    );
+  }
+
+  // 3) Factory batches (batch-001, batch-002, … toward thousands)
+  const batchDir = path.join(seedRoot, "batches");
+  if (fs.existsSync(batchDir)) {
+    const files = fs
+      .readdirSync(batchDir)
+      .filter((f) => f.endsWith(".json"))
+      .sort();
+    for (const f of files) {
+      const batch = JSON.parse(
+        fs.readFileSync(path.join(batchDir, f), "utf8")
+      ) as { scenes?: SceneSeed[] };
+      pushScenes(batch.scenes || [], `batches/${f}`);
+    }
+  }
+
+  if (!scenes.length) throw new Error("No scenes found under content/seed");
+
+  // Scale control: SEED_LIMIT=50 for fast deploys; omit for full catalogue
+  const limit = process.env.SEED_LIMIT
+    ? Math.max(1, parseInt(process.env.SEED_LIMIT, 10) || 0)
+    : 0;
+  const toSeed = limit > 0 ? scenes.slice(0, limit) : scenes;
 
   const forceOffline =
     opts?.forceOffline ?? process.env.HOLLYWOOD_SEED_LIVE_TTS !== "1";
   console.log(
-    `Seeding ${catalogue.scenes.length} Hollywood-style ORIGINAL scenes (${
-      forceOffline ? "offline audio — fast" : "live TTS"
+    `Seeding ${toSeed.length}/${scenes.length} ORIGINAL scenes (${
+      forceOffline ? "offline/espeak/openai chain" : "live TTS preferred"
     })…`
   );
 
-  for (const scene of catalogue.scenes) {
+  for (const scene of toSeed) {
     await seedOne(scene, forceOffline);
   }
 

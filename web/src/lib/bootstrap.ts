@@ -19,10 +19,20 @@ function catalogueLooksSeeded(): boolean {
   const hasLatestWave = one<{ id: string }>(
     `SELECT id FROM scenes WHERE slug = 'bright-road'`
   );
+  const hasFactory = one<{ id: string }>(
+    `SELECT id FROM scenes WHERE slug LIKE 'noir-closed-door%' LIMIT 1`
+  );
   const count = one<{ n: number }>(
     `SELECT COUNT(*) as n FROM scenes WHERE publication_status = 'published'`
   );
-  return Boolean(hasStable && hasLatestWave && (count?.n ?? 0) >= 18);
+  const min = Number(process.env.SEED_MIN_SCENES || 100);
+  // Full product bar: handcrafted + factory batch (toward thousands)
+  return Boolean(
+    hasStable &&
+      hasLatestWave &&
+      hasFactory &&
+      (count?.n ?? 0) >= Math.min(min, 80)
+  );
 }
 
 /** Offline seed marks provider "seed" — live TTS uses elevenlabs */
@@ -95,16 +105,20 @@ export async function ensureAppReady(opts?: {
       );
       if (liveTts) {
         process.env.HOLLYWOOD_SEED_LIVE_TTS = "1";
-        // Prefer real speech: OpenAI when EL is out of quota (never silent hum)
         process.env.PARTNER_AUDIO_LIVE_ONLY = "0";
+        // Full voice bake of 100+ scenes is a batch job — not cold-start
+        process.env.SKIP_PARTNER_AUDIO =
+          process.env.SKIP_PARTNER_AUDIO || "1";
       } else {
         process.env.HOLLYWOOD_SEED_LIVE_TTS = "0";
+        process.env.SKIP_PARTNER_AUDIO =
+          process.env.SKIP_PARTNER_AUDIO || "1";
       }
       resetVoiceProvider();
-      // forceOffline only means "skip ElevenLabs first hop" — OpenAI/espeak still run
+      // Catalogue first (hundreds/thousands of scripts). Voices: batch job later.
       await seedHollywoodCatalogue({ forceOffline: !liveTts });
       console.log(
-        `ensureAppReady: seeded catalogue (liveTts=${liveTts})`
+        `ensureAppReady: seeded catalogue structure (liveTts=${liveTts}, skipAudio=${process.env.SKIP_PARTNER_AUDIO})`
       );
     } catch (e) {
       console.warn("ensureAppReady seed error", e);

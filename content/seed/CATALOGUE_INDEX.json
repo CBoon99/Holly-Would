@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "batches": [
+    "batches/batch-001-factory.json"
+  ],
+  "handcrafted": [
+    "hollywood-catalogue.json",
+    "scene-the-last-call.json"
+  ],
+  "target": "thousands of original scenes",
+  "milestones": {
+    "now": "~180 handcrafted + factory scenes",
+    "next": "1000 via factory batches + human QA sample",
+    "later": "10000 with on-demand TTS + Postgres catalogue"
+  },
+  "rules": [
+    "platform-original dialogue only",
+    "no licensed film scripts",
+    "no franchise character names",
+    "both roles playable",
+    "partner audio via batch TTS job \u2014 not full cold-start reseed of thousands"
+  ]
+}
