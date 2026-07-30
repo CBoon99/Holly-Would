@@ -36,6 +36,13 @@ npm run dev --prefix web
 
 ## Changelog
 
+### 2026-07-30 (Catalogue wave 2 — well-known film energy)
+
+- +10 original scenes (Oz / Godfather / Titanic / Hitchcock / Jaws / Rocky / Tiffany / Die Hard / Matrix / Pride energy).
+- Still **platform-original dialogue only** — not licensed scripts.
+- Catalogue total ~21 with The Last Call. Bootstrap re-seeds when `yellow-mile` missing.
+
+
 ### 2026-07-30 (Railway parked — Netlify primary)
 
 - Attempted Railway project `holly-would` (volume `/data`, domain created).

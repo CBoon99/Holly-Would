@@ -11,7 +11,12 @@
       "tone": "dramatic",
       "rudeness": "clean",
       "funny": false,
-      "style_tags": ["cafe-owner", "old-flame", "wartime", "classic-romance"],
+      "style_tags": [
+        "cafe-owner",
+        "old-flame",
+        "wartime",
+        "classic-romance"
+      ],
       "duration_ms": 80000,
       "premise": "In a packed café at the edge of a closed border, an old love walks in asking for one impossible favour.",
       "situation_before": "Rick runs the café. Ilsa left him years ago without a word. Tonight she needs papers for someone else.",
@@ -22,7 +27,11 @@
           "key": "rick",
           "name": "Rick",
           "playable": true,
-          "style_tags": ["cafe-owner", "world-weary", "classic-leading-man"],
+          "style_tags": [
+            "cafe-owner",
+            "world-weary",
+            "classic-leading-man"
+          ],
           "description": "Café owner who pretends not to care.",
           "objective": "Keep control without admitting he still loves her.",
           "obstacles": "Pride; the risk of helping her.",
@@ -34,7 +43,11 @@
           "key": "ilsa",
           "name": "Ilsa",
           "playable": true,
-          "style_tags": ["old-flame", "urgent-romance", "classic-leading-woman"],
+          "style_tags": [
+            "old-flame",
+            "urgent-romance",
+            "classic-leading-woman"
+          ],
           "description": "Elegant, desperate, still dangerous to his heart.",
           "objective": "Get the papers without destroying what remains of them.",
           "obstacles": "His bitterness; the clock.",
@@ -44,14 +57,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "ilsa", "text": "You still keep the same table free. Superstitious, or sentimental?", "emotion": "careful", "expected_pause_after_ms": 500 },
-        { "seq": 2, "character": "rick", "text": "I keep it free so nobody sits where they don't belong.", "emotion": "dry", "expected_pause_after_ms": 400 },
-        { "seq": 3, "character": "ilsa", "text": "I need letters of transit. Tonight. Before the last train.", "emotion": "urgent", "expected_pause_after_ms": 500 },
-        { "seq": 4, "character": "rick", "text": "You walk out of my life and walk back in like a menu special.", "emotion": "hurt-masked", "expected_pause_after_ms": 600 },
-        { "seq": 5, "character": "ilsa", "text": "If I explain, you'll hate me. If I don't, you'll hate me more.", "emotion": "soft", "expected_pause_after_ms": 500 },
-        { "seq": 6, "character": "rick", "text": "Try me. I'm in a generous mood — for once.", "emotion": "challenge", "expected_pause_after_ms": 400 },
-        { "seq": 7, "character": "ilsa", "text": "They're not for me. They're for a man who can still change the war.", "emotion": "honest", "expected_pause_after_ms": 700 },
-        { "seq": 8, "character": "rick", "text": "And what am I supposed to change, Ilsa? The past?", "emotion": "raw", "expected_pause_after_ms": 500 }
+        {
+          "seq": 1,
+          "character": "ilsa",
+          "text": "You still keep the same table free. Superstitious, or sentimental?",
+          "emotion": "careful",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "rick",
+          "text": "I keep it free so nobody sits where they don't belong.",
+          "emotion": "dry",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "ilsa",
+          "text": "I need letters of transit. Tonight. Before the last train.",
+          "emotion": "urgent",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "rick",
+          "text": "You walk out of my life and walk back in like a menu special.",
+          "emotion": "hurt-masked",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 5,
+          "character": "ilsa",
+          "text": "If I explain, you'll hate me. If I don't, you'll hate me more.",
+          "emotion": "soft",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "rick",
+          "text": "Try me. I'm in a generous mood — for once.",
+          "emotion": "challenge",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 7,
+          "character": "ilsa",
+          "text": "They're not for me. They're for a man who can still change the war.",
+          "emotion": "honest",
+          "expected_pause_after_ms": 700
+        },
+        {
+          "seq": 8,
+          "character": "rick",
+          "text": "And what am I supposed to change, Ilsa? The past?",
+          "emotion": "raw",
+          "expected_pause_after_ms": 500
+        }
       ]
     },
     {
@@ -64,7 +125,12 @@
       "tone": "dramatic",
       "rudeness": "mild",
       "funny": false,
-      "style_tags": ["southern-belle", "suitor", "ambition", "classic-drama"],
+      "style_tags": [
+        "southern-belle",
+        "suitor",
+        "ambition",
+        "classic-drama"
+      ],
       "duration_ms": 85000,
       "premise": "The house still stands, the money does not. She will not starve gracefully — and he knows it.",
       "situation_before": "Dawn after a disaster. Scarlett-like steel meets a practical man who wants her honesty.",
@@ -75,7 +141,11 @@
           "key": "cara",
           "name": "Cara",
           "playable": true,
-          "style_tags": ["southern-belle", "ambitious", "fiery"],
+          "style_tags": [
+            "southern-belle",
+            "ambitious",
+            "fiery"
+          ],
           "description": "Proud, strategic, refuses to be ruined.",
           "objective": "Secure a path forward without looking weak.",
           "obstacles": "Empty pockets; his clear eyes.",
@@ -87,7 +157,11 @@
           "key": "clay",
           "name": "Clay",
           "playable": true,
-          "style_tags": ["suitor", "practical", "steady"],
+          "style_tags": [
+            "suitor",
+            "practical",
+            "steady"
+          ],
           "description": "Grounded, smitten, not stupid.",
           "objective": "Get the truth before he offers help.",
           "obstacles": "Her performance; his desire.",
@@ -97,14 +171,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "clay", "text": "You can stop smiling for the neighbours. There's no one left to impress.", "emotion": "blunt", "expected_pause_after_ms": 500 },
-        { "seq": 2, "character": "cara", "text": "There's always someone left to impress. That's how you survive.", "emotion": "bright-hard", "expected_pause_after_ms": 400 },
-        { "seq": 3, "character": "clay", "text": "Survive with what? Curtains and pride?", "emotion": "challenge", "expected_pause_after_ms": 500 },
-        { "seq": 4, "character": "cara", "text": "With whatever still burns. Pride included.", "emotion": "fierce", "expected_pause_after_ms": 600 },
-        { "seq": 5, "character": "clay", "text": "I can get seed. Labour. Credit. But not if you lie to me.", "emotion": "offer", "expected_pause_after_ms": 500 },
-        { "seq": 6, "character": "cara", "text": "I never lie when the truth will buy me more.", "emotion": "sharp", "expected_pause_after_ms": 500 },
-        { "seq": 7, "character": "clay", "text": "Then tell me what you're afraid of.", "emotion": "soft", "expected_pause_after_ms": 700 },
-        { "seq": 8, "character": "cara", "text": "Being ordinary. Being finished. Being someone who needs you.", "emotion": "crack", "expected_pause_after_ms": 500 }
+        {
+          "seq": 1,
+          "character": "clay",
+          "text": "You can stop smiling for the neighbours. There's no one left to impress.",
+          "emotion": "blunt",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "cara",
+          "text": "There's always someone left to impress. That's how you survive.",
+          "emotion": "bright-hard",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "clay",
+          "text": "Survive with what? Curtains and pride?",
+          "emotion": "challenge",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "cara",
+          "text": "With whatever still burns. Pride included.",
+          "emotion": "fierce",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 5,
+          "character": "clay",
+          "text": "I can get seed. Labour. Credit. But not if you lie to me.",
+          "emotion": "offer",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "cara",
+          "text": "I never lie when the truth will buy me more.",
+          "emotion": "sharp",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "clay",
+          "text": "Then tell me what you're afraid of.",
+          "emotion": "soft",
+          "expected_pause_after_ms": 700
+        },
+        {
+          "seq": 8,
+          "character": "cara",
+          "text": "Being ordinary. Being finished. Being someone who needs you.",
+          "emotion": "crack",
+          "expected_pause_after_ms": 500
+        }
       ]
     },
     {
@@ -117,7 +239,12 @@
       "tone": "dramatic",
       "rudeness": "mild",
       "funny": false,
-      "style_tags": ["western-hero", "deputy", "showdown", "john-wayne-type"],
+      "style_tags": [
+        "western-hero",
+        "deputy",
+        "showdown",
+        "john-wayne-type"
+      ],
       "duration_ms": 75000,
       "premise": "A quiet man with a badge won't leave town — and a young deputy wants to know why he stays to die for strangers.",
       "situation_before": "Noon heat. Word is out. The stage is coming and so is trouble.",
@@ -128,7 +255,11 @@
           "key": "cole",
           "name": "Cole",
           "playable": true,
-          "style_tags": ["western-hero", "john-wayne-type", "sheriff"],
+          "style_tags": [
+            "western-hero",
+            "john-wayne-type",
+            "sheriff"
+          ],
           "description": "Weathered, principled, slow to draw and slower to quit.",
           "objective": "Hold the line without scaring the kid off.",
           "obstacles": "Odds; the boy's fear.",
@@ -140,7 +271,11 @@
           "key": "jesse",
           "name": "Jesse",
           "playable": true,
-          "style_tags": ["deputy", "young-gun", "loyal"],
+          "style_tags": [
+            "deputy",
+            "young-gun",
+            "loyal"
+          ],
           "description": "Eager, scared, trying to sound braver than he feels.",
           "objective": "Get Cole to leave — or get permission to stand with him.",
           "obstacles": "Pride; terror.",
@@ -150,14 +285,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "jesse", "text": "They're six men. We've got two badges and one tired horse.", "emotion": "anxious", "expected_pause_after_ms": 400 },
-        { "seq": 2, "character": "cole", "text": "Then we don't waste bullets counting.", "emotion": "even", "expected_pause_after_ms": 500 },
-        { "seq": 3, "character": "jesse", "text": "We could ride out. Nobody would call you a coward.", "emotion": "plea", "expected_pause_after_ms": 500 },
-        { "seq": 4, "character": "cole", "text": "I would. That's the only jury I answer to.", "emotion": "firm", "expected_pause_after_ms": 600 },
-        { "seq": 5, "character": "jesse", "text": "I'm not ready to die for a street that never liked me.", "emotion": "raw", "expected_pause_after_ms": 500 },
-        { "seq": 6, "character": "cole", "text": "Then don't die for the street. Stand for the kid behind it.", "emotion": "mentor", "expected_pause_after_ms": 600 },
-        { "seq": 7, "character": "jesse", "text": "If I stay… you better not fall first.", "emotion": "brave", "expected_pause_after_ms": 400 },
-        { "seq": 8, "character": "cole", "text": "Deal. You keep the sun out of my eyes — I'll keep the dark off your back.", "emotion": "warm-steel", "expected_pause_after_ms": 500 }
+        {
+          "seq": 1,
+          "character": "jesse",
+          "text": "They're six men. We've got two badges and one tired horse.",
+          "emotion": "anxious",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "cole",
+          "text": "Then we don't waste bullets counting.",
+          "emotion": "even",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 3,
+          "character": "jesse",
+          "text": "We could ride out. Nobody would call you a coward.",
+          "emotion": "plea",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "cole",
+          "text": "I would. That's the only jury I answer to.",
+          "emotion": "firm",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 5,
+          "character": "jesse",
+          "text": "I'm not ready to die for a street that never liked me.",
+          "emotion": "raw",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "cole",
+          "text": "Then don't die for the street. Stand for the kid behind it.",
+          "emotion": "mentor",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 7,
+          "character": "jesse",
+          "text": "If I stay… you better not fall first.",
+          "emotion": "brave",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 8,
+          "character": "cole",
+          "text": "Deal. You keep the sun out of my eyes — I'll keep the dark off your back.",
+          "emotion": "warm-steel",
+          "expected_pause_after_ms": 500
+        }
       ]
     },
     {
@@ -170,7 +353,12 @@
       "tone": "funny",
       "rudeness": "mild",
       "funny": true,
-      "style_tags": ["screwball", "con-artist", "heiress", "banter"],
+      "style_tags": [
+        "screwball",
+        "con-artist",
+        "heiress",
+        "banter"
+      ],
       "duration_ms": 70000,
       "premise": "A hat-check girl and a smooth grifter both claim the same stolen diamond is in the coat room.",
       "situation_before": "Charity gala. Sirens outside. One coat, two liars, zero time.",
@@ -181,7 +369,11 @@
           "key": "dolly",
           "name": "Dolly",
           "playable": true,
-          "style_tags": ["screwball-heroine", "sharp", "working-class"],
+          "style_tags": [
+            "screwball-heroine",
+            "sharp",
+            "working-class"
+          ],
           "description": "Fast talker, faster hands, moral only when convenient.",
           "objective": "Get the diamond and not get pinched.",
           "obstacles": "Him; the cops; her conscience.",
@@ -193,7 +385,11 @@
           "key": "nick",
           "name": "Nick",
           "playable": true,
-          "style_tags": ["con-artist", "charming-rogue", "banter"],
+          "style_tags": [
+            "con-artist",
+            "charming-rogue",
+            "banter"
+          ],
           "description": "Too handsome for honesty.",
           "objective": "Beat her to the prize without falling for her.",
           "obstacles": "Her speed; his vanity.",
@@ -203,14 +399,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "nick", "text": "That's my coat. I can prove it — it still has my bad decisions in the pockets.", "emotion": "charm", "expected_pause_after_ms": 400 },
-        { "seq": 2, "character": "dolly", "text": "Funny. It also has my tip jar and your future arrest warrant.", "emotion": "sweet-sting", "expected_pause_after_ms": 400 },
-        { "seq": 3, "character": "nick", "text": "Dolly, darling, crime is a partnership sport.", "emotion": "pitch", "expected_pause_after_ms": 400 },
-        { "seq": 4, "character": "dolly", "text": "So is divorce. I prefer both solo.", "emotion": "fast", "expected_pause_after_ms": 400 },
-        { "seq": 5, "character": "nick", "text": "Split fifty-fifty or we both leave in bracelets.", "emotion": "deal", "expected_pause_after_ms": 500 },
-        { "seq": 6, "character": "dolly", "text": "Sixty-forty. I have better shoes for running.", "emotion": "negotiate", "expected_pause_after_ms": 400 },
-        { "seq": 7, "character": "nick", "text": "Fifty-five. And I buy breakfast if we live.", "emotion": "grin", "expected_pause_after_ms": 400 },
-        { "seq": 8, "character": "dolly", "text": "Deal. But if you call me darling again, I frame you myself.", "emotion": "spark", "expected_pause_after_ms": 400 }
+        {
+          "seq": 1,
+          "character": "nick",
+          "text": "That's my coat. I can prove it — it still has my bad decisions in the pockets.",
+          "emotion": "charm",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "dolly",
+          "text": "Funny. It also has my tip jar and your future arrest warrant.",
+          "emotion": "sweet-sting",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "nick",
+          "text": "Dolly, darling, crime is a partnership sport.",
+          "emotion": "pitch",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "dolly",
+          "text": "So is divorce. I prefer both solo.",
+          "emotion": "fast",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 5,
+          "character": "nick",
+          "text": "Split fifty-fifty or we both leave in bracelets.",
+          "emotion": "deal",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "dolly",
+          "text": "Sixty-forty. I have better shoes for running.",
+          "emotion": "negotiate",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 7,
+          "character": "nick",
+          "text": "Fifty-five. And I buy breakfast if we live.",
+          "emotion": "grin",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 8,
+          "character": "dolly",
+          "text": "Deal. But if you call me darling again, I frame you myself.",
+          "emotion": "spark",
+          "expected_pause_after_ms": 400
+        }
       ]
     },
     {
@@ -223,7 +467,12 @@
       "tone": "tense",
       "rudeness": "mild",
       "funny": false,
-      "style_tags": ["detective", "femme-fatale", "noir", "mystery"],
+      "style_tags": [
+        "detective",
+        "femme-fatale",
+        "noir",
+        "mystery"
+      ],
       "duration_ms": 78000,
       "premise": "A private eye corners the only witness who might clear him — or bury him.",
       "situation_before": "Rain. Neon. A body downtown and both of them look guilty.",
@@ -234,7 +483,11 @@
           "key": "vance",
           "name": "Vance",
           "playable": true,
-          "style_tags": ["detective", "noir-hero", "cynical"],
+          "style_tags": [
+            "detective",
+            "noir-hero",
+            "cynical"
+          ],
           "description": "Broke detective with one clean suit.",
           "objective": "Get her story before the cops get him.",
           "obstacles": "Her lies; his temper.",
@@ -246,7 +499,11 @@
           "key": "lena",
           "name": "Lena",
           "playable": true,
-          "style_tags": ["femme-fatale", "witness", "dangerous"],
+          "style_tags": [
+            "femme-fatale",
+            "witness",
+            "dangerous"
+          ],
           "description": "Beautiful, careful, always one secret ahead.",
           "objective": "Stay free without giving him everything.",
           "obstacles": "His questions; her guilt.",
@@ -256,14 +513,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "vance", "text": "You left the club at eleven. The man hit the pavement at eleven-oh-five.", "emotion": "press", "expected_pause_after_ms": 500 },
-        { "seq": 2, "character": "lena", "text": "And you think my heels kept that schedule?", "emotion": "deflect", "expected_pause_after_ms": 400 },
-        { "seq": 3, "character": "vance", "text": "I think your fear did.", "emotion": "soft-threat", "expected_pause_after_ms": 500 },
-        { "seq": 4, "character": "lena", "text": "Fear is free in this city. Truth costs extra.", "emotion": "cool", "expected_pause_after_ms": 500 },
-        { "seq": 5, "character": "vance", "text": "Name your price. I've got twenty bucks and a bad reputation.", "emotion": "dry", "expected_pause_after_ms": 400 },
-        { "seq": 6, "character": "lena", "text": "I want protection. Real protection — not poetry.", "emotion": "demand", "expected_pause_after_ms": 500 },
-        { "seq": 7, "character": "vance", "text": "Then talk. Who pushed him?", "emotion": "urgent", "expected_pause_after_ms": 600 },
-        { "seq": 8, "character": "lena", "text": "Someone who smiles like a saint and tips like a devil. Someone you already know.", "emotion": "hook", "expected_pause_after_ms": 500 }
+        {
+          "seq": 1,
+          "character": "vance",
+          "text": "You left the club at eleven. The man hit the pavement at eleven-oh-five.",
+          "emotion": "press",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "lena",
+          "text": "And you think my heels kept that schedule?",
+          "emotion": "deflect",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "vance",
+          "text": "I think your fear did.",
+          "emotion": "soft-threat",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "lena",
+          "text": "Fear is free in this city. Truth costs extra.",
+          "emotion": "cool",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "vance",
+          "text": "Name your price. I've got twenty bucks and a bad reputation.",
+          "emotion": "dry",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 6,
+          "character": "lena",
+          "text": "I want protection. Real protection — not poetry.",
+          "emotion": "demand",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "vance",
+          "text": "Then talk. Who pushed him?",
+          "emotion": "urgent",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 8,
+          "character": "lena",
+          "text": "Someone who smiles like a saint and tips like a devil. Someone you already know.",
+          "emotion": "hook",
+          "expected_pause_after_ms": 500
+        }
       ]
     },
     {
@@ -276,7 +581,12 @@
       "tone": "funny",
       "rudeness": "clean",
       "funny": true,
-      "style_tags": ["rom-com", "meet-cute", "airport", "sweet"],
+      "style_tags": [
+        "rom-com",
+        "meet-cute",
+        "airport",
+        "sweet"
+      ],
       "duration_ms": 65000,
       "premise": "Two strangers argue over a boarding pass — then realise they're both running from the same wedding.",
       "situation_before": "Gate B12. One seat left. Two people who refuse to sit next to destiny.",
@@ -287,7 +597,11 @@
           "key": "amy",
           "name": "Amy",
           "playable": true,
-          "style_tags": ["rom-com-lead", "anxious-funny", "runaway"],
+          "style_tags": [
+            "rom-com-lead",
+            "anxious-funny",
+            "runaway"
+          ],
           "description": "Maid of honour who bolted mid-toast.",
           "objective": "Get on the plane without explaining her life.",
           "obstacles": "Him; boarding call; guilt.",
@@ -299,7 +613,11 @@
           "key": "ben",
           "name": "Ben",
           "playable": true,
-          "style_tags": ["rom-com-lead", "dry-funny", "runaway"],
+          "style_tags": [
+            "rom-com-lead",
+            "dry-funny",
+            "runaway"
+          ],
           "description": "Best man who also fled.",
           "objective": "Board first and not make a scene — failing already.",
           "obstacles": "Her suitcase; his conscience.",
@@ -309,14 +627,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "ben", "text": "That's my seat. 14C. I memorised it like a social security number.", "emotion": "firm", "expected_pause_after_ms": 400 },
-        { "seq": 2, "character": "amy", "text": "Then your memory is as wrong as your tie.", "emotion": "snap", "expected_pause_after_ms": 400 },
-        { "seq": 3, "character": "ben", "text": "This tie was chosen by a bridezilla committee. Show respect.", "emotion": "deadpan", "expected_pause_after_ms": 400 },
-        { "seq": 4, "character": "amy", "text": "Wait. Are you escaping the Harrington wedding too?", "emotion": "surprise", "expected_pause_after_ms": 500 },
-        { "seq": 5, "character": "ben", "text": "If I say yes, do I still get 14C?", "emotion": "bargain", "expected_pause_after_ms": 400 },
-        { "seq": 6, "character": "amy", "text": "Only if you admit the shrimp cocktail was a war crime.", "emotion": "test", "expected_pause_after_ms": 400 },
-        { "seq": 7, "character": "ben", "text": "It was. Also the vows. Also my ex's new boyfriend's speech.", "emotion": "bond", "expected_pause_after_ms": 500 },
-        { "seq": 8, "character": "amy", "text": "Fine. Share the armrest. If we survive takeoff, coffee's on me.", "emotion": "soft-smile", "expected_pause_after_ms": 400 }
+        {
+          "seq": 1,
+          "character": "ben",
+          "text": "That's my seat. 14C. I memorised it like a social security number.",
+          "emotion": "firm",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "amy",
+          "text": "Then your memory is as wrong as your tie.",
+          "emotion": "snap",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "ben",
+          "text": "This tie was chosen by a bridezilla committee. Show respect.",
+          "emotion": "deadpan",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "amy",
+          "text": "Wait. Are you escaping the Harrington wedding too?",
+          "emotion": "surprise",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "ben",
+          "text": "If I say yes, do I still get 14C?",
+          "emotion": "bargain",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 6,
+          "character": "amy",
+          "text": "Only if you admit the shrimp cocktail was a war crime.",
+          "emotion": "test",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 7,
+          "character": "ben",
+          "text": "It was. Also the vows. Also my ex's new boyfriend's speech.",
+          "emotion": "bond",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "amy",
+          "text": "Fine. Share the armrest. If we survive takeoff, coffee's on me.",
+          "emotion": "soft-smile",
+          "expected_pause_after_ms": 400
+        }
       ]
     },
     {
@@ -329,7 +695,12 @@
       "tone": "dramatic",
       "rudeness": "clean",
       "funny": false,
-      "style_tags": ["lawyer", "mentor", "justice", "intense"],
+      "style_tags": [
+        "lawyer",
+        "mentor",
+        "justice",
+        "intense"
+      ],
       "duration_ms": 82000,
       "premise": "A veteran attorney and a young associate fight over whether to put a dangerous truth on the record.",
       "situation_before": "Five minutes before the jury returns. The case can still turn — or explode.",
@@ -340,7 +711,11 @@
           "key": "harper",
           "name": "Harper",
           "playable": true,
-          "style_tags": ["lawyer", "principled", "intense"],
+          "style_tags": [
+            "lawyer",
+            "principled",
+            "intense"
+          ],
           "description": "Young, brilliant, idealistic to a fault.",
           "objective": "Force the truth out.",
           "obstacles": "Politics; Harper's mentor.",
@@ -352,7 +727,11 @@
           "key": "vale",
           "name": "Vale",
           "playable": true,
-          "style_tags": ["mentor", "strategist", "weary-wise"],
+          "style_tags": [
+            "mentor",
+            "strategist",
+            "weary-wise"
+          ],
           "description": "Seen too many pure cases die in pure ways.",
           "objective": "Win without torching the client.",
           "obstacles": "Harper's fire; the clock.",
@@ -362,14 +741,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "harper", "text": "If we don't put it on the record, we're not lawyers. We're cleaners.", "emotion": "fierce", "expected_pause_after_ms": 500 },
-        { "seq": 2, "character": "vale", "text": "Cleaners keep people free. Poets write about the ones who don't.", "emotion": "cold-calm", "expected_pause_after_ms": 500 },
-        { "seq": 3, "character": "harper", "text": "Our client is innocent. The file proves it.", "emotion": "push", "expected_pause_after_ms": 400 },
-        { "seq": 4, "character": "vale", "text": "The file also burns three other lives. Can you carry that?", "emotion": "challenge", "expected_pause_after_ms": 600 },
-        { "seq": 5, "character": "harper", "text": "I can carry honesty. I can't carry silence.", "emotion": "steady", "expected_pause_after_ms": 500 },
-        { "seq": 6, "character": "vale", "text": "Then object. But when the room turns, don't look at me for shelter.", "emotion": "hard", "expected_pause_after_ms": 500 },
-        { "seq": 7, "character": "harper", "text": "I stopped looking for shelter the day you hired me.", "emotion": "respect", "expected_pause_after_ms": 500 },
-        { "seq": 8, "character": "vale", "text": "Good. Then stand up straight — and make it count.", "emotion": "pride", "expected_pause_after_ms": 400 }
+        {
+          "seq": 1,
+          "character": "harper",
+          "text": "If we don't put it on the record, we're not lawyers. We're cleaners.",
+          "emotion": "fierce",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "vale",
+          "text": "Cleaners keep people free. Poets write about the ones who don't.",
+          "emotion": "cold-calm",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 3,
+          "character": "harper",
+          "text": "Our client is innocent. The file proves it.",
+          "emotion": "push",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "vale",
+          "text": "The file also burns three other lives. Can you carry that?",
+          "emotion": "challenge",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 5,
+          "character": "harper",
+          "text": "I can carry honesty. I can't carry silence.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "vale",
+          "text": "Then object. But when the room turns, don't look at me for shelter.",
+          "emotion": "hard",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "harper",
+          "text": "I stopped looking for shelter the day you hired me.",
+          "emotion": "respect",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "vale",
+          "text": "Good. Then stand up straight — and make it count.",
+          "emotion": "pride",
+          "expected_pause_after_ms": 400
+        }
       ]
     },
     {
@@ -382,7 +809,12 @@
       "tone": "romantic",
       "rudeness": "clean",
       "funny": false,
-      "style_tags": ["soldier", "homefront", "letter", "tender"],
+      "style_tags": [
+        "soldier",
+        "homefront",
+        "letter",
+        "tender"
+      ],
       "duration_ms": 72000,
       "premise": "A soldier home on leave and the person who waited must decide if love can restart in twelve hours.",
       "situation_before": "Station platform. Train at dawn. Too much unsaid.",
@@ -393,7 +825,11 @@
           "key": "sam",
           "name": "Sam",
           "playable": true,
-          "style_tags": ["soldier", "tender-tough", "homecoming"],
+          "style_tags": [
+            "soldier",
+            "tender-tough",
+            "homecoming"
+          ],
           "description": "Changed by distance, still holding a photograph.",
           "objective": "Learn if there's still a 'we'.",
           "obstacles": "Time; guilt.",
@@ -405,7 +841,11 @@
           "key": "jo",
           "name": "Jo",
           "playable": true,
-          "style_tags": ["homefront", "loyal", "wounded-hope"],
+          "style_tags": [
+            "homefront",
+            "loyal",
+            "wounded-hope"
+          ],
           "description": "Kept the lights low and the letters stacked.",
           "objective": "Protect their heart without closing the door.",
           "obstacles": "Months of silence between cables.",
@@ -415,14 +855,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "jo", "text": "You look taller. Or maybe the world just got smaller.", "emotion": "soft", "expected_pause_after_ms": 500 },
-        { "seq": 2, "character": "sam", "text": "I brought back every letter. Even the ones I never sent.", "emotion": "shy", "expected_pause_after_ms": 500 },
-        { "seq": 3, "character": "jo", "text": "Why didn't you send them?", "emotion": "hurt", "expected_pause_after_ms": 400 },
-        { "seq": 4, "character": "sam", "text": "Because some nights I was afraid you'd stopped waiting — and I couldn't survive the proof.", "emotion": "honest", "expected_pause_after_ms": 700 },
-        { "seq": 5, "character": "jo", "text": "I waited. I also lived. Both can be true.", "emotion": "firm-soft", "expected_pause_after_ms": 500 },
-        { "seq": 6, "character": "sam", "text": "Can we start from a new first date? Twelve hours, bad coffee, no uniforms.", "emotion": "hope", "expected_pause_after_ms": 500 },
-        { "seq": 7, "character": "jo", "text": "Only if you promise not to disappear into a cable again without saying my name.", "emotion": "condition", "expected_pause_after_ms": 500 },
-        { "seq": 8, "character": "sam", "text": "Your name was the only thing that got me home.", "emotion": "love", "expected_pause_after_ms": 500 }
+        {
+          "seq": 1,
+          "character": "jo",
+          "text": "You look taller. Or maybe the world just got smaller.",
+          "emotion": "soft",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "sam",
+          "text": "I brought back every letter. Even the ones I never sent.",
+          "emotion": "shy",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 3,
+          "character": "jo",
+          "text": "Why didn't you send them?",
+          "emotion": "hurt",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "sam",
+          "text": "Because some nights I was afraid you'd stopped waiting — and I couldn't survive the proof.",
+          "emotion": "honest",
+          "expected_pause_after_ms": 700
+        },
+        {
+          "seq": 5,
+          "character": "jo",
+          "text": "I waited. I also lived. Both can be true.",
+          "emotion": "firm-soft",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "sam",
+          "text": "Can we start from a new first date? Twelve hours, bad coffee, no uniforms.",
+          "emotion": "hope",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "jo",
+          "text": "Only if you promise not to disappear into a cable again without saying my name.",
+          "emotion": "condition",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "sam",
+          "text": "Your name was the only thing that got me home.",
+          "emotion": "love",
+          "expected_pause_after_ms": 500
+        }
       ]
     },
     {
@@ -435,7 +923,12 @@
       "tone": "funny",
       "rudeness": "mild",
       "funny": true,
-      "style_tags": ["smuggler", "rebel", "space", "banter"],
+      "style_tags": [
+        "smuggler",
+        "rebel",
+        "space",
+        "banter"
+      ],
       "duration_ms": 70000,
       "premise": "A smuggler and a rebel courier haggle over the last freighter out before the blockade closes.",
       "situation_before": "Sirens in the upper docks. One ship. Two agendas.",
@@ -446,7 +939,11 @@
           "key": "jax",
           "name": "Jax",
           "playable": true,
-          "style_tags": ["smuggler", "rogue", "cocky"],
+          "style_tags": [
+            "smuggler",
+            "rogue",
+            "cocky"
+          ],
           "description": "Pilot who sells loyalty by the hour.",
           "objective": "Get paid and get clear.",
           "obstacles": "Idealists; patrols.",
@@ -458,7 +955,11 @@
           "key": "rya",
           "name": "Rya",
           "playable": true,
-          "style_tags": ["rebel", "courier", "determined"],
+          "style_tags": [
+            "rebel",
+            "courier",
+            "determined"
+          ],
           "description": "Mission-first, trust-later.",
           "objective": "Secure the ship for the cargo that matters.",
           "obstacles": "His price; the clock.",
@@ -468,14 +969,62 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "rya", "text": "I need your freighter. Non-negotiable.", "emotion": "command", "expected_pause_after_ms": 400 },
-        { "seq": 2, "character": "jax", "text": "Everything's negotiable. Especially non-negotiable.", "emotion": "smirk", "expected_pause_after_ms": 400 },
-        { "seq": 3, "character": "rya", "text": "People will die if that crate stays on this rock.", "emotion": "urgent", "expected_pause_after_ms": 500 },
-        { "seq": 4, "character": "jax", "text": "People die if I don't get paid. I'm very democratic about tragedy.", "emotion": "deflect", "expected_pause_after_ms": 500 },
-        { "seq": 5, "character": "rya", "text": "Half now. Half when we clear the blockade.", "emotion": "deal", "expected_pause_after_ms": 400 },
-        { "seq": 6, "character": "jax", "text": "And if we don't clear it?", "emotion": "test", "expected_pause_after_ms": 400 },
-        { "seq": 7, "character": "rya", "text": "Then you'll die rich in principle. I'll die useful.", "emotion": "steel", "expected_pause_after_ms": 500 },
-        { "seq": 8, "character": "jax", "text": "Damn. I hate inspiring passengers. Ramp's open — try not to redecorate my ship.", "emotion": "hooked", "expected_pause_after_ms": 400 }
+        {
+          "seq": 1,
+          "character": "rya",
+          "text": "I need your freighter. Non-negotiable.",
+          "emotion": "command",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "jax",
+          "text": "Everything's negotiable. Especially non-negotiable.",
+          "emotion": "smirk",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "rya",
+          "text": "People will die if that crate stays on this rock.",
+          "emotion": "urgent",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "jax",
+          "text": "People die if I don't get paid. I'm very democratic about tragedy.",
+          "emotion": "deflect",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "rya",
+          "text": "Half now. Half when we clear the blockade.",
+          "emotion": "deal",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 6,
+          "character": "jax",
+          "text": "And if we don't clear it?",
+          "emotion": "test",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 7,
+          "character": "rya",
+          "text": "Then you'll die rich in principle. I'll die useful.",
+          "emotion": "steel",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "jax",
+          "text": "Damn. I hate inspiring passengers. Ramp's open — try not to redecorate my ship.",
+          "emotion": "hooked",
+          "expected_pause_after_ms": 400
+        }
       ]
     },
     {
@@ -488,7 +1037,12 @@
       "tone": "funny",
       "rudeness": "clean",
       "funny": true,
-      "style_tags": ["diva", "director", "musical", "showbiz"],
+      "style_tags": [
+        "diva",
+        "director",
+        "musical",
+        "showbiz"
+      ],
       "duration_ms": 68000,
       "premise": "A temperamental star and a exhausted director fight over the finale — and accidentally fix their show.",
       "situation_before": "Opening night in ninety minutes. The finale is a disaster in sequins.",
@@ -499,7 +1053,11 @@
           "key": "lola",
           "name": "Lola",
           "playable": true,
-          "style_tags": ["diva", "star", "dramatic-funny"],
+          "style_tags": [
+            "diva",
+            "star",
+            "dramatic-funny"
+          ],
           "description": "Voice of gold, patience of a gnat.",
           "objective": "Keep the big note and her dignity.",
           "obstacles": "The director's 'vision'.",
@@ -511,7 +1069,11 @@
           "key": "max",
           "name": "Max",
           "playable": true,
-          "style_tags": ["director", "harried-genius", "showbiz"],
+          "style_tags": [
+            "director",
+            "harried-genius",
+            "showbiz"
+          ],
           "description": "Sees the whole stage and none of his sleep.",
           "objective": "Save the show without losing the star.",
           "obstacles": "Her ego; the clock.",
@@ -521,14 +1083,1202 @@
         }
       ],
       "dialogue": [
-        { "seq": 1, "character": "lola", "text": "I will not end the show in a trapdoor, Max. I am a headliner, not a magic trick.", "emotion": "outrage", "expected_pause_after_ms": 400 },
-        { "seq": 2, "character": "max", "text": "It's not a trapdoor. It's a 'descent into wonder'. The posters already printed it.", "emotion": "sell", "expected_pause_after_ms": 400 },
-        { "seq": 3, "character": "lola", "text": "Print a poster of me quitting. I'll sign it in glitter.", "emotion": "threat", "expected_pause_after_ms": 400 },
-        { "seq": 4, "character": "max", "text": "Lola — if you walk, the chorus walks. If the chorus walks, I walk into traffic.", "emotion": "plea-comedy", "expected_pause_after_ms": 500 },
-        { "seq": 5, "character": "lola", "text": "Then give me the last light. Centre. No fog machine coughing on my vowels.", "emotion": "bargain", "expected_pause_after_ms": 400 },
-        { "seq": 6, "character": "max", "text": "Centre light. Soft fog. And you actually look at the understudy like a human.", "emotion": "counter", "expected_pause_after_ms": 500 },
-        { "seq": 7, "character": "lola", "text": "Fine. I'll look at her. Briefly. Kindly. Like a queen meeting a puppy.", "emotion": "softening", "expected_pause_after_ms": 400 },
-        { "seq": 8, "character": "max", "text": "That's the spirit. Now go warm up — and save my life with a high C.", "emotion": "affection", "expected_pause_after_ms": 400 }
+        {
+          "seq": 1,
+          "character": "lola",
+          "text": "I will not end the show in a trapdoor, Max. I am a headliner, not a magic trick.",
+          "emotion": "outrage",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "max",
+          "text": "It's not a trapdoor. It's a 'descent into wonder'. The posters already printed it.",
+          "emotion": "sell",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "lola",
+          "text": "Print a poster of me quitting. I'll sign it in glitter.",
+          "emotion": "threat",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "max",
+          "text": "Lola — if you walk, the chorus walks. If the chorus walks, I walk into traffic.",
+          "emotion": "plea-comedy",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "lola",
+          "text": "Then give me the last light. Centre. No fog machine coughing on my vowels.",
+          "emotion": "bargain",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 6,
+          "character": "max",
+          "text": "Centre light. Soft fog. And you actually look at the understudy like a human.",
+          "emotion": "counter",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "lola",
+          "text": "Fine. I'll look at her. Briefly. Kindly. Like a queen meeting a puppy.",
+          "emotion": "softening",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 8,
+          "character": "max",
+          "text": "That's the spirit. Now go warm up — and save my life with a high C.",
+          "emotion": "affection",
+          "expected_pause_after_ms": 400
+        }
+      ]
+    },
+    {
+      "slug": "yellow-mile",
+      "title": "The Yellow Mile",
+      "film_title": "Platform Originals: The Yellow Mile",
+      "hollywood_vibe": "Fantasy road · courage · home is complicated",
+      "genre": "fantasy-adventure",
+      "difficulty": "beginner",
+      "tone": "funny",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "dreamer",
+        "guide",
+        "courage",
+        "classic-adventure"
+      ],
+      "duration_ms": 78000,
+      "premise": "A stranger on a bright path meets a guide who refuses to sugarcoat the journey home.",
+      "situation_before": "The storm is over. The road looks too perfect. Someone has to take the first step.",
+      "relationship": "Nervous newcomer and weary mentor.",
+      "director_note": "Wonder without camp. Funny nerves, honest fear. Keep it light until the last line lands.",
+      "characters": [
+        {
+          "key": "dot",
+          "name": "Dot",
+          "playable": true,
+          "style_tags": [
+            "dreamer",
+            "earnest",
+            "young-hero"
+          ],
+          "description": "Far from home and pretending she is not terrified.",
+          "objective": "Find courage without losing herself.",
+          "obstacles": "Fear; the guide's bluntness.",
+          "emotional_start": "bright anxiety",
+          "age_range": "16-25",
+          "accent": "american-midwest"
+        },
+        {
+          "key": "sage",
+          "name": "Sage",
+          "playable": true,
+          "style_tags": [
+            "guide",
+            "dry-wit",
+            "mentor"
+          ],
+          "description": "Has walked this road too many times.",
+          "objective": "Get her moving before night.",
+          "obstacles": "Her stalling; his impatience.",
+          "emotional_start": "tired kindness",
+          "age_range": "40-60",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "dot",
+          "text": "It looks painted on. Roads aren't supposed to glow.",
+          "emotion": "awe",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 2,
+          "character": "sage",
+          "text": "Neither are people who stand still waiting for courage to arrive by coach.",
+          "emotion": "dry",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "dot",
+          "text": "I'm not still. I'm… gathering.",
+          "emotion": "defensive",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "sage",
+          "text": "Gather faster. Night doesn't care about your process.",
+          "emotion": "push",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "dot",
+          "text": "What if home doesn't want me back the way I left?",
+          "emotion": "soft-fear",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 6,
+          "character": "sage",
+          "text": "Then you bring a different self. That's the whole trick.",
+          "emotion": "gentle",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "dot",
+          "text": "You talk like you've lost a place once.",
+          "emotion": "curious",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 8,
+          "character": "sage",
+          "text": "I have. Walk with me anyway. Lost is a terrible place to stay.",
+          "emotion": "honest",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "favor-in-the-study",
+      "title": "A Favor in the Study",
+      "film_title": "Platform Originals: A Favor in the Study",
+      "hollywood_vibe": "Family office · quiet power · one request",
+      "genre": "crime-drama",
+      "difficulty": "advanced",
+      "tone": "tense",
+      "rudeness": "mild",
+      "funny": false,
+      "style_tags": [
+        "don-energy",
+        "supplicant",
+        "loyalty",
+        "classic-drama"
+      ],
+      "duration_ms": 82000,
+      "premise": "In a wood-panelled study, a desperate visitor asks a powerful host for something that cannot be undone.",
+      "situation_before": "Wedding music muffles outside. Inside, business.",
+      "relationship": "Power and need; respect on a knife edge.",
+      "director_note": "Low volume, high stakes. Never shout. The room does the intimidation.",
+      "characters": [
+        {
+          "key": "vito",
+          "name": "Vito",
+          "playable": true,
+          "style_tags": [
+            "don-energy",
+            "calm-power",
+            "patriarch"
+          ],
+          "description": "Host who never raises his voice.",
+          "objective": "Extract loyalty before granting anything.",
+          "obstacles": "Visitor's pride; public optics.",
+          "emotional_start": "still water",
+          "age_range": "50-65",
+          "accent": "italian-american-light"
+        },
+        {
+          "key": "enzo",
+          "name": "Enzo",
+          "playable": true,
+          "style_tags": [
+            "supplicant",
+            "desperate",
+            "proud"
+          ],
+          "description": "Has one favor and one shred of dignity left.",
+          "objective": "Get the help without becoming property.",
+          "obstacles": "His fear; the price.",
+          "emotional_start": "tight throat",
+          "age_range": "35-50",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "enzo",
+          "text": "I wouldn't come on a day like this if I had anywhere else.",
+          "emotion": "careful",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "vito",
+          "text": "People always say that. Then they sit and ask for miracles.",
+          "emotion": "cool",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 3,
+          "character": "enzo",
+          "text": "Not a miracle. Justice. The kind courts sell by the hour.",
+          "emotion": "bitter",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "vito",
+          "text": "Justice is expensive. Friendship is free — until it isn't.",
+          "emotion": "soft-threat",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 5,
+          "character": "enzo",
+          "text": "Name the price. I can pay later.",
+          "emotion": "urgent",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 6,
+          "character": "vito",
+          "text": "Later is when men forget. I prefer a promise while the coffee is still warm.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 7,
+          "character": "enzo",
+          "text": "Then I promise. Whatever you need — when you need it.",
+          "emotion": "swallow-pride",
+          "expected_pause_after_ms": 700
+        },
+        {
+          "seq": 8,
+          "character": "vito",
+          "text": "Good. Now tell me who hurt your family… and leave the rest to me.",
+          "emotion": "command",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "rail-on-the-bow",
+      "title": "Rail on the Bow",
+      "film_title": "Platform Originals: Rail on the Bow",
+      "hollywood_vibe": "Ocean liner · class divide · doomed romance",
+      "genre": "period-romance",
+      "difficulty": "intermediate",
+      "tone": "romantic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "first-class",
+        "steerage-charm",
+        "deck-romance",
+        "classic-romance"
+      ],
+      "duration_ms": 80000,
+      "premise": "Two passengers from opposite decks meet at the rail and argue about whether the voyage can change anything.",
+      "situation_before": "Night sea. Wind. Music below.",
+      "relationship": "Instant chemistry under social rules.",
+      "director_note": "Play status and desire together. Breath in the cold air. Don't rush the almost-kiss energy.",
+      "characters": [
+        {
+          "key": "lillian",
+          "name": "Lillian",
+          "playable": true,
+          "style_tags": [
+            "first-class",
+            "trapped",
+            "witty"
+          ],
+          "description": "Engaged, elegant, quietly furious at her own life.",
+          "objective": "Feel free for five minutes.",
+          "obstacles": "Her engagement; pride.",
+          "emotional_start": "polished restlessness",
+          "age_range": "20-30",
+          "accent": "british-light"
+        },
+        {
+          "key": "jack",
+          "name": "Jack",
+          "playable": true,
+          "style_tags": [
+            "steerage-charm",
+            "artist",
+            "bold"
+          ],
+          "description": "Won his ticket; refuses to act small.",
+          "objective": "Make her stay at the rail.",
+          "obstacles": "Class; her defenses.",
+          "emotional_start": "easy fire",
+          "age_range": "20-30",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "jack",
+          "text": "You look like you're measuring the distance to shore.",
+          "emotion": "tease",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "lillian",
+          "text": "I'm measuring the distance to a life I didn't choose.",
+          "emotion": "dry",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 3,
+          "character": "jack",
+          "text": "Then step left. Metaphorically. Or literally — I'm flexible.",
+          "emotion": "charm",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 4,
+          "character": "lillian",
+          "text": "You don't know my name and you're rearranging my future.",
+          "emotion": "half-laugh",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 5,
+          "character": "jack",
+          "text": "I know the look. I've worn it on cheaper boats.",
+          "emotion": "soft",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 6,
+          "character": "lillian",
+          "text": "If anyone sees us, this becomes a scandal before breakfast.",
+          "emotion": "nervous",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "jack",
+          "text": "Good. Scandals mean you were awake for once.",
+          "emotion": "challenge",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "lillian",
+          "text": "Stay five minutes. If I leave, I might never come back to this rail.",
+          "emotion": "vulnerable",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "vacancy-twelve",
+      "title": "Vacancy Twelve",
+      "film_title": "Platform Originals: Vacancy Twelve",
+      "hollywood_vibe": "Road motel · storm · wrong turn energy",
+      "genre": "thriller",
+      "difficulty": "intermediate",
+      "tone": "tense",
+      "rudeness": "mild",
+      "funny": false,
+      "style_tags": [
+        "traveler",
+        "clerk",
+        "hitchcock-energy",
+        "suspense"
+      ],
+      "duration_ms": 76000,
+      "premise": "A late driver checks into a quiet motel. The clerk is too helpful. The rain is too loud.",
+      "situation_before": "Highway closed. One neon VACANCY left.",
+      "relationship": "Stranger and stranger — power tilts.",
+      "director_note": "Politeness as threat. Never rush. Let the storm do half the work.",
+      "characters": [
+        {
+          "key": "mara",
+          "name": "Mara",
+          "playable": true,
+          "style_tags": [
+            "traveler",
+            "exhausted",
+            "wary"
+          ],
+          "description": "Just needs a bed and a lock that works.",
+          "objective": "Get a room without answering questions.",
+          "obstacles": "Clerk's curiosity; isolation.",
+          "emotional_start": "tired suspicion",
+          "age_range": "25-40",
+          "accent": "american"
+        },
+        {
+          "key": "norman",
+          "name": "Norman",
+          "playable": true,
+          "style_tags": [
+            "clerk",
+            "nervous-charm",
+            "unsettling"
+          ],
+          "description": "Alone with too much free time.",
+          "objective": "Keep her talking — keep her here.",
+          "obstacles": "Her caution; his own tells.",
+          "emotional_start": "eager calm",
+          "age_range": "25-40",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "mara",
+          "text": "Any rooms left that aren't underwater?",
+          "emotion": "weary",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "norman",
+          "text": "Twelve is dry. And quiet. Very quiet.",
+          "emotion": "pleasant",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 3,
+          "character": "mara",
+          "text": "Quiet is good. Questions are not.",
+          "emotion": "boundary",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 4,
+          "character": "norman",
+          "text": "I only ask what the ledger needs. Name. Car. Whether you like sandwiches.",
+          "emotion": "too-friendly",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "mara",
+          "text": "Ledger can have a name. Sandwiches can wait until morning.",
+          "emotion": "firm",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 6,
+          "character": "norman",
+          "text": "Morning's a long time in weather like this. People get lonely.",
+          "emotion": "soft-odd",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 7,
+          "character": "mara",
+          "text": "I've practiced lonely. Key, please.",
+          "emotion": "steel",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "norman",
+          "text": "Of course. Room twelve… and if you hear footsteps, it's only the rain. Usually.",
+          "emotion": "smile-wrong",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "mayor-on-the-pier",
+      "title": "Mayor on the Pier",
+      "film_title": "Platform Originals: Mayor on the Pier",
+      "hollywood_vibe": "Beach town · threat under the water · civic denial",
+      "genre": "thriller",
+      "difficulty": "intermediate",
+      "tone": "tense",
+      "rudeness": "mild",
+      "funny": false,
+      "style_tags": [
+        "sheriff-energy",
+        "mayor",
+        "summer-town",
+        "classic-thriller"
+      ],
+      "duration_ms": 79000,
+      "premise": "A local lawman wants the beach closed. The mayor wants the weekend revenue. Something is out there.",
+      "situation_before": "Fourth of July weekend. One body already. Officially 'accident.'",
+      "relationship": "Old allies, new war.",
+      "director_note": "Public smile, private panic. Don't play monster — play politics.",
+      "characters": [
+        {
+          "key": "brody",
+          "name": "Brody",
+          "playable": true,
+          "style_tags": [
+            "sheriff-energy",
+            "outsider",
+            "duty"
+          ],
+          "description": "Not from here; still responsible.",
+          "objective": "Close the beach before the next attack.",
+          "obstacles": "Mayor; tourism money.",
+          "emotional_start": "controlled urgency",
+          "age_range": "35-50",
+          "accent": "american"
+        },
+        {
+          "key": "vaughn",
+          "name": "Vaughn",
+          "playable": true,
+          "style_tags": [
+            "mayor",
+            "pr-spin",
+            "denial"
+          ],
+          "description": "Town image first, facts second.",
+          "objective": "Keep the season open.",
+          "obstacles": "Evidence; Brody's stubbornness.",
+          "emotional_start": "smiling pressure",
+          "age_range": "40-60",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "brody",
+          "text": "You can print 'accident' on a poster. You can't print it on a second body.",
+          "emotion": "hard",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "vaughn",
+          "text": "And you can print panic. That empties hotels faster than any headline.",
+          "emotion": "smooth",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 3,
+          "character": "brody",
+          "text": "I'm not asking for panic. I'm asking for a closed beach until we know.",
+          "emotion": "insist",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "vaughn",
+          "text": "Know what? That the ocean is dangerous? We've known that since sails.",
+          "emotion": "dismiss",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "brody",
+          "text": "This isn't weather. Something took a bite the size of a door.",
+          "emotion": "low",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 6,
+          "character": "vaughn",
+          "text": "Then catch it quietly. Don't kill July to prove you're brave.",
+          "emotion": "threat-soft",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "brody",
+          "text": "If July kills a kid, your reelection speech writes itself — as a eulogy.",
+          "emotion": "cold",
+          "expected_pause_after_ms": 700
+        },
+        {
+          "seq": 8,
+          "character": "vaughn",
+          "text": "You close those beaches without me… and this town closes you.",
+          "emotion": "final",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "one-more-round",
+      "title": "One More Round",
+      "film_title": "Platform Originals: One More Round",
+      "hollywood_vibe": "Gym · underdog · last chance",
+      "genre": "sports-drama",
+      "difficulty": "beginner",
+      "tone": "dramatic",
+      "rudeness": "mild",
+      "funny": false,
+      "style_tags": [
+        "fighter",
+        "trainer",
+        "underdog",
+        "classic-sports"
+      ],
+      "duration_ms": 75000,
+      "premise": "A washed-up fighter gets offered a fight nobody thinks he can win. His trainer has to decide whether to stop him.",
+      "situation_before": "Locker room. Tape. Silence.",
+      "relationship": "Love disguised as toughness.",
+      "director_note": "No speechifying. Short punches of dialogue. Heart under grit.",
+      "characters": [
+        {
+          "key": "rocky",
+          "name": "Rocky",
+          "playable": true,
+          "style_tags": [
+            "fighter",
+            "loyal",
+            "underdog"
+          ],
+          "description": "Not smartest, not fastest — still standing.",
+          "objective": "Take the fight.",
+          "obstacles": "Age; trainer's fear.",
+          "emotional_start": "quiet hope",
+          "age_range": "30-40",
+          "accent": "working-class-us"
+        },
+        {
+          "key": "mick",
+          "name": "Mick",
+          "playable": true,
+          "style_tags": [
+            "trainer",
+            "gruff",
+            "heart"
+          ],
+          "description": "Has buried better men than this offer.",
+          "objective": "Protect him without killing his dream.",
+          "obstacles": "Rocky's pride; the purse.",
+          "emotional_start": "angry care",
+          "age_range": "55-70",
+          "accent": "working-class-us"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "mick",
+          "text": "You don't need this fight. You need a job that pays on Fridays.",
+          "emotion": "gruff",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 2,
+          "character": "rocky",
+          "text": "I got a job. It just never felt like living.",
+          "emotion": "soft",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 3,
+          "character": "mick",
+          "text": "Living is waking up. This is a highlight reel for somebody else.",
+          "emotion": "push",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 4,
+          "character": "rocky",
+          "text": "Then let me be somebody for one night.",
+          "emotion": "plea",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 5,
+          "character": "mick",
+          "text": "You'll get hurt. Not movie hurt. Real hurt.",
+          "emotion": "fear",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "rocky",
+          "text": "I been hurt since I was twelve. At least this time people clap.",
+          "emotion": "half-joke",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "mick",
+          "text": "If we do this… you listen. Every round. No hero nonsense.",
+          "emotion": "condition",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 8,
+          "character": "rocky",
+          "text": "Deal. You get the corner. I get the chance.",
+          "emotion": "resolve",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "window-on-fifth",
+      "title": "Window on Fifth",
+      "film_title": "Platform Originals: Window on Fifth",
+      "hollywood_vibe": "City dawn · party aftermath · elegant longing",
+      "genre": "rom-com-drama",
+      "difficulty": "intermediate",
+      "tone": "romantic",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "socialite-energy",
+        "writer",
+        "morning-after",
+        "classic-romance"
+      ],
+      "duration_ms": 77000,
+      "premise": "After a glittering party, two almost-strangers argue about whether New York loves anyone back.",
+      "situation_before": "Sunrise. Empty champagne. One shared cigarette of a conversation.",
+      "relationship": "Flirtation with real loneliness underneath.",
+      "director_note": "Style first, then crack. Funny lines should hide the ache.",
+      "characters": [
+        {
+          "key": "holly",
+          "name": "Holly",
+          "playable": true,
+          "style_tags": [
+            "socialite-energy",
+            "mask",
+            "wistful"
+          ],
+          "description": "Performs glamour; keeps receipts on heartbreak.",
+          "objective": "Not be seen as needy.",
+          "obstacles": "His honesty; dawn light.",
+          "emotional_start": "sparkling tired",
+          "age_range": "22-32",
+          "accent": "american-light"
+        },
+        {
+          "key": "paul",
+          "name": "Paul",
+          "playable": true,
+          "style_tags": [
+            "writer",
+            "observer",
+            "sincere"
+          ],
+          "description": "Broke, sharp, actually listening.",
+          "objective": "Get past her performance.",
+          "obstacles": "Her charm wall.",
+          "emotional_start": "soft curiosity",
+          "age_range": "25-35",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "paul",
+          "text": "You host a war in a cocktail dress and call it a party.",
+          "emotion": "amused",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "holly",
+          "text": "Wars need better lighting. I provide the bulbs.",
+          "emotion": "bright",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "paul",
+          "text": "And when the bulbs cool? Who do you call?",
+          "emotion": "gentle-probe",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 4,
+          "character": "holly",
+          "text": "Room service. Or silence. Silence is cheaper.",
+          "emotion": "deflect",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "paul",
+          "text": "I'm not room service.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 6,
+          "character": "holly",
+          "text": "No. You're the kind of man who remembers birthdays and ruins exits.",
+          "emotion": "soft-warn",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 7,
+          "character": "paul",
+          "text": "Stay for coffee. One cup. No jewelry required.",
+          "emotion": "offer",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "holly",
+          "text": "One cup. If I start telling the truth, you leave first — deal?",
+          "emotion": "vulnerable-funny",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "nakatomi-line",
+      "title": "The Nakatomi Line",
+      "film_title": "Platform Originals: The Nakatomi Line",
+      "hollywood_vibe": "Office tower · hostage night · barefoot nerve",
+      "genre": "action-thriller",
+      "difficulty": "beginner",
+      "tone": "tense",
+      "rudeness": "mild",
+      "funny": true,
+      "style_tags": [
+        "cop-outsider",
+        "operator",
+        "hostage-night",
+        "action-classic"
+      ],
+      "duration_ms": 74000,
+      "premise": "A cop on a phone line tries to keep a calm operator with him while the building goes wrong.",
+      "situation_before": "Alarm stage. One open line. Glass everywhere.",
+      "relationship": "Strangers building trust at speed.",
+      "director_note": "Pace. Wit under stress. Never lose the clock.",
+      "characters": [
+        {
+          "key": "john",
+          "name": "John",
+          "playable": true,
+          "style_tags": [
+            "cop-outsider",
+            "sarcastic",
+            "relentless"
+          ],
+          "description": "Wrong city, right night to be stubborn.",
+          "objective": "Get help without losing the line.",
+          "obstacles": "Protocol; fear.",
+          "emotional_start": "adrenaline dry",
+          "age_range": "30-45",
+          "accent": "american-east"
+        },
+        {
+          "key": "al",
+          "name": "Al",
+          "playable": true,
+          "style_tags": [
+            "operator",
+            "steady",
+            "human"
+          ],
+          "description": "Dispatch who becomes an anchor.",
+          "objective": "Keep John alive and talking.",
+          "obstacles": "Distance; chaos.",
+          "emotional_start": "professional calm",
+          "age_range": "35-50",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "john",
+          "text": "If this is a prank, it's the most expensive prank in real estate.",
+          "emotion": "dry",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "al",
+          "text": "Not a prank. Stay on the line. Who am I talking to?",
+          "emotion": "clear",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "john",
+          "text": "A guy who was supposed to be at a party with tiny sandwiches.",
+          "emotion": "gallows",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 4,
+          "character": "al",
+          "text": "Sandwiches can wait. Are you injured?",
+          "emotion": "focus",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 5,
+          "character": "john",
+          "text": "Feet bad. Pride worse. Building full of people who shouldn't be here.",
+          "emotion": "urgent",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "al",
+          "text": "Then we do this together. You talk. I move units. No cowboy silence.",
+          "emotion": "partner",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 7,
+          "character": "john",
+          "text": "Copy. If I go quiet, assume I'm not sightseeing.",
+          "emotion": "steel",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 8,
+          "character": "al",
+          "text": "I won't assume. I'll stay until you walk out. That's the deal.",
+          "emotion": "solid",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "red-or-blue",
+      "title": "Red or Blue",
+      "film_title": "Platform Originals: Red or Blue",
+      "hollywood_vibe": "Rain-slick city · choice · waking up",
+      "genre": "sci-fi",
+      "difficulty": "intermediate",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "seeker",
+        "mentor-cipher",
+        "choice",
+        "sci-fi-classic"
+      ],
+      "duration_ms": 78000,
+      "premise": "A restless office worker meets a stranger who offers two pills — metaphor or not — and a life that can't be un-known.",
+      "situation_before": "Night club back room. Rain on glass.",
+      "relationship": "Guide and chosen skeptic.",
+      "director_note": "Philosophical without speeches. Make the choice feel physical.",
+      "characters": [
+        {
+          "key": "neo",
+          "name": "Neo",
+          "playable": true,
+          "style_tags": [
+            "seeker",
+            "doubt",
+            "hungry"
+          ],
+          "description": "Feels the glitch; hates being sold.",
+          "objective": "Know what's real.",
+          "obstacles": "Fear of losing the ordinary.",
+          "emotional_start": "wired quiet",
+          "age_range": "25-35",
+          "accent": "american"
+        },
+        {
+          "key": "morph",
+          "name": "Morph",
+          "playable": true,
+          "style_tags": [
+            "mentor-cipher",
+            "patient",
+            "intense"
+          ],
+          "description": "Has made this offer before.",
+          "objective": "Get a free choice — not a convert by force.",
+          "obstacles": "Neo's hesitation.",
+          "emotional_start": "calm gravity",
+          "age_range": "40-55",
+          "accent": "american"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "morph",
+          "text": "You know something's wrong with the world. You can't name it.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 2,
+          "character": "neo",
+          "text": "I know my alarm clock and my boss. That's plenty wrong.",
+          "emotion": "deflect",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "morph",
+          "text": "Blue keeps the dream soft. Red wakes you into a harder truth.",
+          "emotion": "plain",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 4,
+          "character": "neo",
+          "text": "And if I pick wrong?",
+          "emotion": "fear",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 5,
+          "character": "morph",
+          "text": "There is no wrong. Only whether you want to sleep standing up.",
+          "emotion": "soft-hard",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 6,
+          "character": "neo",
+          "text": "People who talk like that usually want something.",
+          "emotion": "wary",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 7,
+          "character": "morph",
+          "text": "I want a free mind. Yours — if you offer it.",
+          "emotion": "honest",
+          "expected_pause_after_ms": 600
+        },
+        {
+          "seq": 8,
+          "character": "neo",
+          "text": "…Red. If I'm dreaming, I want to remember the waking.",
+          "emotion": "decide",
+          "expected_pause_after_ms": 500
+        }
+      ]
+    },
+    {
+      "slug": "assembly-set",
+      "title": "The Assembly Set",
+      "film_title": "Platform Originals: The Assembly Set",
+      "hollywood_vibe": "Regency ball · pride · first insult",
+      "genre": "period-romance",
+      "difficulty": "advanced",
+      "tone": "romantic",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "proud-heir",
+        "quick-wit",
+        "ballroom",
+        "classic-romance"
+      ],
+      "duration_ms": 80000,
+      "premise": "At a country assembly, a proud visitor dismisses a sharp local woman — then has to share a set with her.",
+      "situation_before": "Music starts. Gossip circles. Pride on both sides.",
+      "relationship": "Instant dislike that smells like attraction.",
+      "director_note": "Wit is weapon and flirt. Period posture, modern spark.",
+      "characters": [
+        {
+          "key": "darcy",
+          "name": "Darcy",
+          "playable": true,
+          "style_tags": [
+            "proud-heir",
+            "reserved",
+            "blunt"
+          ],
+          "description": "Hates small talk; worse at hiding judgment.",
+          "objective": "Survive the dance without attachment.",
+          "obstacles": "Her mind; his manners.",
+          "emotional_start": "stiff disdain",
+          "age_range": "25-35",
+          "accent": "british"
+        },
+        {
+          "key": "lizzy",
+          "name": "Lizzy",
+          "playable": true,
+          "style_tags": [
+            "quick-wit",
+            "observant",
+            "warm-steel"
+          ],
+          "description": "Laughs first, forgives last.",
+          "objective": "Puncture his superiority.",
+          "obstacles": "Attraction; social rules.",
+          "emotional_start": "sparkling offense",
+          "age_range": "20-28",
+          "accent": "british"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "darcy",
+          "text": "I was told this room would be tolerable. I was misinformed.",
+          "emotion": "cool",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "lizzy",
+          "text": "How tragic for the room. Shall I alert the musicians?",
+          "emotion": "sweet-cut",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 3,
+          "character": "darcy",
+          "text": "You mock easily. Is that the fashion here?",
+          "emotion": "prickly",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 4,
+          "character": "lizzy",
+          "text": "We mock what refuses to dance. Fashion follows necessity.",
+          "emotion": "bright",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 5,
+          "character": "darcy",
+          "text": "I do not refuse. I select.",
+          "emotion": "pride",
+          "expected_pause_after_ms": 450
+        },
+        {
+          "seq": 6,
+          "character": "lizzy",
+          "text": "Then select honesty for once. You find us beneath you.",
+          "emotion": "direct",
+          "expected_pause_after_ms": 550
+        },
+        {
+          "seq": 7,
+          "character": "darcy",
+          "text": "I find conversation… crowded. Not always the company.",
+          "emotion": "soft-crack",
+          "expected_pause_after_ms": 500
+        },
+        {
+          "seq": 8,
+          "character": "lizzy",
+          "text": "Then endure one set with me. If you survive, you may resume your silence.",
+          "emotion": "challenge-smile",
+          "expected_pause_after_ms": 500
+        }
       ]
     }
   ]

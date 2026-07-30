@@ -22,12 +22,18 @@ export async function ensureAppReady(): Promise<void> {
     ensureDataDirs();
     migrate();
 
-    // Require stable IDs (old random-ID seeds break cross-instance clicks)
+    // Stable IDs + current catalogue size (expand when hollywood-catalogue grows)
     const hasStable = one<{ id: string }>(
       `SELECT id FROM scene_versions WHERE id = ?`,
       [CANONICAL_VERSION_ID]
     );
-    if (hasStable) {
+    const hasLatestWave = one<{ id: string }>(
+      `SELECT id FROM scenes WHERE slug = 'yellow-mile'`
+    );
+    const count = one<{ n: number }>(
+      `SELECT COUNT(*) as n FROM scenes WHERE publication_status = 'published'`
+    );
+    if (hasStable && hasLatestWave && (count?.n ?? 0) >= 18) {
       bootstrapped = true;
       return;
     }
