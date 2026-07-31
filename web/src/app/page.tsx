@@ -38,10 +38,15 @@ export default async function HomePage() {
           romance, western, courtroom. Train like you mean it.
         </p>
         <div className="flex flex-wrap gap-3 pt-1 text-xs text-stage-mist/70">
-          <span className="chip">27 scenes</span>
+          <span className="chip">27 original scenes</span>
           <span className="chip">Both roles playable</span>
-          <span className="chip">Partner voice on</span>
+          <span className="chip">Free partner voice</span>
         </div>
+        <p className="max-w-xl text-xs leading-relaxed text-stage-mist/55">
+          Rights-safe by design: platform-original scripts (not licensed film
+          dialogue) and generic free device voices — not celebrity or movie-star
+          clones. Optional paid ElevenLabs later when you upgrade.
+        </p>
       </section>
 
       <SceneCatalogue scenes={scenes} />
