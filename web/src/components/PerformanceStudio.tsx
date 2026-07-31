@@ -159,6 +159,9 @@ export function PerformanceStudio({
 
   const ensureMic = useCallback(async () => {
     if (streamRef.current) return streamRef.current;
+    if (!navigator.mediaDevices?.getUserMedia) {
+      throw new Error("This browser cannot access the microphone.");
+    }
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: {
         echoCancellation: true,
@@ -170,6 +173,21 @@ export function PerformanceStudio({
     startMeter(stream);
     return stream;
   }, []);
+
+  /** iOS Safari prefers mp4; Chrome prefers webm */
+  const pickRecorderMime = () => {
+    if (typeof MediaRecorder === "undefined") return "";
+    const candidates = [
+      "audio/mp4",
+      "audio/aac",
+      "audio/webm;codecs=opus",
+      "audio/webm",
+    ];
+    for (const t of candidates) {
+      if (MediaRecorder.isTypeSupported(t)) return t;
+    }
+    return "";
+  };
 
   useEffect(() => {
     modeRef.current = mode;
@@ -234,23 +252,18 @@ export function PerformanceStudio({
   const currentLine = manifest?.lines[lineIndex] ?? null;
 
   /**
-   * Other actor speaks — automatic, no voice picker.
-   * Always plays the standard server partner track (baked at seed).
-   * No system "select a voice" dialogs.
+   * Other actor speaks — automatic server track, no voice picker.
+   * Must run soon after a user tap so mobile browsers allow audio.
    */
   const playPartnerLine = useCallback(async (line: ManifestLine) => {
     if (cancelledRef.current) return;
     stopPartnerAudio();
-    try {
-      window.speechSynthesis?.cancel();
-    } catch {
-      /* ignore */
-    }
     setPhase("partner");
 
     if (!line.partnerAudioUrl) {
-      // No baked audio — short beat then continue (never open a voice picker)
-      await new Promise((r) => setTimeout(r, Math.max(800, line.expectedDurationMs * 0.4)));
+      await new Promise((r) =>
+        setTimeout(r, Math.max(900, Math.min(line.expectedDurationMs, 4000)))
+      );
       return;
     }
 
@@ -261,12 +274,14 @@ export function PerformanceStudio({
     await new Promise<void>((resolve) => {
       const audio = document.createElement("audio");
       audio.setAttribute("playsinline", "true");
+      audio.setAttribute("webkit-playsinline", "true");
       audio.preload = "auto";
+      audio.controls = false;
       audio.volume = 1;
       audio.muted = false;
-      // Keep in DOM — more reliable than detached Audio() on Safari
-      audio.style.position = "fixed";
-      audio.style.left = "-9999px";
+      // Visible off-screen — some mobile browsers refuse fully hidden audio
+      audio.style.cssText =
+        "position:fixed;width:1px;height:1px;opacity:0.01;pointer-events:none;bottom:0;left:0;z-index:0";
       document.body.appendChild(audio);
       partnerAudioRef.current = audio;
 
@@ -289,7 +304,8 @@ export function PerformanceStudio({
         resolve();
       };
 
-      const maxMs = Math.max(line.expectedDurationMs + 5000, 16000);
+      // Don't hang the scene if play fails on mobile
+      const maxMs = Math.max(line.expectedDurationMs + 2500, 8000);
       const t = setTimeout(finish, maxMs);
 
       audio.onended = () => {
@@ -302,73 +318,87 @@ export function PerformanceStudio({
       };
 
       const tryPlay = () => {
-        void audio
-          .play()
-          .then(() => {
-            /* playing */
-          })
-          .catch(() => {
-            // Retry once after a tick (gesture / decode race)
+        const p = audio.play();
+        if (p && typeof p.then === "function") {
+          p.catch(() => {
+            // Still advance after a reading beat so the convo never freezes
             setTimeout(() => {
-              void audio.play().catch(() => {
-                clearTimeout(t);
-                finish();
-              });
-            }, 120);
+              clearTimeout(t);
+              finish();
+            }, Math.min(line.expectedDurationMs || 2000, 3500));
           });
+        }
       };
 
       audio.src = src;
-      if (audio.readyState >= 3) tryPlay();
-      else {
-        audio.oncanplay = () => {
-          audio.oncanplay = null;
-          tryPlay();
-        };
-        audio.load();
-        setTimeout(tryPlay, 300);
-      }
+      audio.load();
+      // Immediate play — preserves mobile user-gesture when possible
+      tryPlay();
+      audio.oncanplay = () => {
+        audio.oncanplay = null;
+        tryPlay();
+      };
     });
   }, []);
 
-  const startRecordingLine = useCallback(async (line: ManifestLine) => {
-    if (cancelledRef.current) return;
-    try {
-      const stream = await ensureMic();
-      chunksRef.current = [];
-      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-        ? "audio/webm;codecs=opus"
-        : "audio/webm";
-      const mr = new MediaRecorder(stream, { mimeType: mime });
-      mediaRecorderRef.current = mr;
-      mr.ondataavailable = (ev) => {
-        if (ev.data.size > 0) chunksRef.current.push(ev.data);
-      };
-      mr.start(100);
-      setRecording(true);
-      setPhase("record");
+  const finishUserLineRef = useRef<
+    (forcedLine?: ManifestLine) => Promise<void>
+  >(async () => undefined);
 
-      if (modeRef.current === "continuous_guided") {
-        const ms = Math.min(Math.max(line.expectedDurationMs + 1500, 2500), 12000);
-        if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
-        autoTimerRef.current = setTimeout(() => {
-          void finishUserLine(line);
-        }, ms);
+  const startRecordingLine = useCallback(
+    async (line: ManifestLine) => {
+      if (cancelledRef.current) return;
+      try {
+        const stream = await ensureMic();
+        chunksRef.current = [];
+        if (typeof MediaRecorder === "undefined") {
+          throw new Error(
+            "Recording is not supported in this browser. Try Safari or Chrome."
+          );
+        }
+        const mime = pickRecorderMime();
+        const mr = mime
+          ? new MediaRecorder(stream, { mimeType: mime })
+          : new MediaRecorder(stream);
+        mediaRecorderRef.current = mr;
+        mr.ondataavailable = (ev) => {
+          if (ev.data.size > 0) chunksRef.current.push(ev.data);
+        };
+        mr.start(100);
+        setRecording(true);
+        setPhase("record");
+
+        if (modeRef.current === "continuous_guided") {
+          const ms = Math.min(
+            Math.max(line.expectedDurationMs + 1500, 2500),
+            12000
+          );
+          if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+          autoTimerRef.current = setTimeout(() => {
+            void finishUserLineRef.current(line);
+          }, ms);
+        }
+      } catch (e) {
+        setError(
+          e instanceof Error
+            ? e.message
+            : "Microphone failed — allow mic access and try again"
+        );
+        setPhase("error");
       }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Microphone failed");
-      setPhase("error");
-    }
-  }, [ensureMic]);
+    },
+    [ensureMic]
+  );
 
   const beginUserLine = useCallback(
     async (line: ManifestLine) => {
       if (cancelledRef.current) return;
+      // Mic only when YOU speak — do not block partner lines on mobile
       setPhase("countdown");
-      for (let i = 3; i >= 1; i--) {
+      for (let i = 2; i >= 1; i--) {
         if (cancelledRef.current) return;
         setCountdown(i);
-        await new Promise((r) => setTimeout(r, 550));
+        await new Promise((r) => setTimeout(r, 450));
       }
       setCountdown(0);
       await startRecordingLine(line);
@@ -469,7 +499,16 @@ export function PerformanceStudio({
 
         const form = new FormData();
         form.append("dialogueEventId", line.dialogueEventId);
-        form.append("file", blob, `line-${line.sequenceNumber}.webm`);
+        const ext = (mr?.mimeType || blob.type || "").includes("mp4")
+          ? "mp4"
+          : (mr?.mimeType || blob.type || "").includes("aac")
+            ? "m4a"
+            : "webm";
+        form.append(
+          "file",
+          blob,
+          `line-${line.sequenceNumber}.${ext}`
+        );
 
         const res = await fetch(`/api/takes/${tid}/upload`, {
           method: "POST",
@@ -492,8 +531,11 @@ export function PerformanceStudio({
     [goToIndex]
   );
 
+  finishUserLineRef.current = finishUserLine;
+
   const startScene = async () => {
     if (!manifestRef.current) return;
+    setError(null);
     stopPartnerAudio();
     setUploaded({});
     setMixUrl(null);
@@ -501,9 +543,12 @@ export function PerformanceStudio({
     lineIndexRef.current = 0;
     setLineIndex(0);
     advancingRef.current = false;
-    // Unlock HTML audio in the same click as "Start take" (standard path — no voice menus)
+
+    // Unlock autoplay on the same tap (mobile). Do NOT ask for mic yet —
+    // mic permission breaks the gesture and freezes the conversation start.
     try {
       const unlock = document.createElement("audio");
+      unlock.setAttribute("playsinline", "true");
       unlock.src =
         "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
       unlock.volume = 0.01;
@@ -512,13 +557,9 @@ export function PerformanceStudio({
     } catch {
       /* ignore */
     }
-    try {
-      await ensureMic();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Mic permission denied");
-      setPhase("error");
-      return;
-    }
+
+    // Start dialogue immediately (partner lines then your lines)
+    setPhase("partner");
     await goToIndex(0);
   };
 
@@ -644,7 +685,8 @@ export function PerformanceStudio({
             </ol>
           </div>
           <p className="text-center text-xs text-stage-mist">
-            Partner lines play automatically — no voice menus.
+            Tap Start — the scene begins right away. Mic is only asked when it
+            is your line.
           </p>
           <button className="btn-primary w-full py-3.5 text-base" onClick={() => void startScene()}>
             Start take
