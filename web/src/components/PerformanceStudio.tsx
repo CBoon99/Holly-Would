@@ -232,8 +232,9 @@ export function PerformanceStudio({
   const currentLine = manifest?.lines[lineIndex] ?? null;
 
   /**
-   * Other actor speaks. Prefer browser SpeechSynthesis (works after Start click
-   * on every major browser) then fall back to pre-baked partner WAV files.
+   * Other actor speaks.
+   * 1) Pre-baked partner audio (ElevenLabs when quota allows, else espeak/OpenAI)
+   * 2) Browser SpeechSynthesis fallback so takes never go silent
    */
   const playPartnerLine = useCallback(async (line: ManifestLine) => {
     if (cancelledRef.current) return;
@@ -248,14 +249,55 @@ export function PerformanceStudio({
     const text = (line.text || "").trim();
     const wordMs = Math.max(2500, Math.round(text.split(/\s+/).length * 380));
 
-    // 1) Browser voice — most reliable "other actor" path (no network file needed)
-    const spoke = await new Promise<boolean>((resolve) => {
-      if (typeof window === "undefined" || !window.speechSynthesis || !text) {
-        resolve(false);
+    // 1) ElevenLabs / server partner file first (real actor voice when seeded)
+    if (line.partnerAudioUrl) {
+      const src = line.partnerAudioUrl.startsWith("http")
+        ? line.partnerAudioUrl
+        : `${window.location.origin}${line.partnerAudioUrl}`;
+      const playedFile = await new Promise<boolean>((resolve) => {
+        const audio = new Audio();
+        partnerAudioRef.current = audio;
+        audio.preload = "auto";
+        audio.volume = 1;
+        audio.muted = false;
+        let settled = false;
+        const finish = (ok: boolean) => {
+          if (settled) return;
+          settled = true;
+          audio.onended = null;
+          audio.onerror = null;
+          resolve(ok);
+        };
+        const maxMs = Math.max(line.expectedDurationMs + 4000, 14000);
+        const t = setTimeout(() => finish(true), maxMs);
+        audio.onended = () => {
+          clearTimeout(t);
+          finish(true);
+        };
+        audio.onerror = () => {
+          clearTimeout(t);
+          finish(false);
+        };
+        audio.src = src;
+        void audio.play().catch(() => {
+          clearTimeout(t);
+          finish(false);
+        });
+      });
+      if (playedFile || cancelledRef.current) return;
+    }
+
+    // 2) Browser voice fallback (keeps session moving if file missing/blocked)
+    if (!text) {
+      await new Promise((r) => setTimeout(r, 400));
+      return;
+    }
+    await new Promise<void>((resolve) => {
+      if (typeof window === "undefined" || !window.speechSynthesis) {
+        resolve();
         return;
       }
       try {
-        // Chrome: voices may be empty until this is called once
         void window.speechSynthesis.getVoices();
         const u = new SpeechSynthesisUtterance(text);
         u.lang = "en-US";
@@ -264,65 +306,29 @@ export function PerformanceStudio({
         u.volume = 1;
         const voices = window.speechSynthesis.getVoices();
         const en =
-          voices.find((v) => /en[-_]?US/i.test(v.lang) && /samantha|daniel|alex|google|microsoft|premium|natural/i.test(v.name)) ||
+          voices.find(
+            (v) =>
+              /en[-_]?US/i.test(v.lang) &&
+              /samantha|daniel|alex|google|microsoft|premium|natural/i.test(
+                v.name
+              )
+          ) ||
           voices.find((v) => /^en/i.test(v.lang)) ||
           voices[0];
         if (en) u.voice = en;
         let done = false;
-        const finish = (ok: boolean) => {
+        const finish = () => {
           if (done) return;
           done = true;
-          resolve(ok);
+          resolve();
         };
-        u.onend = () => finish(true);
-        u.onerror = () => finish(false);
+        u.onend = finish;
+        u.onerror = finish;
         window.speechSynthesis.speak(u);
-        // Safety if onend never fires (Safari glitch)
-        setTimeout(() => finish(true), wordMs + 4000);
+        setTimeout(finish, wordMs + 4000);
       } catch {
-        resolve(false);
-      }
-    });
-    if (spoke || cancelledRef.current) return;
-
-    // 2) Pre-baked partner file (espeak/EL/OpenAI WAV)
-    if (!line.partnerAudioUrl) {
-      await new Promise((r) => setTimeout(r, 400));
-      return;
-    }
-    const src = line.partnerAudioUrl.startsWith("http")
-      ? line.partnerAudioUrl
-      : `${window.location.origin}${line.partnerAudioUrl}`;
-
-    await new Promise<void>((resolve) => {
-      const audio = new Audio();
-      partnerAudioRef.current = audio;
-      audio.preload = "auto";
-      audio.volume = 1;
-      audio.muted = false;
-      let settled = false;
-      const finish = () => {
-        if (settled) return;
-        settled = true;
-        audio.onended = null;
-        audio.onerror = null;
         resolve();
-      };
-      const maxMs = Math.max(line.expectedDurationMs + 4000, 12000);
-      const t = setTimeout(finish, maxMs);
-      audio.onended = () => {
-        clearTimeout(t);
-        finish();
-      };
-      audio.onerror = () => {
-        clearTimeout(t);
-        finish();
-      };
-      audio.src = src;
-      void audio.play().catch(() => {
-        clearTimeout(t);
-        finish();
-      });
+      }
     });
   }, []);
 
