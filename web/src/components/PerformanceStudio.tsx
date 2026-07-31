@@ -121,9 +121,11 @@ export function PerformanceStudio({
       try {
         a.onended = null;
         a.onerror = null;
+        a.oncanplay = null;
         a.pause();
         a.removeAttribute("src");
         a.load();
+        a.remove();
       } catch {
         /* ignore */
       }
@@ -232,10 +234,9 @@ export function PerformanceStudio({
   const currentLine = manifest?.lines[lineIndex] ?? null;
 
   /**
-   * Other actor speaks — free-tier / rights-safe by default:
-   * 1) Device SpeechSynthesis (Mac/iOS/Chrome voices — free, not licensed film talent)
-   * 2) Server partner file if speech fails (espeak open-source, or ElevenLabs if paid)
-   * Scripts are platform originals — never licensed studio movie dialogue.
+   * Other actor speaks — automatic, no voice picker.
+   * Always plays the standard server partner track (baked at seed).
+   * No system "select a voice" dialogs.
    */
   const playPartnerLine = useCallback(async (line: ManifestLine) => {
     if (cancelledRef.current) return;
@@ -247,72 +248,50 @@ export function PerformanceStudio({
     }
     setPhase("partner");
 
-    const text = (line.text || "").trim();
-    const wordMs = Math.max(2500, Math.round(text.split(/\s+/).length * 380));
-
-    // 1) Free device voice (best free tier experience)
-    if (text && typeof window !== "undefined" && window.speechSynthesis) {
-      const spoke = await new Promise<boolean>((resolve) => {
-        try {
-          void window.speechSynthesis.getVoices();
-          const u = new SpeechSynthesisUtterance(text);
-          u.lang = "en-US";
-          u.rate = 0.92;
-          u.pitch = 1;
-          u.volume = 1;
-          const voices = window.speechSynthesis.getVoices();
-          const en =
-            voices.find(
-              (v) =>
-                /en[-_]?US/i.test(v.lang) &&
-                /samantha|daniel|alex|google|microsoft|premium|natural|enhanced/i.test(
-                  v.name
-                )
-            ) ||
-            voices.find((v) => /^en/i.test(v.lang)) ||
-            voices[0];
-          if (en) u.voice = en;
-          let done = false;
-          const finish = (ok: boolean) => {
-            if (done) return;
-            done = true;
-            resolve(ok);
-          };
-          u.onend = () => finish(true);
-          u.onerror = () => finish(false);
-          window.speechSynthesis.speak(u);
-          setTimeout(() => finish(true), wordMs + 4000);
-        } catch {
-          resolve(false);
-        }
-      });
-      if (spoke || cancelledRef.current) return;
-    }
-
-    // 2) Server file backup (espeak open-source / ElevenLabs if credits available)
     if (!line.partnerAudioUrl) {
-      await new Promise((r) => setTimeout(r, 400));
+      // No baked audio — short beat then continue (never open a voice picker)
+      await new Promise((r) => setTimeout(r, Math.max(800, line.expectedDurationMs * 0.4)));
       return;
     }
+
     const src = line.partnerAudioUrl.startsWith("http")
       ? line.partnerAudioUrl
       : `${window.location.origin}${line.partnerAudioUrl}`;
+
     await new Promise<void>((resolve) => {
-      const audio = new Audio();
-      partnerAudioRef.current = audio;
+      const audio = document.createElement("audio");
+      audio.setAttribute("playsinline", "true");
       audio.preload = "auto";
       audio.volume = 1;
       audio.muted = false;
+      // Keep in DOM — more reliable than detached Audio() on Safari
+      audio.style.position = "fixed";
+      audio.style.left = "-9999px";
+      document.body.appendChild(audio);
+      partnerAudioRef.current = audio;
+
       let settled = false;
       const finish = () => {
         if (settled) return;
         settled = true;
         audio.onended = null;
         audio.onerror = null;
+        audio.oncanplay = null;
+        try {
+          audio.pause();
+          audio.removeAttribute("src");
+          audio.load();
+          audio.remove();
+        } catch {
+          /* ignore */
+        }
+        if (partnerAudioRef.current === audio) partnerAudioRef.current = null;
         resolve();
       };
-      const maxMs = Math.max(line.expectedDurationMs + 4000, 14000);
+
+      const maxMs = Math.max(line.expectedDurationMs + 5000, 16000);
       const t = setTimeout(finish, maxMs);
+
       audio.onended = () => {
         clearTimeout(t);
         finish();
@@ -321,11 +300,34 @@ export function PerformanceStudio({
         clearTimeout(t);
         finish();
       };
+
+      const tryPlay = () => {
+        void audio
+          .play()
+          .then(() => {
+            /* playing */
+          })
+          .catch(() => {
+            // Retry once after a tick (gesture / decode race)
+            setTimeout(() => {
+              void audio.play().catch(() => {
+                clearTimeout(t);
+                finish();
+              });
+            }, 120);
+          });
+      };
+
       audio.src = src;
-      void audio.play().catch(() => {
-        clearTimeout(t);
-        finish();
-      });
+      if (audio.readyState >= 3) tryPlay();
+      else {
+        audio.oncanplay = () => {
+          audio.oncanplay = null;
+          tryPlay();
+        };
+        audio.load();
+        setTimeout(tryPlay, 300);
+      }
     });
   }, []);
 
@@ -499,27 +501,14 @@ export function PerformanceStudio({
     lineIndexRef.current = 0;
     setLineIndex(0);
     advancingRef.current = false;
-    // Unlock HTML audio + speech synthesis in the same click as "Start take"
+    // Unlock HTML audio in the same click as "Start take" (standard path — no voice menus)
     try {
-      const unlock = new Audio();
+      const unlock = document.createElement("audio");
       unlock.src =
         "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
       unlock.volume = 0.01;
       await unlock.play().catch(() => undefined);
       unlock.pause();
-    } catch {
-      /* ignore */
-    }
-    try {
-      if (window.speechSynthesis) {
-        void window.speechSynthesis.getVoices();
-        // Warm the engine with a silent-ish short utterance volume 0
-        const warm = new SpeechSynthesisUtterance(".");
-        warm.volume = 0.01;
-        warm.rate = 2;
-        window.speechSynthesis.speak(warm);
-        window.speechSynthesis.cancel();
-      }
     } catch {
       /* ignore */
     }
@@ -611,8 +600,7 @@ export function PerformanceStudio({
     <div className="mx-auto max-w-2xl space-y-8">
       <div className="space-y-2">
         <p className="label-caps text-stage-gold/90">
-          {mode === "continuous_guided" ? "Continuous guided" : "Line-by-line"}{" "}
-          · playing {manifest.selectedCharacterName}
+          Playing as {manifest.selectedCharacterName}
         </p>
         <div className="hero-rule" />
         <h1 className="font-display text-3xl tracking-tight text-stage-chalk md:text-4xl">
@@ -622,36 +610,12 @@ export function PerformanceStudio({
 
       {phase === "prep" && (
         <div className="panel-elevated space-y-6 p-7 md:p-8">
-          <h2 className="font-display text-xl text-stage-chalk">Before you begin</h2>
+          <h2 className="font-display text-xl text-stage-chalk">Ready when you are</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <PrepRow label="Situation" value={manifest.preparation.situationBefore} />
             <PrepRow label="Relationship" value={manifest.preparation.relationship} />
             <PrepRow label="Your objective" value={manifest.preparation.objective} />
-            <PrepRow label="Obstacles" value={manifest.preparation.obstacles} />
-            <PrepRow label="Emotional start" value={manifest.preparation.emotionalStart} />
             <PrepRow label="Director" value={manifest.preparation.directorNote} />
-          </div>
-
-          <div className="space-y-2">
-            <p className="label-caps">Mode</p>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                className={mode === "line_by_line" ? "btn-primary" : "btn-ghost"}
-                onClick={() => setMode("line_by_line")}
-              >
-                Line-by-line
-              </button>
-              <button
-                type="button"
-                className={
-                  mode === "continuous_guided" ? "btn-primary" : "btn-ghost"
-                }
-                onClick={() => setMode("continuous_guided")}
-              >
-                Continuous guided
-              </button>
-            </div>
           </div>
 
           <div className="rounded-2xl border border-white/[0.06] bg-black/25 p-5">
@@ -679,6 +643,9 @@ export function PerformanceStudio({
               ))}
             </ol>
           </div>
+          <p className="text-center text-xs text-stage-mist">
+            Partner lines play automatically — no voice menus.
+          </p>
           <button className="btn-primary w-full py-3.5 text-base" onClick={() => void startScene()}>
             Start take
           </button>
