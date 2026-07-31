@@ -19,7 +19,6 @@ export function SceneCatalogue({
   const [style, setStyle] = useState<string>("all");
   const [q, setQ] = useState("");
 
-  // If SSR returned empty (cold start / failed seed), recover from API
   useEffect(() => {
     if (initialScenes.length > 0) {
       setScenes(initialScenes);
@@ -43,7 +42,8 @@ export function SceneCatalogue({
           );
         }
       } catch {
-        if (!cancelled) setLoadError("Could not load scenes. Refresh and try again.");
+        if (!cancelled)
+          setLoadError("Could not load scenes. Refresh and try again.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -66,6 +66,8 @@ export function SceneCatalogue({
 
   const filtered = useMemo(() => {
     return scenes.filter((s) => {
+      // Hide internal padding scenes if any
+      if (s.genre === "internal") return false;
       if (difficulty !== "all" && s.difficulty !== difficulty) return false;
       if (tone !== "all" && s.tone !== tone) return false;
       if (rudeness !== "all" && s.rudeness !== rudeness) return false;
@@ -106,27 +108,22 @@ export function SceneCatalogue({
 
   if (loading) {
     return (
-      <div className="panel p-8 text-stage-mist">
-        <p className="font-medium text-white">Loading scene catalogue…</p>
-        <p className="mt-2 text-sm">Preparing partner lines and rights records.</p>
+      <div className="panel p-10 text-center text-stage-mist">
+        <p className="font-display text-xl text-stage-chalk">
+          Loading scenes…
+        </p>
+        <p className="mt-2 text-sm">Preparing the shelf.</p>
       </div>
     );
   }
 
   if (loadError && scenes.length === 0) {
     return (
-      <div className="panel space-y-3 p-8">
-        <p className="font-medium text-stage-coral">Catalogue unavailable</p>
-        <p className="text-sm text-stage-mist">{loadError}</p>
-        <p className="text-sm text-stage-mist">
-          Production:{" "}
-          <a
-            className="text-stage-gold underline"
-            href="https://holly-would-web-production.up.railway.app"
-          >
-            holly-would-web-production.up.railway.app
-          </a>
+      <div className="panel space-y-4 p-8">
+        <p className="font-display text-xl text-stage-coral">
+          Catalogue unavailable
         </p>
+        <p className="text-sm text-stage-mist">{loadError}</p>
         <button type="button" className="btn-primary" onClick={() => location.reload()}>
           Refresh
         </button>
@@ -135,18 +132,21 @@ export function SceneCatalogue({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="panel space-y-4 p-5">
+    <div className="space-y-8">
+      <div className="panel space-y-5 p-6 md:p-7">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="font-display text-2xl text-white">Scene catalogue</h2>
-            <p className="text-xs text-stage-mist">
-              Original acting scenes · classic Hollywood craft energy · rights-safe
+            <h2 className="font-display text-2xl text-stage-chalk md:text-3xl">
+              Scene shelf
+            </h2>
+            <p className="mt-1 text-sm text-stage-mist">
+              Original dialogue · classic craft · pick a role
             </p>
           </div>
-          <p className="text-sm text-stage-gold">
-            {filtered.length} of {scenes.length} scene
-            {scenes.length === 1 ? "" : "s"}
+          <p className="text-sm tabular-nums text-stage-mist">
+            <span className="text-stage-gold">{filtered.length}</span>
+            <span className="text-white/30"> / </span>
+            {scenes.filter((s) => s.genre !== "internal").length}
           </p>
         </div>
 
@@ -157,7 +157,7 @@ export function SceneCatalogue({
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="noir, western, courtroom…"
-              className="mt-1 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white"
+              className="field"
             />
           </label>
           <FilterSelect
@@ -184,7 +184,7 @@ export function SceneCatalogue({
             ]}
           />
           <FilterSelect
-            label="Rudeness"
+            label="Language"
             value={rudeness}
             onChange={setRudeness}
             options={[
@@ -203,12 +203,12 @@ export function SceneCatalogue({
               ...styleOptions.map((t) => [t, labelStyle(t)] as [string, string]),
             ]}
           />
-          <label className="flex items-end gap-2 text-xs text-stage-mist">
+          <label className="flex items-end gap-2.5 pb-2.5 text-xs text-stage-mist">
             <input
               type="checkbox"
               checked={funnyOnly}
               onChange={(e) => setFunnyOnly(e.target.checked)}
-              className="mb-2.5"
+              className="rounded border-white/20 bg-black/30"
             />
             Funny only
           </label>
@@ -216,59 +216,58 @@ export function SceneCatalogue({
       </div>
 
       {filtered.length === 0 ? (
-        <div className="panel space-y-3 p-8 text-stage-mist">
-          <p className="font-medium text-white">No scenes match these filters</p>
-          <p className="text-sm">
-            {scenes.length} scene{scenes.length === 1 ? "" : "s"} in the catalogue — clear
-            filters to see them all.
+        <div className="panel space-y-3 p-10 text-center">
+          <p className="font-display text-xl text-stage-chalk">
+            No scenes match
           </p>
-          <button type="button" className="btn-primary" onClick={clearFilters}>
+          <p className="text-sm text-stage-mist">
+            Clear filters to see the full shelf.
+          </p>
+          <button type="button" className="btn-ghost" onClick={clearFilters}>
             Clear filters
           </button>
         </div>
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2">
+        <ul className="grid gap-5 sm:grid-cols-2">
           {filtered.map((s) => (
-            <li key={s.id} className="panel flex flex-col p-5">
-              <div className="mb-2 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-wide">
-                {s.difficulty && (
-                  <span className="rounded-full bg-white/10 px-2 py-0.5">
-                    {s.difficulty}
-                  </span>
+            <li key={s.id} className="scene-card p-0">
+              <div className="flex flex-1 flex-col p-6">
+                <div className="mb-3 flex flex-wrap gap-1.5">
+                  {s.difficulty && (
+                    <span className="chip">{s.difficulty}</span>
+                  )}
+                  {s.tone && <span className="chip-gold">{s.tone}</span>}
+                  {s.funny && <span className="chip">funny</span>}
+                  {s.genre && (
+                    <span className="chip">{s.genre.replace(/-/g, " ")}</span>
+                  )}
+                </div>
+                <h3 className="font-display text-2xl leading-tight text-stage-chalk">
+                  {s.title}
+                </h3>
+                {s.hollywoodVibe && (
+                  <p className="mt-1.5 text-xs italic leading-relaxed text-stage-gold/80">
+                    {s.hollywoodVibe}
+                  </p>
                 )}
-                {s.tone && (
-                  <span className="rounded-full bg-stage-gold/15 px-2 py-0.5 text-stage-gold">
-                    {s.tone}
-                  </span>
-                )}
-                {s.funny && (
-                  <span className="rounded-full bg-stage-mint/15 px-2 py-0.5 text-stage-mint">
-                    funny
-                  </span>
-                )}
-                {s.rudeness && (
-                  <span className="rounded-full bg-white/10 px-2 py-0.5">
-                    {s.rudeness}
-                  </span>
-                )}
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-stage-mist">
+                  {s.description}
+                </p>
+                <p className="mt-4 text-[11px] uppercase tracking-[0.14em] text-white/35">
+                  ~{Math.round(s.durationMs / 1000)}s · original dialogue
+                </p>
               </div>
-              <h3 className="font-display text-xl text-white">{s.title}</h3>
-              {s.hollywoodVibe && (
-                <p className="mt-1 text-xs italic text-stage-mist">{s.hollywoodVibe}</p>
-              )}
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-stage-mist">
-                {s.description}
-              </p>
-              <p className="mt-3 text-xs text-stage-mist">
-                ~{Math.round(s.durationMs / 1000)}s · original dialogue
-              </p>
-              <div className="mt-4 flex flex-col gap-2">
+              <div className="flex flex-col gap-2 border-t border-white/[0.06] bg-black/20 p-4">
                 {s.sceneVersionId &&
-                  s.playableCharacters.map((c) => (
+                  s.playableCharacters.map((c, idx) => (
                     <Link
                       key={c.id}
                       href={`/perform/${s.sceneVersionId}?character=${c.id}`}
-                      className="btn-primary w-full text-center"
+                      className={
+                        idx === 0
+                          ? "btn-primary w-full text-center"
+                          : "btn-ghost w-full text-center"
+                      }
                     >
                       Perform as {c.name}
                     </Link>
@@ -300,11 +299,7 @@ function FilterSelect({
   return (
     <label className="block text-xs text-stage-mist">
       {label}
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="mt-1 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white"
-      >
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="field">
         {options.map(([v, lab]) => (
           <option key={v} value={v}>
             {lab}

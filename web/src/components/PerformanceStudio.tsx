@@ -605,27 +605,32 @@ export function PerformanceStudio({
   );
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-1">
-        <p className="text-xs uppercase tracking-widest text-stage-mint">
-          {mode === "continuous_guided" ? "Continuous guided" : "Line-by-line"} ·{" "}
-          {manifest.selectedCharacterName}
+    <div className="mx-auto max-w-2xl space-y-8">
+      <div className="space-y-2">
+        <p className="label-caps text-stage-gold/90">
+          {mode === "continuous_guided" ? "Continuous guided" : "Line-by-line"}{" "}
+          · playing {manifest.selectedCharacterName}
         </p>
-        <h1 className="font-display text-3xl text-white">{manifest.sceneTitle}</h1>
+        <div className="hero-rule" />
+        <h1 className="font-display text-3xl tracking-tight text-stage-chalk md:text-4xl">
+          {manifest.sceneTitle}
+        </h1>
       </div>
 
       {phase === "prep" && (
-        <div className="panel space-y-4 p-6">
-          <h2 className="font-display text-xl text-white">Before you begin</h2>
-          <PrepRow label="Situation" value={manifest.preparation.situationBefore} />
-          <PrepRow label="Relationship" value={manifest.preparation.relationship} />
-          <PrepRow label="Your objective" value={manifest.preparation.objective} />
-          <PrepRow label="Obstacles" value={manifest.preparation.obstacles} />
-          <PrepRow label="Emotional start" value={manifest.preparation.emotionalStart} />
-          <PrepRow label="Director" value={manifest.preparation.directorNote} />
+        <div className="panel-elevated space-y-6 p-7 md:p-8">
+          <h2 className="font-display text-xl text-stage-chalk">Before you begin</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <PrepRow label="Situation" value={manifest.preparation.situationBefore} />
+            <PrepRow label="Relationship" value={manifest.preparation.relationship} />
+            <PrepRow label="Your objective" value={manifest.preparation.objective} />
+            <PrepRow label="Obstacles" value={manifest.preparation.obstacles} />
+            <PrepRow label="Emotional start" value={manifest.preparation.emotionalStart} />
+            <PrepRow label="Director" value={manifest.preparation.directorNote} />
+          </div>
 
           <div className="space-y-2">
-            <p className="text-xs uppercase tracking-wide text-stage-mist">Mode</p>
+            <p className="label-caps">Mode</p>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -646,22 +651,32 @@ export function PerformanceStudio({
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-black/20 p-4">
-            <p className="text-xs uppercase tracking-wide text-stage-mist">Script</p>
-            <ol className="mt-3 space-y-2 text-sm">
+          <div className="rounded-2xl border border-white/[0.06] bg-black/25 p-5">
+            <p className="label-caps mb-3">Script</p>
+            <ol className="space-y-2.5 text-sm leading-relaxed">
               {manifest.lines.map((l) => (
                 <li
                   key={l.dialogueEventId}
-                  className={l.isUser ? "text-stage-gold" : "text-stage-mist"}
+                  className={
+                    l.isUser ? "text-stage-chalk" : "text-stage-mist/90"
+                  }
                 >
-                  <span className="font-semibold">{l.characterName}: </span>
+                  <span
+                    className={
+                      l.isUser
+                        ? "font-medium text-stage-gold"
+                        : "font-medium text-stage-mist"
+                    }
+                  >
+                    {l.characterName}
+                    {l.isUser ? " · you" : " · partner"}:{" "}
+                  </span>
                   {manifest.rights.canDisplayScript ? l.text : "—"}
-                  {l.isUser ? " (you)" : " (partner)"}
                 </li>
               ))}
             </ol>
           </div>
-          <button className="btn-primary" onClick={() => void startScene()}>
+          <button className="btn-primary w-full py-3.5 text-base" onClick={() => void startScene()}>
             Start take
           </button>
         </div>
@@ -672,26 +687,34 @@ export function PerformanceStudio({
         phase === "record" ||
         phase === "uploading" ||
         phase === "idle") && (
-        <div className="panel space-y-5 p-6">
+        <div className="panel-elevated space-y-6 p-7 md:p-8">
           <div className="flex items-center justify-between text-xs text-stage-mist">
             <span>
               Line {Math.min(lineIndex + 1, manifest.lines.length)} /{" "}
               {manifest.lines.length}
             </span>
-            <span>Your lines: {progress}%</span>
+            <span>Your lines {progress}%</span>
           </div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+          <div className="h-1 overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full bg-stage-gold transition-all"
+              className="h-full rounded-full bg-stage-cream/90 transition-all"
               style={{ width: `${progress}%` }}
             />
           </div>
 
           {currentLine && (
-            <div className="space-y-2">
-              <p className="text-xs uppercase tracking-wide text-stage-mist">
+            <div
+              className={
+                phase === "partner"
+                  ? "rounded-2xl border border-stage-gold/20 bg-stage-gold/[0.06] p-5"
+                  : phase === "record"
+                    ? "rounded-2xl border border-stage-cream/15 bg-white/[0.03] p-5"
+                    : "space-y-2"
+              }
+            >
+              <p className="label-caps">
                 {phase === "partner"
-                  ? "🔊 Other actor speaking — turn volume up"
+                  ? "Other actor speaking — volume up"
                   : phase === "countdown"
                     ? "Get ready"
                     : phase === "record"
@@ -700,22 +723,26 @@ export function PerformanceStudio({
                         ? "Saving your line…"
                         : "Scene complete"}
               </p>
-              <p className="font-display text-2xl text-white">
-                <span className="text-stage-mist">{currentLine.characterName}: </span>
+              <p className="mt-2 font-display text-2xl leading-snug text-stage-chalk md:text-3xl">
+                <span className="text-stage-mist">
+                  {currentLine.characterName}:{" "}
+                </span>
                 {currentLine.text}
               </p>
             </div>
           )}
 
           {phase === "countdown" && (
-            <p className="font-display text-6xl text-stage-gold">{countdown || "—"}</p>
+            <p className="font-display text-7xl tabular-nums text-stage-cream/90">
+              {countdown || "—"}
+            </p>
           )}
 
           <div className="space-y-2">
-            <p className="text-xs text-stage-mist">Microphone level</p>
-            <div className="h-3 overflow-hidden rounded-full bg-white/10">
+            <p className="label-caps">Microphone</p>
+            <div className="h-2 overflow-hidden rounded-full bg-white/10">
               <div
-                className="h-full bg-stage-mint transition-[width] duration-75"
+                className="h-full rounded-full bg-stage-mint/80 transition-[width] duration-75"
                 style={{ width: `${Math.round(level * 100)}%` }}
               />
             </div>
@@ -723,7 +750,7 @@ export function PerformanceStudio({
 
           {phase === "record" && (
             <button
-              className="btn-primary w-full"
+              className="btn-primary w-full py-3.5 text-base"
               onClick={() => void finishUserLine()}
             >
               {recording ? "Done with line — next" : "Stop"}
@@ -736,7 +763,7 @@ export function PerformanceStudio({
                 All lines captured. Mix the scene and listen back.
               </p>
               <button
-                className="btn-primary w-full"
+                className="btn-primary w-full py-3.5 text-base"
                 disabled={!userLinesDone}
                 onClick={() => void finishMix()}
               >
@@ -748,16 +775,18 @@ export function PerformanceStudio({
       )}
 
       {phase === "mixing" && (
-        <div className="panel p-6 text-stage-mist">
-          Mixing your take with the partner… almost ready to listen.
+        <div className="panel p-8 text-center text-stage-mist">
+          Mixing your take with the partner…
         </div>
       )}
 
       {phase === "review" && (
-        <div className="panel space-y-4 p-6">
-          <h2 className="font-display text-2xl text-white">Listen to your take</h2>
+        <div className="panel-elevated space-y-5 p-7 md:p-8">
+          <h2 className="font-display text-2xl text-stage-chalk">
+            Listen to your take
+          </h2>
           {mixUrl ? (
-            <div className="space-y-2">
+            <div className="space-y-3">
               <audio
                 key={mixUrl}
                 controls
@@ -767,7 +796,7 @@ export function PerformanceStudio({
                 preload="auto"
               />
               <a
-                className="text-sm text-stage-gold underline"
+                className="text-sm text-stage-gold underline-offset-2 hover:underline"
                 href={mixUrl}
                 download={`take-${takeId || "mix"}.m4a`}
               >
@@ -776,17 +805,15 @@ export function PerformanceStudio({
             </div>
           ) : (
             <p className="text-sm text-stage-coral">
-              Mix URL missing — try Another take, then mix again.
+              Mix missing — try another take, then mix again.
             </p>
           )}
 
           {feedback && (
-            <div className="space-y-3 rounded-xl border border-stage-mint/30 bg-stage-mint/5 p-4">
-              <p className="text-xs uppercase tracking-wide text-stage-mint">
-                Automated feedback
-              </p>
+            <div className="space-y-3 rounded-2xl border border-white/[0.07] bg-black/20 p-5">
+              <p className="label-caps text-stage-mint">Notes</p>
               <p className="text-xs text-stage-mist">{feedback.disclaimer}</p>
-              <ul className="list-disc space-y-1 pl-5 text-sm text-white/90">
+              <ul className="list-disc space-y-1 pl-5 text-sm text-stage-chalk/90">
                 {feedback.summary.map((s, i) => (
                   <li key={i}>{s}</li>
                 ))}
@@ -794,14 +821,16 @@ export function PerformanceStudio({
               {feedback.lines.map((l) => (
                 <div
                   key={l.sequenceNumber}
-                  className="rounded-lg border border-white/10 bg-black/20 p-3 text-sm"
+                  className="rounded-xl border border-white/[0.06] bg-black/20 p-3 text-sm"
                 >
-                  <p className="font-medium text-white">
+                  <p className="font-medium text-stage-chalk">
                     Line {l.sequenceNumber} ·{" "}
                     {Math.round(l.scriptCoverage * 100)}% words detected
                   </p>
                   {l.transcriptText ? (
-                    <p className="mt-1 text-stage-mist">Heard: “{l.transcriptText}”</p>
+                    <p className="mt-1 text-stage-mist">
+                      Heard: “{l.transcriptText}”
+                    </p>
                   ) : null}
                   <ul className="mt-2 list-disc space-y-0.5 pl-4 text-stage-mist">
                     {l.observations.map((o, i) => (
@@ -821,7 +850,7 @@ export function PerformanceStudio({
               My takes
             </a>
             <a className="btn-ghost" href="/">
-              Catalogue
+              Scene shelf
             </a>
           </div>
         </div>
@@ -834,8 +863,8 @@ function PrepRow({ label, value }: { label: string; value: string | null }) {
   if (!value) return null;
   return (
     <div>
-      <p className="text-xs uppercase tracking-wide text-stage-mist">{label}</p>
-      <p className="mt-1 text-sm text-white/90">{value}</p>
+      <p className="label-caps">{label}</p>
+      <p className="mt-1.5 text-sm leading-relaxed text-stage-chalk/90">{value}</p>
     </div>
   );
 }

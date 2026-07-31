@@ -3,47 +3,97 @@
 @tailwind utilities;
 
 :root {
-  --bg: #0b0c10;
-  --panel: #12141c;
-  --line: #2a3042;
-  --text: #e8ecf7;
-  --muted: #a8b2d1;
-  --gold: #e8c547;
-  --coral: #ff6b6b;
-  --mint: #4ecdc4;
+  --bg: #07080c;
+  --panel: rgba(14, 16, 22, 0.82);
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #e8e6e1;
+  --muted: #9aa3b8;
+  --cream: #f3efe6;
+  --gold: #c9a962;
+  --coral: #e07a6a;
+  --mint: #7eb8b0;
 }
 
 html,
 body {
   min-height: 100%;
-  background: radial-gradient(1200px 600px at 10% -10%, #1a2035 0%, var(--bg) 55%);
+  background-color: var(--bg);
   color: var(--text);
 }
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
+  background-image:
+    radial-gradient(ellipse 100% 70% at 50% -30%, rgba(80, 60, 35, 0.22), transparent 55%),
+    radial-gradient(ellipse 45% 40% at 100% 0%, rgba(35, 45, 70, 0.25), transparent 50%),
+    radial-gradient(ellipse 40% 35% at 0% 80%, rgba(30, 40, 50, 0.2), transparent 50%);
+  background-attachment: fixed;
 }
 
 ::selection {
-  background: rgba(232, 197, 71, 0.35);
+  background: rgba(201, 169, 98, 0.28);
 }
 
-.panel {
-  @apply rounded-2xl border border-white/10 bg-ink-900/80 shadow-xl backdrop-blur;
-}
+@layer components {
+  .panel {
+    @apply rounded-2xl border border-white/10 bg-ink-900/80 shadow-soft backdrop-blur-md;
+  }
 
-.btn {
-  @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition;
-}
+  .panel-elevated {
+    @apply panel shadow-glow;
+  }
 
-.btn-primary {
-  @apply btn bg-stage-gold text-ink-950 hover:brightness-110 disabled:opacity-40;
-}
+  .btn {
+    @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium tracking-wide transition duration-200;
+  }
 
-.btn-ghost {
-  @apply btn border border-white/15 bg-white/5 text-white hover:bg-white/10 disabled:opacity-40;
-}
+  /* Cream CTA — premium, not highlighter yellow */
+  .btn-primary {
+    @apply btn bg-stage-cream text-ink-950 hover:bg-white disabled:opacity-40;
+  }
 
-.btn-danger {
-  @apply btn border border-stage-coral/40 bg-stage-coral/10 text-stage-coral hover:bg-stage-coral/20;
+  .btn-ghost {
+    @apply btn border border-white/10 bg-white/5 text-stage-chalk hover:border-white/20 hover:bg-white/10 disabled:opacity-40;
+  }
+
+  .btn-danger {
+    @apply btn border border-stage-coral/40 bg-stage-coral/10 text-stage-coral hover:bg-stage-coral/20;
+  }
+
+  .btn-accent {
+    @apply btn border border-stage-gold/30 bg-stage-gold/10 text-stage-gold hover:bg-stage-gold/20;
+  }
+
+  .field {
+    @apply mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-3.5 py-2.5 text-sm text-white outline-none transition focus:border-stage-gold/40;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-stage-mist;
+  }
+
+  .chip-gold {
+    @apply chip border-stage-gold/30 bg-stage-gold/10 text-stage-gold;
+  }
+
+  .label-caps {
+    @apply text-[11px] font-medium uppercase tracking-widest text-stage-mist;
+  }
+
+  .scene-card {
+    @apply panel relative flex flex-col overflow-hidden transition duration-300 hover:border-white/20 hover:shadow-glow;
+  }
+
+  .scene-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(201, 169, 98, 0.55), transparent);
+    opacity: 0.7;
+  }
+
+  .hero-rule {
+    @apply h-px w-16 bg-gradient-to-r from-stage-gold to-transparent;
+  }
 }
