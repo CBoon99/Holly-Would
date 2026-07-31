@@ -1,0 +1,108 @@
+{
+  "slug": "pd-jungle-radio",
+  "title": "Jungle Radio",
+  "film_title": "White Pongo (1945) — public domain archival audio",
+  "audio_source": "public_domain_film",
+  "voice_disclaimer": "Partner lines use UNALTERED archival audio from a public-domain film print. Quality may sound rough, degraded, or “terminal” (old recording). Not AI-cloned celebrity voices. Not a modern studio release. Practice only — not affiliated with any estate or studio beyond public-domain status of the source print.",
+  "source_attribution": "Source: White Pongo (1945), PRC Pictures — copyright expired / public domain mark. Via Internet Archive item WhitePongo. Short unaltered excerpts only.",
+  "hollywood_vibe": "Public-domain jungle adventure · archival track · unaltered film voices",
+  "genre": "period-adventure",
+  "difficulty": "beginner",
+  "tone": "dramatic",
+  "rudeness": "clean",
+  "funny": false,
+  "style_tags": ["public-domain", "archival", "film-audio", "period"],
+  "duration_ms": 90000,
+  "premise": "Act opposite real public-domain film voices (unaltered). Your lines are practice cues; partner audio is the archival recording.",
+  "situation_before": "Base camp radio room. Static. Someone on the other end of the wire is not who you expected.",
+  "relationship": "Field agent and remote contact — trust is thin.",
+  "director_note": "Listen to the archival partner track as if it is the other actor in the room. Match energy; do not mock the quality — use it.",
+  "characters": [
+    {
+      "key": "agent",
+      "name": "Agent Vale",
+      "playable": true,
+      "style_tags": ["lead", "tense", "field"],
+      "description": "You are at the radio. You need a clear answer.",
+      "objective": "Get the truth before the channel dies.",
+      "obstacles": "Static, time, the other voice.",
+      "emotional_start": "controlled urgency",
+      "age_range": "30-45",
+      "accent": "american"
+    },
+    {
+      "key": "remote",
+      "name": "Remote (film track)",
+      "playable": true,
+      "style_tags": ["archival", "partner-track"],
+      "description": "Partner role uses unaltered public-domain film audio when you play as Vale.",
+      "objective": "Hold the line.",
+      "obstacles": "Distance.",
+      "emotional_start": "distant",
+      "age_range": "30-50",
+      "accent": "american"
+    }
+  ],
+  "dialogue": [
+    {
+      "seq": 1,
+      "character": "agent",
+      "text": "Base, this is Vale. Say again — who is on this channel?",
+      "emotion": "urgent",
+      "expected_pause_after_ms": 400
+    },
+    {
+      "seq": 2,
+      "character": "remote",
+      "text": "[Archival film dialogue — unaltered public-domain track]",
+      "emotion": "archival",
+      "expected_pause_after_ms": 500,
+      "partner_audio_file": "pd-audio/pd_partner_1.wav"
+    },
+    {
+      "seq": 3,
+      "character": "agent",
+      "text": "I need a straight answer. Are you still with the expedition?",
+      "emotion": "pressing",
+      "expected_pause_after_ms": 400
+    },
+    {
+      "seq": 4,
+      "character": "remote",
+      "text": "[Archival film dialogue — unaltered public-domain track]",
+      "emotion": "archival",
+      "expected_pause_after_ms": 500,
+      "partner_audio_file": "pd-audio/pd_partner_2.wav"
+    },
+    {
+      "seq": 5,
+      "character": "agent",
+      "text": "If the jungle took them, say it. Don't dress it up.",
+      "emotion": "hard",
+      "expected_pause_after_ms": 450
+    },
+    {
+      "seq": 6,
+      "character": "remote",
+      "text": "[Archival film dialogue — unaltered public-domain track]",
+      "emotion": "archival",
+      "expected_pause_after_ms": 500,
+      "partner_audio_file": "pd-audio/pd_partner_3.wav"
+    },
+    {
+      "seq": 7,
+      "character": "agent",
+      "text": "Copy. I'm coming in on the south track. Keep the light on.",
+      "emotion": "resolute",
+      "expected_pause_after_ms": 400
+    },
+    {
+      "seq": 8,
+      "character": "remote",
+      "text": "[Archival film dialogue — unaltered public-domain track]",
+      "emotion": "archival",
+      "expected_pause_after_ms": 600,
+      "partner_audio_file": "pd-audio/pd_partner_4.wav"
+    }
+  ]
+}

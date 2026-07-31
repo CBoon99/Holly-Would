@@ -10,6 +10,8 @@ import { one, run, getSqlite } from "../lib/db/client";
 import { ensureDataDirs, projectRoot } from "../lib/paths";
 import { id, stableId, nowIso } from "../lib/ids";
 import { generatePartnerLineAudio } from "../lib/media/partner-audio";
+import { probeDurationMs } from "../lib/media/ffmpeg";
+import { getStorage } from "../lib/storage";
 import { loadEnvFiles } from "../lib/env";
 import { resetVoiceProvider } from "../lib/providers/registry";
 import { resetSttProvider } from "../lib/providers/stt-registry";
@@ -27,11 +29,30 @@ type Char = {
   accent: string;
 };
 
+/** Set during catalogue seed so PD audio paths resolve */
+let activeSeedRoot = "";
+
+function seedRootForFiles(): string {
+  if (activeSeedRoot && fs.existsSync(activeSeedRoot)) return activeSeedRoot;
+  const candidates = [
+    path.join(projectRoot(), "content/seed"),
+    path.join(process.cwd(), "content/seed"),
+    path.join(process.cwd(), "../../content/seed"),
+  ];
+  const hit = candidates.find((p) => fs.existsSync(p));
+  if (!hit) throw new Error("content/seed not found");
+  return hit;
+}
+
 type SceneSeed = {
   slug: string;
   title: string;
   film_title: string;
   hollywood_vibe?: string;
+  /** platform_tts (default) | public_domain_film */
+  audio_source?: string;
+  voice_disclaimer?: string;
+  source_attribution?: string;
   genre: string;
   difficulty: string;
   tone: string;
@@ -50,6 +71,8 @@ type SceneSeed = {
     text: string;
     emotion: string;
     expected_pause_after_ms: number;
+    /** Relative to content/seed — unaltered PD film clip */
+    partner_audio_file?: string;
   }>;
 };
 
@@ -102,13 +125,14 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
   );
 
   const sceneId = stableId("sc", scene.slug);
+  const isPdFilm = scene.audio_source === "public_domain_film";
   run(
     `INSERT INTO scenes
       (id, edition_id, title, slug, description, duration_ms, genre, difficulty,
        content_warnings_json, publication_status, situation_before, relationship,
        director_note, created_at, updated_at, tone, rudeness, funny, style_tags_json,
-       hollywood_vibe, film_title)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, '[]', 'draft', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       hollywood_vibe, film_title, audio_source, voice_disclaimer, source_attribution)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, '[]', 'draft', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       sceneId,
       editionId,
@@ -129,8 +153,16 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
       JSON.stringify(scene.style_tags || []),
       scene.hollywood_vibe || null,
       scene.film_title,
+      scene.audio_source || "platform_tts",
+      scene.voice_disclaimer || null,
+      scene.source_attribution || null,
     ]
   );
+
+  const rightsBasis = isPdFilm
+    ? scene.source_attribution ||
+      "Public-domain film audio excerpts (unaltered). Archival quality may be degraded. Practice only."
+    : "Platform-original Hollywood-style scene; not a licensed studio film or script.";
 
   run(
     `INSERT INTO rights_assets
@@ -141,7 +173,7 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
     [
       stableId("rights", scene.slug),
       sceneId,
-      "Platform-original Hollywood-style scene; not a licensed studio film or script.",
+      rightsBasis,
       t,
       t,
     ]
@@ -208,7 +240,60 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
       Math.round(line.text.split(/\s+/).length * 320)
     );
 
-    if (!skipAudio) {
+    // Prefer unaltered PD film clip when provided (no AI clone, no TTS rewrite)
+    if (line.partner_audio_file) {
+      try {
+        const abs = path.join(seedRootForFiles(), line.partner_audio_file);
+        if (!fs.existsSync(abs)) {
+          throw new Error(`missing ${line.partner_audio_file}`);
+        }
+        const durationMs = probeDurationMs(abs);
+        const assetIdStable = stableId("asset", deId, "partner");
+        const objectKey = getStorage().masterKey([
+          "scenes",
+          sceneId,
+          "partner",
+          `line_${line.seq}.wav`,
+        ]);
+        const stored = await getStorage().putFile(objectKey, abs, {
+          overwrite: true,
+        });
+        run(`DELETE FROM media_assets WHERE id = ? OR object_key = ?`, [
+          assetIdStable,
+          stored.objectKey,
+        ]);
+        run(
+          `INSERT INTO media_assets
+            (id, owner_type, owner_id, asset_type, storage_provider, bucket, object_key,
+             mime_type, size_bytes, checksum_sha256, duration_ms, sample_rate, channels,
+             codec, status, metadata_json, created_at)
+           VALUES (?, 'dialogue_event', ?, 'dialogue', 'local', 'private', ?,
+                   'audio/wav', ?, ?, ?, 48000, 1, 'pcm_s16le', 'ready', ?, ?)`,
+          [
+            assetIdStable,
+            deId,
+            stored.objectKey,
+            stored.sizeBytes,
+            stored.checksumSha256,
+            durationMs,
+            JSON.stringify({
+              provider: "public_domain_film",
+              unaltered: true,
+              source_file: line.partner_audio_file,
+              film: scene.film_title,
+            }),
+            t,
+          ]
+        );
+        assetId = assetIdStable;
+        lineMs = durationMs || lineMs;
+      } catch (e) {
+        console.warn(
+          `  PD audio skip ${scene.slug}#${line.seq}:`,
+          e instanceof Error ? e.message.slice(0, 120) : e
+        );
+      }
+    } else if (!skipAudio) {
       try {
         const audio = await generatePartnerLineAudio({
           text: line.text,
@@ -293,6 +378,7 @@ export async function seedHollywoodCatalogue(opts?: {
   ].filter((p) => fs.existsSync(p));
   const seedRoot = seedRoots[0];
   if (!seedRoot) throw new Error("content/seed not found");
+  activeSeedRoot = seedRoot;
 
   const scenes: SceneSeed[] = [];
   const seenSlug = new Set<string>();
@@ -339,6 +425,13 @@ export async function seedHollywoodCatalogue(opts?: {
       ],
       "scene-the-last-call.json"
     );
+  }
+
+  // 2b) Public-domain film audio practice (unaltered archival voices)
+  const pdPath = path.join(seedRoot, "scene-pd-white-pongo.json");
+  if (fs.existsSync(pdPath)) {
+    const pd = JSON.parse(fs.readFileSync(pdPath, "utf8")) as SceneSeed;
+    pushScenes([pd], "scene-pd-white-pongo.json");
   }
 
   // 3) Factory batches (batch-001, …) — opt-in only.

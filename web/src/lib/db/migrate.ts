@@ -221,6 +221,9 @@ export function migrate(): void {
     `ALTER TABLE scenes ADD COLUMN style_tags_json TEXT DEFAULT '[]'`,
     `ALTER TABLE scenes ADD COLUMN hollywood_vibe TEXT`,
     `ALTER TABLE scenes ADD COLUMN film_title TEXT`,
+    `ALTER TABLE scenes ADD COLUMN audio_source TEXT`,
+    `ALTER TABLE scenes ADD COLUMN voice_disclaimer TEXT`,
+    `ALTER TABLE scenes ADD COLUMN source_attribution TEXT`,
     `ALTER TABLE characters ADD COLUMN style_tags_json TEXT DEFAULT '[]'`,
   ];
   for (const sql of alters) {

@@ -43,9 +43,10 @@ export default async function HomePage() {
           <span className="chip">Free partner voice</span>
         </div>
         <p className="max-w-xl text-xs leading-relaxed text-stage-mist/55">
-          Rights-safe by design: platform-original scripts (not licensed film
-          dialogue) and generic free device voices — not celebrity or movie-star
-          clones. Optional paid ElevenLabs later when you upgrade.
+          Most scenes use original scripts + free partner audio. Scenes tagged{" "}
+          <span className="text-stage-gold/90">PD film voice</span> play
+          unaltered public-domain film tracks (may sound rough / archival). We
+          do not AI-clone modern movie stars.
         </p>
       </section>
 

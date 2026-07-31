@@ -233,6 +233,9 @@ export function SceneCatalogue({
             <li key={s.id} className="scene-card p-0">
               <div className="flex flex-1 flex-col p-6">
                 <div className="mb-3 flex flex-wrap gap-1.5">
+                  {s.audioSource === "public_domain_film" && (
+                    <span className="chip-gold">PD film voice</span>
+                  )}
                   {s.difficulty && (
                     <span className="chip">{s.difficulty}</span>
                   )}

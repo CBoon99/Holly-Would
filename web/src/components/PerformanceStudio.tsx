@@ -17,6 +17,9 @@ type ManifestLine = {
 type Manifest = {
   sceneTitle: string;
   selectedCharacterName: string;
+  audioSource?: string | null;
+  voiceDisclaimer?: string | null;
+  sourceAttribution?: string | null;
   lines: ManifestLine[];
   preparation: {
     situationBefore: string | null;
@@ -652,6 +655,21 @@ export function PerformanceStudio({
       {phase === "prep" && (
         <div className="panel-elevated space-y-6 p-7 md:p-8">
           <h2 className="font-display text-xl text-stage-chalk">Ready when you are</h2>
+          {(manifest.voiceDisclaimer ||
+            manifest.audioSource === "public_domain_film") && (
+            <div className="rounded-2xl border border-stage-gold/25 bg-stage-gold/[0.07] p-4 text-sm leading-relaxed text-stage-chalk/90">
+              <p className="label-caps text-stage-gold mb-2">Voice disclaimer</p>
+              <p>
+                {manifest.voiceDisclaimer ||
+                  "Partner lines use unaltered archival public-domain film audio. Quality may sound rough or “terminal.” Not AI-cloned celebrity voices."}
+              </p>
+              {manifest.sourceAttribution && (
+                <p className="mt-2 text-xs text-stage-mist">
+                  {manifest.sourceAttribution}
+                </p>
+              )}
+            </div>
+          )}
           <div className="grid gap-4 sm:grid-cols-2">
             <PrepRow label="Situation" value={manifest.preparation.situationBefore} />
             <PrepRow label="Relationship" value={manifest.preparation.relationship} />
@@ -726,7 +744,9 @@ export function PerformanceStudio({
             >
               <p className="label-caps">
                 {phase === "partner"
-                  ? "Other actor speaking — volume up"
+                  ? manifest.audioSource === "public_domain_film"
+                    ? "Archival film voice (unaltered) — volume up"
+                    : "Other actor speaking — volume up"
                   : phase === "countdown"
                     ? "Get ready"
                     : phase === "record"
@@ -735,6 +755,12 @@ export function PerformanceStudio({
                         ? "Saving your line…"
                         : "Scene complete"}
               </p>
+              {phase === "partner" &&
+                manifest.audioSource === "public_domain_film" && (
+                  <p className="text-xs text-stage-mist/80">
+                    Archival quality may sound rough or terminal — original film track.
+                  </p>
+                )}
               <p className="mt-2 font-display text-2xl leading-snug text-stage-chalk md:text-3xl">
                 <span className="text-stage-mist">
                   {currentLine.characterName}:{" "}

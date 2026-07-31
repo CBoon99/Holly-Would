@@ -9,6 +9,9 @@ export type ClientManifest = {
   mode: "line_by_line";
   selectedCharacterId: string;
   selectedCharacterName: string;
+  audioSource: string | null;
+  voiceDisclaimer: string | null;
+  sourceAttribution: string | null;
   rights: {
     canRecordUser: boolean;
     canDisplayScript: boolean;
@@ -43,6 +46,9 @@ type SceneRow = {
   situation_before: string | null;
   relationship: string | null;
   director_note: string | null;
+  audio_source: string | null;
+  voice_disclaimer: string | null;
+  source_attribution: string | null;
 };
 
 type VersionRow = { id: string; scene_id: string };
@@ -79,7 +85,9 @@ export function buildClientManifest(
   if (!version) throw new Error("Scene version not found");
 
   const scene = one<SceneRow>(
-    `SELECT id, title, situation_before, relationship, director_note FROM scenes WHERE id = ?`,
+    `SELECT id, title, situation_before, relationship, director_note,
+            audio_source, voice_disclaimer, source_attribution
+     FROM scenes WHERE id = ?`,
     [version.scene_id]
   );
   if (!scene) throw new Error("Scene not found");
@@ -137,6 +145,9 @@ export function buildClientManifest(
     mode: "line_by_line",
     selectedCharacterId,
     selectedCharacterName: selected.name,
+    audioSource: scene.audio_source,
+    voiceDisclaimer: scene.voice_disclaimer,
+    sourceAttribution: scene.source_attribution,
     rights: {
       canRecordUser: rights.canRecordUser,
       canDisplayScript: rights.canDisplayScript,
@@ -169,6 +180,9 @@ export type CatalogueScene = {
   styleTags: string[];
   hollywoodVibe: string | null;
   filmTitle: string | null;
+  audioSource: string | null;
+  voiceDisclaimer: string | null;
+  sourceAttribution: string | null;
   publicationStatus: string;
   rightsLabel: string;
   available: boolean;
@@ -197,9 +211,13 @@ export function listPublishedScenes(): CatalogueScene[] {
     style_tags_json: string | null;
     hollywood_vibe: string | null;
     film_title: string | null;
+    audio_source: string | null;
+    voice_disclaimer: string | null;
+    source_attribution: string | null;
   }>(
     `SELECT id, slug, title, description, duration_ms, genre, difficulty, publication_status,
-            tone, rudeness, funny, style_tags_json, hollywood_vibe, film_title
+            tone, rudeness, funny, style_tags_json, hollywood_vibe, film_title,
+            audio_source, voice_disclaimer, source_attribution
      FROM scenes WHERE publication_status = 'published'
      ORDER BY title ASC`
   );
@@ -241,6 +259,9 @@ export function listPublishedScenes(): CatalogueScene[] {
         styleTags,
         hollywoodVibe: s.hollywood_vibe,
         filmTitle: s.film_title,
+        audioSource: s.audio_source,
+        voiceDisclaimer: s.voice_disclaimer,
+        sourceAttribution: s.source_attribution,
         publicationStatus: s.publication_status,
         rightsLabel: rights.status,
         available: rights.allowed && rights.canStream,
