@@ -54,12 +54,35 @@ type Phase =
   | "prep"
   | "countdown"
   | "partner"
+  | "need_mic"
   | "record"
   | "idle"
   | "uploading"
   | "mixing"
   | "review"
   | "error";
+
+function micErrorMessage(e: unknown): string {
+  const name =
+    e && typeof e === "object" && "name" in e
+      ? String((e as { name: string }).name)
+      : "";
+  const msg = e instanceof Error ? e.message : String(e);
+  if (
+    name === "NotAllowedError" ||
+    name === "PermissionDeniedError" ||
+    /permission denied|not allowed|denied/i.test(msg)
+  ) {
+    return "Microphone blocked. Tap “Allow” when the browser asks, or enable Microphone for this site in phone Settings → Safari/Chrome → Microphone.";
+  }
+  if (name === "NotFoundError" || /not found|no device/i.test(msg)) {
+    return "No microphone found. Plug in a mic or check phone permissions.";
+  }
+  if (name === "NotReadableError" || /could not start|in use/i.test(msg)) {
+    return "Microphone is busy. Close other apps using the mic and try again.";
+  }
+  return msg || "Microphone failed — allow access and try again.";
+}
 
 type Mode = "line_by_line" | "continuous_guided";
 
@@ -163,18 +186,24 @@ export function PerformanceStudio({
   const ensureMic = useCallback(async () => {
     if (streamRef.current) return streamRef.current;
     if (!navigator.mediaDevices?.getUserMedia) {
-      throw new Error("This browser cannot access the microphone.");
+      throw new Error(
+        "This browser cannot access the microphone. Try Safari or Chrome."
+      );
     }
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        channelCount: 1,
-      },
-    });
-    streamRef.current = stream;
-    startMeter(stream);
-    return stream;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          channelCount: 1,
+        },
+      });
+      streamRef.current = stream;
+      startMeter(stream);
+      return stream;
+    } catch (e) {
+      throw new Error(micErrorMessage(e));
+    }
   }, []);
 
   /** iOS Safari prefers mp4; Chrome prefers webm */
@@ -382,12 +411,9 @@ export function PerformanceStudio({
           }, ms);
         }
       } catch (e) {
-        setError(
-          e instanceof Error
-            ? e.message
-            : "Microphone failed — allow mic access and try again"
-        );
-        setPhase("error");
+        // Don't kill the whole scene — ask again with a tap (mobile needs a gesture)
+        setError(micErrorMessage(e));
+        setPhase("need_mic");
       }
     },
     [ensureMic]
@@ -396,7 +422,12 @@ export function PerformanceStudio({
   const beginUserLine = useCallback(
     async (line: ManifestLine) => {
       if (cancelledRef.current) return;
-      // Mic only when YOU speak — do not block partner lines on mobile
+      setError(null);
+      // If mic not ready yet, stop here and wait for an explicit tap (keeps mobile happy)
+      if (!streamRef.current) {
+        setPhase("need_mic");
+        return;
+      }
       setPhase("countdown");
       for (let i = 2; i >= 1; i--) {
         if (cancelledRef.current) return;
@@ -408,6 +439,28 @@ export function PerformanceStudio({
     },
     [startRecordingLine]
   );
+
+  /** User taps to enable mic — must be a real button press on mobile */
+  const enableMicAndRecord = async () => {
+    setError(null);
+    const m = manifestRef.current;
+    const line = m?.lines[lineIndexRef.current];
+    if (!line?.isUser) return;
+    try {
+      await ensureMic();
+      setPhase("countdown");
+      for (let i = 2; i >= 1; i--) {
+        if (cancelledRef.current) return;
+        setCountdown(i);
+        await new Promise((r) => setTimeout(r, 450));
+      }
+      setCountdown(0);
+      await startRecordingLine(line);
+    } catch (e) {
+      setError(micErrorMessage(e));
+      setPhase("need_mic");
+    }
+  };
 
   /**
    * Run the scene from `index` forward through any partner lines,
@@ -547,8 +600,7 @@ export function PerformanceStudio({
     setLineIndex(0);
     advancingRef.current = false;
 
-    // Unlock autoplay on the same tap (mobile). Do NOT ask for mic yet —
-    // mic permission breaks the gesture and freezes the conversation start.
+    // Same tap: unlock audio + request mic (mobile needs a real gesture)
     try {
       const unlock = document.createElement("audio");
       unlock.setAttribute("playsinline", "true");
@@ -559,6 +611,12 @@ export function PerformanceStudio({
       unlock.pause();
     } catch {
       /* ignore */
+    }
+    try {
+      await ensureMic();
+    } catch {
+      // Continue without mic — we'll ask again with a button before you record
+      streamRef.current = null;
     }
 
     // Start dialogue immediately (partner lines then your lines)
@@ -622,12 +680,26 @@ export function PerformanceStudio({
 
   if (phase === "error") {
     return (
-      <div className="panel space-y-3 p-6">
+      <div className="panel space-y-4 p-6">
         <h2 className="font-display text-xl text-stage-coral">Something went wrong</h2>
-        <p className="text-sm text-stage-mist">{error}</p>
-        <button className="btn-ghost" onClick={() => window.location.reload()}>
-          Reload
-        </button>
+        <p className="text-sm leading-relaxed text-stage-mist">{error}</p>
+        <div className="flex flex-wrap gap-3">
+          <button
+            className="btn-primary"
+            onClick={() => {
+              setError(null);
+              setPhase("prep");
+            }}
+          >
+            Try again
+          </button>
+          <button className="btn-ghost" onClick={() => window.location.reload()}>
+            Reload page
+          </button>
+          <a className="btn-ghost" href="/">
+            Scene shelf
+          </a>
+        </div>
       </div>
     );
   }
@@ -703,8 +775,8 @@ export function PerformanceStudio({
             </ol>
           </div>
           <p className="text-center text-xs text-stage-mist">
-            Tap Start — the scene begins right away. Mic is only asked when it
-            is your line.
+            Tap Start and allow the microphone when asked — then the scene
+            runs. Partner speaks automatically.
           </p>
           <button className="btn-primary w-full py-3.5 text-base" onClick={() => void startScene()}>
             Start take
@@ -714,6 +786,7 @@ export function PerformanceStudio({
 
       {(phase === "countdown" ||
         phase === "partner" ||
+        phase === "need_mic" ||
         phase === "record" ||
         phase === "uploading" ||
         phase === "idle") && (
@@ -737,7 +810,7 @@ export function PerformanceStudio({
               className={
                 phase === "partner"
                   ? "rounded-2xl border border-stage-gold/20 bg-stage-gold/[0.06] p-5"
-                  : phase === "record"
+                  : phase === "record" || phase === "need_mic"
                     ? "rounded-2xl border border-stage-cream/15 bg-white/[0.03] p-5"
                     : "space-y-2"
               }
@@ -747,6 +820,8 @@ export function PerformanceStudio({
                   ? manifest.audioSource === "public_domain_film"
                     ? "Archival film voice (unaltered) — volume up"
                     : "Other actor speaking — volume up"
+                  : phase === "need_mic"
+                    ? "Your line — microphone needed"
                   : phase === "countdown"
                     ? "Get ready"
                     : phase === "record"
@@ -776,15 +851,37 @@ export function PerformanceStudio({
             </p>
           )}
 
-          <div className="space-y-2">
-            <p className="label-caps">Microphone</p>
-            <div className="h-2 overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full bg-stage-mint/80 transition-[width] duration-75"
-                style={{ width: `${Math.round(level * 100)}%` }}
-              />
+          {phase === "need_mic" && (
+            <div className="space-y-3 rounded-2xl border border-stage-coral/30 bg-stage-coral/10 p-5">
+              <p className="text-sm leading-relaxed text-stage-chalk">
+                {error ||
+                  "Your line is next. Allow the microphone so we can record your take."}
+              </p>
+              <p className="text-xs text-stage-mist">
+                On iPhone: if you blocked it earlier, Settings → Safari →
+                Microphone → Allow for this site.
+              </p>
+              <button
+                type="button"
+                className="btn-primary w-full py-3.5 text-base"
+                onClick={() => void enableMicAndRecord()}
+              >
+                Allow microphone &amp; record
+              </button>
             </div>
-          </div>
+          )}
+
+          {phase !== "need_mic" && (
+            <div className="space-y-2">
+              <p className="label-caps">Microphone</p>
+              <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-stage-mint/80 transition-[width] duration-75"
+                  style={{ width: `${Math.round(level * 100)}%` }}
+                />
+              </div>
+            </div>
+          )}
 
           {phase === "record" && (
             <button
