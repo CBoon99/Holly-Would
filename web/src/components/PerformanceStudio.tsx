@@ -112,6 +112,9 @@ export function PerformanceStudio({
   const [feedback, setFeedback] = useState<TakeFeedback | null>(null);
   const [starting, setStarting] = useState(false);
   const [statusNote, setStatusNote] = useState<string | null>(null);
+  /** Visible partner player (iOS needs a real control if autoplay is blocked) */
+  const [partnerPlayerSrc, setPartnerPlayerSrc] = useState<string | null>(null);
+  const [partnerNeedsTap, setPartnerNeedsTap] = useState(false);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -122,6 +125,7 @@ export function PerformanceStudio({
   const modeRef = useRef<Mode>("line_by_line");
   const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const partnerAudioRef = useRef<HTMLAudioElement | null>(null);
+  const partnerUiAudioRef = useRef<HTMLAudioElement | null>(null);
 
   /** Always-current index — prevents partner loop from stale closures */
   const lineIndexRef = useRef(0);
@@ -293,95 +297,186 @@ export function PerformanceStudio({
 
   const currentLine = manifest?.lines[lineIndex] ?? null;
 
-  /**
-   * Other actor speaks — automatic server track, no voice picker.
-   * Must run soon after a user tap so mobile browsers allow audio.
-   */
-  const playPartnerLine = useCallback(async (line: ManifestLine) => {
-    if (cancelledRef.current) return;
-    stopPartnerAudio();
-    setPhase("partner");
-
-    if (!line.partnerAudioUrl) {
-      await new Promise((r) =>
-        setTimeout(r, Math.max(900, Math.min(line.expectedDurationMs, 4000)))
-      );
-      return;
-    }
-
-    const src = line.partnerAudioUrl.startsWith("http")
-      ? line.partnerAudioUrl
-      : `${window.location.origin}${line.partnerAudioUrl}`;
-
-    await new Promise<void>((resolve) => {
-      const audio = document.createElement("audio");
-      audio.setAttribute("playsinline", "true");
-      audio.setAttribute("webkit-playsinline", "true");
-      audio.preload = "auto";
-      audio.controls = false;
-      audio.volume = 1;
-      audio.muted = false;
-      // Visible off-screen — some mobile browsers refuse fully hidden audio
-      audio.style.cssText =
-        "position:fixed;width:1px;height:1px;opacity:0.01;pointer-events:none;bottom:0;left:0;z-index:0";
-      document.body.appendChild(audio);
-      partnerAudioRef.current = audio;
-
-      let settled = false;
-      const finish = () => {
-        if (settled) return;
-        settled = true;
-        audio.onended = null;
-        audio.onerror = null;
-        audio.oncanplay = null;
-        try {
-          audio.pause();
-          audio.removeAttribute("src");
-          audio.load();
-          audio.remove();
-        } catch {
-          /* ignore */
-        }
-        if (partnerAudioRef.current === audio) partnerAudioRef.current = null;
-        resolve();
-      };
-
-      // Don't hang the scene if play fails on mobile
-      const maxMs = Math.max(line.expectedDurationMs + 2500, 8000);
-      const t = setTimeout(finish, maxMs);
-
-      audio.onended = () => {
-        clearTimeout(t);
-        finish();
-      };
-      audio.onerror = () => {
-        clearTimeout(t);
-        finish();
-      };
-
-      const tryPlay = () => {
-        const p = audio.play();
-        if (p && typeof p.then === "function") {
-          p.catch(() => {
-            // Still advance after a reading beat so the convo never freezes
-            setTimeout(() => {
-              clearTimeout(t);
-              finish();
-            }, Math.min(line.expectedDurationMs || 2000, 3500));
-          });
-        }
-      };
-
-      audio.src = src;
-      audio.load();
-      // Immediate play — preserves mobile user-gesture when possible
-      tryPlay();
-      audio.oncanplay = () => {
-        audio.oncanplay = null;
-        tryPlay();
-      };
+  /** Browser voice — always available when server file is missing (e.g. Netlify) */
+  const speakPartnerText = useCallback((text: string, maxMs: number) => {
+    return new Promise<boolean>((resolve) => {
+      const clean = (text || "").trim();
+      if (
+        !clean ||
+        /\[.*archival|\[~30s|film dialogue|public-domain track/i.test(clean)
+      ) {
+        resolve(false);
+        return;
+      }
+      if (typeof window === "undefined" || !window.speechSynthesis) {
+        resolve(false);
+        return;
+      }
+      try {
+        window.speechSynthesis.cancel();
+        void window.speechSynthesis.getVoices();
+        const u = new SpeechSynthesisUtterance(clean);
+        u.lang = "en-US";
+        u.rate = 0.95;
+        u.volume = 1;
+        const voices = window.speechSynthesis.getVoices();
+        const en =
+          voices.find((v) => /^en/i.test(v.lang)) || voices[0];
+        if (en) u.voice = en;
+        let done = false;
+        const finish = (ok: boolean) => {
+          if (done) return;
+          done = true;
+          resolve(ok);
+        };
+        u.onend = () => finish(true);
+        u.onerror = () => finish(false);
+        window.speechSynthesis.speak(u);
+        setTimeout(() => finish(true), maxMs);
+      } catch {
+        resolve(false);
+      }
     });
   }, []);
+
+  /**
+   * Other actor speaks.
+   * 1) Server partner file when present (Railway)
+   * 2) Browser speech when file missing/blocked (Netlify / iOS autoplay)
+   * 3) Visible audio player + tap if autoplay is blocked
+   */
+  const playPartnerLine = useCallback(
+    async (line: ManifestLine) => {
+      if (cancelledRef.current) return;
+      stopPartnerAudio();
+      setPartnerNeedsTap(false);
+      setPartnerPlayerSrc(null);
+      setPhase("partner");
+      setStatusNote("Other actor speaking…");
+
+      const text = (line.text || "").trim();
+      const holdMs = Math.max(
+        2500,
+        Math.min(line.expectedDurationMs || 4000, 32000)
+      );
+
+      const src = line.partnerAudioUrl
+        ? line.partnerAudioUrl.startsWith("http")
+          ? line.partnerAudioUrl
+          : `${window.location.origin}${line.partnerAudioUrl}`
+        : null;
+
+      // Show player immediately when we have a file URL
+      if (src) setPartnerPlayerSrc(src);
+
+      // 1) Try server file
+      if (src) {
+        const played = await new Promise<boolean>((resolve) => {
+          const audio = document.createElement("audio");
+          audio.setAttribute("playsinline", "true");
+          audio.setAttribute("webkit-playsinline", "true");
+          audio.preload = "auto";
+          audio.controls = false;
+          audio.volume = 1;
+          audio.muted = false;
+          // Keep slightly on-screen — iOS often blocks fully hidden audio
+          audio.style.cssText =
+            "position:fixed;left:8px;bottom:8px;width:1px;height:1px;opacity:0.02;z-index:50";
+          document.body.appendChild(audio);
+          partnerAudioRef.current = audio;
+
+          let settled = false;
+          const finish = (ok: boolean) => {
+            if (settled) return;
+            settled = true;
+            audio.onended = null;
+            audio.onerror = null;
+            try {
+              if (!ok) {
+                /* keep UI player for tap */
+              } else {
+                audio.pause();
+                audio.removeAttribute("src");
+                audio.load();
+                audio.remove();
+                if (partnerAudioRef.current === audio)
+                  partnerAudioRef.current = null;
+              }
+            } catch {
+              /* ignore */
+            }
+            resolve(ok);
+          };
+
+          const t = setTimeout(() => finish(false), holdMs + 2000);
+          audio.onended = () => {
+            clearTimeout(t);
+            finish(true);
+          };
+          audio.onerror = () => {
+            clearTimeout(t);
+            finish(false);
+          };
+
+          audio.src = src;
+          audio.load();
+          const p = audio.play();
+          if (p && typeof p.then === "function") {
+            p.then(() => {
+              /* playing — wait for onended or timeout */
+            }).catch(() => {
+              clearTimeout(t);
+              setPartnerNeedsTap(true);
+              finish(false);
+            });
+          }
+        });
+
+        if (played || cancelledRef.current) {
+          setPartnerPlayerSrc(null);
+          setPartnerNeedsTap(false);
+          setStatusNote(null);
+          return;
+        }
+      }
+
+      // 2) Browser speech for real dialogue text (fixes Netlify empty partner files)
+      const spoke = await speakPartnerText(text, holdMs);
+      if (spoke || cancelledRef.current) {
+        setPartnerPlayerSrc(null);
+        setPartnerNeedsTap(false);
+        setStatusNote(null);
+        return;
+      }
+
+      // 3) Wait for visible player tap, or timed beat so scene never freezes
+      if (src && partnerUiAudioRef.current) {
+        setPartnerNeedsTap(true);
+        setStatusNote("Tap ▶ Play partner to hear the other actor");
+        await new Promise<void>((resolve) => {
+          const audio = partnerUiAudioRef.current!;
+          let settled = false;
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            audio.onended = null;
+            resolve();
+          };
+          audio.onended = finish;
+          // Auto-try again
+          void audio.play().then(() => setPartnerNeedsTap(false)).catch(() => undefined);
+          setTimeout(finish, holdMs);
+        });
+      } else {
+        await new Promise((r) => setTimeout(r, Math.min(holdMs, 4000)));
+      }
+
+      setPartnerPlayerSrc(null);
+      setPartnerNeedsTap(false);
+      setStatusNote(null);
+    },
+    [speakPartnerText]
+  );
 
   const finishUserLineRef = useRef<
     (forcedLine?: ManifestLine) => Promise<void>
@@ -943,6 +1038,27 @@ export function PerformanceStudio({
                 </span>
                 {currentLine.text}
               </p>
+              {/* Always-visible partner player — iOS often blocks hidden autoplay */}
+              {(phase === "partner" || partnerPlayerSrc) && partnerPlayerSrc && (
+                <div className="mt-4 space-y-2 rounded-xl border border-white/10 bg-black/40 p-3">
+                  {partnerNeedsTap && (
+                    <p className="text-center text-sm font-medium text-stage-gold">
+                      Tap play ▶ to hear the other actor
+                    </p>
+                  )}
+                  <audio
+                    ref={partnerUiAudioRef}
+                    key={partnerPlayerSrc}
+                    src={partnerPlayerSrc}
+                    controls
+                    playsInline
+                    autoPlay
+                    preload="auto"
+                    className="w-full"
+                    onPlay={() => setPartnerNeedsTap(false)}
+                  />
+                </div>
+              )}
             </div>
           )}
 

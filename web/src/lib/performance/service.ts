@@ -3,7 +3,11 @@ import { id, nowIso } from "../ids";
 import { buildClientManifest } from "../scene/manifest";
 import { assertCanPerform } from "../rights/engine";
 import { getStorage } from "../storage";
-import { mixTimeline, probeDurationMs } from "../media/ffmpeg";
+import {
+  mixTimeline,
+  probeDurationMsSafe,
+  hasFfmpeg,
+} from "../media/ffmpeg";
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -176,7 +180,7 @@ export async function uploadSegment(input: {
   fs.writeFileSync(tmp, input.bytes);
   let durationMs = 0;
   try {
-    durationMs = probeDurationMs(tmp);
+    durationMs = probeDurationMsSafe(tmp);
   } catch {
     durationMs = 0;
   }
@@ -381,38 +385,54 @@ async function runMix(
     cursor += line.pauseAfterMs || 300;
   }
 
-  const outAssetId = id("mix");
-  const outKey = store.derivativeKey(["mixes", takeId, `${outAssetId}.m4a`]);
-  const tmpOut = path.join(os.tmpdir(), `${outAssetId}.m4a`);
+  if (tracks.length === 0) {
+    throw new Error(
+      "No audio to mix — record at least one line (allow microphone) before finishing."
+    );
+  }
 
-  await mixTimeline(tracks, tmpOut, cursor + 500);
-  const stored = await store.putFile(outKey, tmpOut);
+  const outAssetId = id("mix");
+  // Use wav when ffmpeg is missing (Netlify); m4a when available (Railway)
+  const ext = hasFfmpeg() ? "m4a" : "wav";
+  const mime = hasFfmpeg() ? "audio/mp4" : "audio/wav";
+  const outKey = store.derivativeKey(["mixes", takeId, `${outAssetId}.${ext}`]);
+  const tmpOut = path.join(os.tmpdir(), `${outAssetId}.${ext}`);
+
+  const mixResult = await mixTimeline(tracks, tmpOut, cursor + 500);
+  const finalPath = fs.existsSync(tmpOut)
+    ? tmpOut
+    : tmpOut.replace(/\.[^.]+$/, ".wav");
+  if (!fs.existsSync(finalPath)) {
+    throw new Error("Mix produced no output file");
+  }
+  const stored = await store.putFile(outKey, finalPath, { overwrite: true });
   try {
-    fs.unlinkSync(tmpOut);
+    fs.unlinkSync(finalPath);
   } catch {
     /* ignore */
   }
 
   const mixLocal = await store.materialize(stored.objectKey);
-  const durationMs = probeDurationMs(mixLocal);
+  const durationMs = probeDurationMsSafe(mixLocal);
   const provider = process.env.S3_BUCKET || process.env.R2_BUCKET ? "s3" : "local";
   run(
     `INSERT INTO media_assets
       (id, owner_type, owner_id, asset_type, storage_provider, bucket, object_key,
        mime_type, size_bytes, checksum_sha256, duration_ms, status, metadata_json, created_at)
-     VALUES (?, 'take', ?, 'final_mix', ?, 'private', ?, 'audio/mp4', ?, ?, ?, 'ready', ?, ?)`,
+     VALUES (?, 'take', ?, 'final_mix', ?, 'private', ?, ?, ?, ?, ?, 'ready', ?, ?)`,
     [
       outAssetId,
       takeId,
       provider,
       stored.objectKey,
+      mixResult.mimeType || mime,
       stored.sizeBytes,
       stored.checksumSha256,
       durationMs,
       JSON.stringify({
         scene_take_id: takeId,
         track_count: tracks.length,
-        render_engine: "ffmpeg",
+        render_engine: mixResult.engine,
         total_timeline_ms: cursor,
       }),
       nowIso(),

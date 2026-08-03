@@ -48,6 +48,17 @@ export default async function HomePage() {
           unaltered public-domain film tracks (may sound rough / archival). We
           do not AI-clone modern movie stars.
         </p>
+        <p className="max-w-xl text-xs leading-relaxed text-stage-gold/80">
+          Best experience (full partner audio files):{" "}
+          <a
+            className="underline underline-offset-2"
+            href="https://holly-would-web-production.up.railway.app"
+          >
+            holly-would-web-production.up.railway.app
+          </a>
+          . Netlify may fall back to device speech if media files are not on that
+          instance.
+        </p>
       </section>
 
       <SceneCatalogue scenes={scenes} />
