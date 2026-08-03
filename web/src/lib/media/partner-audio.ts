@@ -23,11 +23,12 @@ export type PartnerLineResult = {
 };
 
 /**
- * Partner line audio chain (never hum if we can help it):
- * 1. ElevenLabs (if key + quota)
- * 2. OpenAI TTS (OPENAI_API_KEY — already on Railway)
- * 3. espeak-ng (free offline speech in Docker)
- * 4. offline seed only if ALLOW_SINE_PARTNER=1
+ * Partner line audio chain (actor-like first, robot last):
+ * 1. ElevenLabs (paid / quota)
+ * 2. OpenAI TTS (paid / quota)
+ * 3. Microsoft Edge neural TTS (free, natural — NOT espeak)
+ * 4. espeak-ng only if ALLOW_ESPEAK_PARTNER=1 (sounds robotic — last resort)
+ * 5. sine only if ALLOW_SINE_PARTNER=1
  */
 export async function generatePartnerLineAudio(input: {
   text: string;
@@ -58,7 +59,22 @@ export async function generatePartnerLineAudio(input: {
     }
   }
 
-  if (hasEspeak()) {
+  // Free natural voices (Christopher / Ava neural) — default production path
+  if (hasEdgeTts()) {
+    try {
+      return await generateViaEdgeTts(input);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      errors.push(`edge-tts: ${msg.slice(0, 120)}`);
+      console.warn(`Edge TTS line ${input.sequence} failed:`, msg.slice(0, 160));
+    }
+  }
+
+  // Robot voice (espeak) — opt-in only; users hear this as "Stephen Hawking"
+  const allowEspeak =
+    process.env.ALLOW_ESPEAK_PARTNER === "1" ||
+    process.env.ALLOW_ESPEAK_PARTNER === "true";
+  if (allowEspeak && hasEspeak()) {
     try {
       return await generateViaEspeak(input);
     } catch (e) {
@@ -68,13 +84,12 @@ export async function generatePartnerLineAudio(input: {
     }
   }
 
-  // Explicit opt-in only — default is NO 220Hz hum
   if (process.env.ALLOW_SINE_PARTNER === "1") {
     return generateViaOfflineSeed(input);
   }
 
   throw new Error(
-    `No partner speech available for line ${input.sequence}. Tried: ${errors.join(" | ") || "no providers"}. Set OPENAI_API_KEY or install espeak-ng.`
+    `No natural partner speech for line ${input.sequence}. Tried: ${errors.join(" | ") || "no providers"}. Install edge-tts (python3 -m edge_tts) or set OPENAI/ElevenLabs keys.`
   );
 }
 
@@ -189,6 +204,80 @@ async function generateViaOpenAi(input: {
   return { ...result, generationId, durationMs };
 }
 
+/**
+ * Free Microsoft Edge neural TTS — sounds like a natural actor, not espeak.
+ * Requires: python3 + `pip install edge-tts` (in Docker image).
+ */
+async function generateViaEdgeTts(input: {
+  text: string;
+  sceneId: string;
+  sequence: number;
+  ownerDialogueEventId: string;
+}): Promise<PartnerLineResult> {
+  const voice =
+    process.env.EDGE_TTS_VOICE?.trim() || "en-US-ChristopherNeural";
+  const mp3 = path.join(os.tmpdir(), `${id("edge")}.mp3`);
+  const wav = path.join(os.tmpdir(), `${id("edge")}.wav`);
+
+  execFileSync(
+    "python3",
+    [
+      "-m",
+      "edge_tts",
+      "--voice",
+      voice,
+      "--text",
+      input.text,
+      "--write-media",
+      mp3,
+    ],
+    { stdio: "pipe", timeout: 90000 }
+  );
+
+  if (!fs.existsSync(mp3) || fs.statSync(mp3).size < 200) {
+    throw new Error("edge-tts produced empty audio");
+  }
+
+  if (!hasFfmpeg()) {
+    throw new Error("ffmpeg required to normalize edge-tts mp3 → wav");
+  }
+
+  await runFfmpeg([
+    "-y",
+    "-i",
+    mp3,
+    "-ar",
+    "48000",
+    "-ac",
+    "1",
+    "-c:a",
+    "pcm_s16le",
+    wav,
+  ]);
+  try {
+    fs.unlinkSync(mp3);
+  } catch {
+    /* ignore */
+  }
+
+  return storePartnerWav(input, wav, {
+    provider: "edge-tts",
+    model: "edge-neural",
+    voice,
+    text: input.text,
+  });
+}
+
+function hasEdgeTts(): boolean {
+  if (process.env.DISABLE_EDGE_TTS === "1") return false;
+  try {
+    execFileSync("python3", ["-m", "edge_tts", "--help"], { stdio: "pipe" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function generateViaEspeak(input: {
   text: string;
   sceneId: string;
@@ -198,7 +287,7 @@ async function generateViaEspeak(input: {
   const bin = hasEspeakBin("espeak-ng") ? "espeak-ng" : "espeak";
   const tmpWav = path.join(os.tmpdir(), `${id("esp")}.wav`);
   const raw = path.join(os.tmpdir(), `${id("esp")}.raw.wav`);
-  execFileSync(bin, ["-v", "en", "-s", "140", "-w", raw, input.text], {
+  execFileSync(bin, ["-v", "en-us+m3", "-s", "135", "-p", "45", "-w", raw, input.text], {
     stdio: "pipe",
   });
   if (hasFfmpeg()) {

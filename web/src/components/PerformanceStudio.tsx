@@ -297,7 +297,10 @@ export function PerformanceStudio({
 
   const currentLine = manifest?.lines[lineIndex] ?? null;
 
-  /** Browser voice — always available when server file is missing (e.g. Netlify) */
+  /**
+   * Browser speech only as last resort when no server partner file.
+   * Prefer natural/enhanced voices — never the robotic default if we can avoid it.
+   */
   const speakPartnerText = useCallback((text: string, maxMs: number) => {
     return new Promise<boolean>((resolve) => {
       const clean = (text || "").trim();
@@ -317,11 +320,20 @@ export function PerformanceStudio({
         void window.speechSynthesis.getVoices();
         const u = new SpeechSynthesisUtterance(clean);
         u.lang = "en-US";
-        u.rate = 0.95;
+        u.rate = 0.92;
+        u.pitch = 1;
         u.volume = 1;
         const voices = window.speechSynthesis.getVoices();
         const en =
-          voices.find((v) => /^en/i.test(v.lang)) || voices[0];
+          voices.find(
+            (v) =>
+              /^en/i.test(v.lang) &&
+              /samantha|alex|daniel|karen|moira|tessa|fiona|rishi|enhanced|premium|natural|neural|google|microsoft/i.test(
+                v.name
+              )
+          ) ||
+          voices.find((v) => /^en[-_]?US/i.test(v.lang)) ||
+          voices.find((v) => /^en/i.test(v.lang));
         if (en) u.voice = en;
         let done = false;
         const finish = (ok: boolean) => {

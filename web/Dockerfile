@@ -2,7 +2,8 @@
 FROM node:22-bookworm-slim
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends ffmpeg ca-certificates espeak-ng \
+  && apt-get install -y --no-install-recommends ffmpeg ca-certificates espeak-ng python3 python3-pip \
+  && pip3 install --break-system-packages --no-cache-dir edge-tts \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
