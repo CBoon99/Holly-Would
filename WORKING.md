@@ -36,6 +36,14 @@ npm run dev --prefix web
 
 ## Changelog
 
+### 2026-08-03 (Railway primary production locked)
+
+- **Primary URL:** https://holly-would-web-production.up.railway.app
+- Service `holly-would-web` · volume `/data` · ffmpeg + espeak in Docker · Postgres service online
+- Env: `DATA_DIR=/data`, `SEED_MIN_SCENES=25`, `SKIP_PARTNER_AUDIO=0`
+- Verified: home 200, ~53 published catalogue scenes (26 PD), partner WAV present, ffmpeg on PATH
+- Netlify remains a secondary mirror only (ephemeral `/tmp`, no ffmpeg — pure-JS mix fallback)
+
 ### 2026-08-03 (iPhone start + PD classics pack)
 
 - **iPhone Start take fix:** never silent-return; never hang forever on mic; force `goToIndex`; visible “Starting…” state; mic timeout 8s; need_mic button if recording needs a fresh tap.
