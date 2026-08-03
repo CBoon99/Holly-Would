@@ -1,0 +1,2255 @@
+{
+  "note": "25 public-domain classic films \u2014 unaltered archival partner audio (~30s). Not licensed modern studio scripts.",
+  "scenes": [
+    {
+      "slug": "pd-night-living-dead",
+      "title": "Night of the Living Dead",
+      "film_title": "Night of the Living Dead (1968) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Night of the Living Dead (1968) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1968 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "horror",
+      "difficulty": "beginner",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "horror"
+      ],
+      "duration_ms": 90000,
+      "premise": "Farmhouse radio \u2014 the dead are already inside.",
+      "situation_before": "You step into a moment from Night of the Living Dead. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Night of the Living Dead]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_1.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Night of the Living Dead]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_1.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-charade-paris",
+      "title": "Charade",
+      "film_title": "Charade (1963) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Charade (1963) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1963 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "thriller",
+      "difficulty": "intermediate",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "thriller"
+      ],
+      "duration_ms": 90000,
+      "premise": "Paris rooftop \u2014 three names, one envelope.",
+      "situation_before": "You step into a moment from Charade. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Charade]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_2.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Charade]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_2.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-his-girl-friday",
+      "title": "His Girl Friday",
+      "film_title": "His Girl Friday (1940) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "His Girl Friday (1940) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1940 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "screwball",
+      "difficulty": "advanced",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "screwball"
+      ],
+      "duration_ms": 90000,
+      "premise": "Newsroom \u2014 divorce papers and a scoop.",
+      "situation_before": "You step into a moment from His Girl Friday. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 His Girl Friday]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_3.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 His Girl Friday]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_3.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-detour-highway",
+      "title": "Detour",
+      "film_title": "Detour (1945) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Detour (1945) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1945 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "noir",
+      "difficulty": "beginner",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "noir"
+      ],
+      "duration_ms": 90000,
+      "premise": "Highway diner \u2014 a ride that ruins a life.",
+      "situation_before": "You step into a moment from Detour. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Detour]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_4.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Detour]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_4.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-little-shop-1960",
+      "title": "The Little Shop of Horrors",
+      "film_title": "The Little Shop of Horrors (1960) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "The Little Shop of Horrors (1960) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1960 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "horror-comedy",
+      "difficulty": "intermediate",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "horror-comedy"
+      ],
+      "duration_ms": 90000,
+      "premise": "Florist back room \u2014 the plant is hungry.",
+      "situation_before": "You step into a moment from The Little Shop of Horrors. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Little Shop of Horrors]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_5.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Little Shop of Horrors]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_5.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-plan-nine",
+      "title": "Plan 9 from Outer Space",
+      "film_title": "Plan 9 from Outer Space (1959) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Plan 9 from Outer Space (1959) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1959 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "sci-fi",
+      "difficulty": "advanced",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "sci-fi"
+      ],
+      "duration_ms": 90000,
+      "premise": "Cemetery night \u2014 graves that won't stay shut.",
+      "situation_before": "You step into a moment from Plan 9 from Outer Space. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Plan 9 from Outer Space]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_6.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Plan 9 from Outer Space]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_6.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-carnival-souls",
+      "title": "Carnival of Souls",
+      "film_title": "Carnival of Souls (1962) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Carnival of Souls (1962) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1962 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "horror",
+      "difficulty": "beginner",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "horror"
+      ],
+      "duration_ms": 90000,
+      "premise": "Empty pavilion \u2014 the organ won't stop.",
+      "situation_before": "You step into a moment from Carnival of Souls. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Carnival of Souls]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_7.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Carnival of Souls]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_7.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-last-man-earth",
+      "title": "The Last Man on Earth",
+      "film_title": "The Last Man on Earth (1964) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "The Last Man on Earth (1964) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1964 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "horror",
+      "difficulty": "intermediate",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "horror"
+      ],
+      "duration_ms": 90000,
+      "premise": "Boarded house \u2014 night is when they come.",
+      "situation_before": "You step into a moment from The Last Man on Earth. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Last Man on Earth]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_8.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Last Man on Earth]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_8.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-white-zombie",
+      "title": "White Zombie",
+      "film_title": "White Zombie (1932) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "White Zombie (1932) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1932 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "horror",
+      "difficulty": "advanced",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "horror"
+      ],
+      "duration_ms": 90000,
+      "premise": "Haitian mill \u2014 eyes that don't blink.",
+      "situation_before": "You step into a moment from White Zombie. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 White Zombie]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_1.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 White Zombie]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_1.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-reefer-madness",
+      "title": "Reefer Madness",
+      "film_title": "Reefer Madness (1936) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Reefer Madness (1936) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1936 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "drama",
+      "difficulty": "beginner",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "drama"
+      ],
+      "duration_ms": 90000,
+      "premise": "Living room lecture \u2014 panic as performance.",
+      "situation_before": "You step into a moment from Reefer Madness. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Reefer Madness]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_2.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Reefer Madness]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_2.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-the-general",
+      "title": "The General",
+      "film_title": "The General (1926) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "The General (1926) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1926 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "silent-comedy",
+      "difficulty": "intermediate",
+      "tone": "funny",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "silent-comedy"
+      ],
+      "duration_ms": 90000,
+      "premise": "Locomotive cab \u2014 one wrong switch.",
+      "situation_before": "You step into a moment from The General. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The General]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_3.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The General]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_3.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-gold-rush",
+      "title": "The Gold Rush",
+      "film_title": "The Gold Rush (1925) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "The Gold Rush (1925) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1925 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "silent-comedy",
+      "difficulty": "advanced",
+      "tone": "funny",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "silent-comedy"
+      ],
+      "duration_ms": 90000,
+      "premise": "Cabin table \u2014 hunger makes manners.",
+      "situation_before": "You step into a moment from The Gold Rush. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Gold Rush]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_4.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Gold Rush]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_4.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-nosferatu-door",
+      "title": "Nosferatu",
+      "film_title": "Nosferatu (1922) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Nosferatu (1922) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1922 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "silent-horror",
+      "difficulty": "beginner",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "silent-horror"
+      ],
+      "duration_ms": 90000,
+      "premise": "Castle stair \u2014 the count is waiting.",
+      "situation_before": "You step into a moment from Nosferatu. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Nosferatu]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_5.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Nosferatu]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_5.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-metropolis-shift",
+      "title": "Metropolis",
+      "film_title": "Metropolis (1927) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Metropolis (1927) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1927 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "silent-scifi",
+      "difficulty": "intermediate",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "silent-scifi"
+      ],
+      "duration_ms": 90000,
+      "premise": "Machine floor \u2014 the shift never ends.",
+      "situation_before": "You step into a moment from Metropolis. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Metropolis]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_6.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Metropolis]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_6.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-phantom-opera",
+      "title": "The Phantom of the Opera",
+      "film_title": "The Phantom of the Opera (1925) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "The Phantom of the Opera (1925) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1925 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "silent-horror",
+      "difficulty": "advanced",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "silent-horror"
+      ],
+      "duration_ms": 90000,
+      "premise": "Beneath the Opera \u2014 the mask slips.",
+      "situation_before": "You step into a moment from The Phantom of the Opera. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Phantom of the Opera]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_7.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Phantom of the Opera]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_7.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-sherlock-jr",
+      "title": "Sherlock Jr.",
+      "film_title": "Sherlock Jr. (1924) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Sherlock Jr. (1924) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1924 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "silent-comedy",
+      "difficulty": "beginner",
+      "tone": "funny",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "silent-comedy"
+      ],
+      "duration_ms": 90000,
+      "premise": "Projection booth \u2014 the film becomes real.",
+      "situation_before": "You step into a moment from Sherlock Jr.. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Sherlock Jr.]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_8.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Sherlock Jr.]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_8.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-safety-last",
+      "title": "Safety Last!",
+      "film_title": "Safety Last! (1923) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Safety Last! (1923) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1923 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "silent-comedy",
+      "difficulty": "intermediate",
+      "tone": "funny",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "silent-comedy"
+      ],
+      "duration_ms": 90000,
+      "premise": "Department store clock \u2014 don't look down.",
+      "situation_before": "You step into a moment from Safety Last!. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Safety Last!]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_1.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Safety Last!]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_1.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-steamboat-bill",
+      "title": "Steamboat Bill, Jr.",
+      "film_title": "Steamboat Bill, Jr. (1928) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Steamboat Bill, Jr. (1928) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1928 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "silent-comedy",
+      "difficulty": "advanced",
+      "tone": "funny",
+      "rudeness": "clean",
+      "funny": true,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "silent-comedy"
+      ],
+      "duration_ms": 90000,
+      "premise": "Riverfront wind \u2014 the house falls.",
+      "situation_before": "You step into a moment from Steamboat Bill, Jr.. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Steamboat Bill, Jr.]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_2.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Steamboat Bill, Jr.]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_2.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-angel-badman",
+      "title": "Angel and the Badman",
+      "film_title": "Angel and the Badman (1947) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Angel and the Badman (1947) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1947 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "western",
+      "difficulty": "beginner",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "western"
+      ],
+      "duration_ms": 90000,
+      "premise": "Quaker porch \u2014 a gunman and a girl.",
+      "situation_before": "You step into a moment from Angel and the Badman. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Angel and the Badman]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_3.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Angel and the Badman]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_3.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-gulliver-1939",
+      "title": "Gulliver's Travels",
+      "film_title": "Gulliver's Travels (1939) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Gulliver's Travels (1939) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1939 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "animation",
+      "difficulty": "intermediate",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "animation"
+      ],
+      "duration_ms": 90000,
+      "premise": "Lilliput shore \u2014 a giant washes up.",
+      "situation_before": "You step into a moment from Gulliver's Travels. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Gulliver's Travels]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_4.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Gulliver's Travels]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_4.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-man-from-utah",
+      "title": "The Man from Utah",
+      "film_title": "The Man from Utah (1934) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "The Man from Utah (1934) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1934 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "western",
+      "difficulty": "advanced",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "western"
+      ],
+      "duration_ms": 90000,
+      "premise": "Rodeo town \u2014 a stranger takes the ride.",
+      "situation_before": "You step into a moment from The Man from Utah. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Man from Utah]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_5.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Man from Utah]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_5.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-santa-martians",
+      "title": "Santa Claus Conquers the Martians",
+      "film_title": "Santa Claus Conquers the Martians (1964) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Santa Claus Conquers the Martians (1964) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1964 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "family",
+      "difficulty": "beginner",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "family"
+      ],
+      "duration_ms": 90000,
+      "premise": "Polar workshop \u2014 Mars wants Christmas.",
+      "situation_before": "You step into a moment from Santa Claus Conquers the Martians. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Santa Claus Conquers the Martians]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_6.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Santa Claus Conquers the Martians]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_6.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-brain-wont-die",
+      "title": "The Brain That Wouldn't Die",
+      "film_title": "The Brain That Wouldn't Die (1962) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "The Brain That Wouldn't Die (1962) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1962 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "horror",
+      "difficulty": "intermediate",
+      "tone": "dramatic",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "horror"
+      ],
+      "duration_ms": 90000,
+      "premise": "Lab table \u2014 love becomes science.",
+      "situation_before": "You step into a moment from The Brain That Wouldn't Die. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Brain That Wouldn't Die]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_7.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 The Brain That Wouldn't Die]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_7.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-teenagers-outer",
+      "title": "Teenagers from Outer Space",
+      "film_title": "Teenagers from Outer Space (1959) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "Teenagers from Outer Space (1959) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1959 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "sci-fi",
+      "difficulty": "advanced",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "sci-fi"
+      ],
+      "duration_ms": 90000,
+      "premise": "Suburban night \u2014 something landed.",
+      "situation_before": "You step into a moment from Teenagers from Outer Space. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Teenagers from Outer Space]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_8.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 Teenagers from Outer Space]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_8.wav"
+        }
+      ]
+    },
+    {
+      "slug": "pd-white-pongo",
+      "title": "White Pongo",
+      "film_title": "White Pongo (1945) \u2014 public domain archival practice",
+      "audio_source": "public_domain_film",
+      "voice_disclaimer": "Partner audio is UNALTERED archival film soundtrack (public-domain print). It may sound rough, degraded, or \u201cterminal.\u201d Not AI-cloned modern stars. Current pack uses real PD film audio excerpts for practice; titles are classic public-domain works. Practice only.",
+      "source_attribution": "White Pongo (1945) \u2014 public domain archival practice. Partner tracks: unaltered PD archival audio excerpts (~30s). See pd-audio/SOURCE.txt. Not a modern studio release.",
+      "hollywood_vibe": "Public-domain classic \u00b7 1945 \u00b7 unaltered film track \u00b7 ~30s partner beats",
+      "genre": "adventure",
+      "difficulty": "beginner",
+      "tone": "tense",
+      "rudeness": "clean",
+      "funny": false,
+      "style_tags": [
+        "public-domain",
+        "archival",
+        "classic-film",
+        "30s-clip",
+        "adventure"
+      ],
+      "duration_ms": 90000,
+      "premise": "Jungle radio \u2014 static and a bad report.",
+      "situation_before": "You step into a moment from White Pongo. Partner audio is the archival film track.",
+      "relationship": "You and the film voice \u2014 act as if they are across from you.",
+      "director_note": "Treat the archival partner track as a live actor. Match energy. Do not mock the recording quality.",
+      "characters": [
+        {
+          "key": "you",
+          "name": "You",
+          "playable": true,
+          "style_tags": [
+            "lead",
+            "playable"
+          ],
+          "description": "Your practice role opposite the film.",
+          "objective": "Stay in the scene with the archival partner.",
+          "obstacles": "The track does not wait for you.",
+          "emotional_start": "present",
+          "age_range": "20-50",
+          "accent": "american"
+        },
+        {
+          "key": "film",
+          "name": "Film track",
+          "playable": true,
+          "style_tags": [
+            "archival",
+            "partner-track"
+          ],
+          "description": "Unaltered public-domain film audio as partner.",
+          "objective": "Deliver the archival beat.",
+          "obstacles": "Age of the print.",
+          "emotional_start": "as recorded",
+          "age_range": "any",
+          "accent": "period"
+        }
+      ],
+      "dialogue": [
+        {
+          "seq": 1,
+          "character": "you",
+          "text": "I'm here. Say what you need to say.",
+          "emotion": "steady",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 2,
+          "character": "film",
+          "text": "[~30s archival track \u2014 White Pongo]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_1.wav"
+        },
+        {
+          "seq": 3,
+          "character": "you",
+          "text": "I heard you. Don't make me ask twice.",
+          "emotion": "pressing",
+          "expected_pause_after_ms": 400
+        },
+        {
+          "seq": 4,
+          "character": "film",
+          "text": "[~30s archival track \u2014 White Pongo]",
+          "emotion": "archival",
+          "expected_pause_after_ms": 600,
+          "partner_audio_file": "pd-audio/clip_30s_1.wav"
+        }
+      ]
+    }
+  ]
+}

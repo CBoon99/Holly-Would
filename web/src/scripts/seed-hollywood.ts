@@ -243,9 +243,13 @@ async function seedOne(scene: SceneSeed, forceOffline: boolean) {
     // Prefer unaltered PD film clip when provided (no AI clone, no TTS rewrite)
     if (line.partner_audio_file) {
       try {
-        const abs = path.join(seedRootForFiles(), line.partner_audio_file);
+        const root = seedRootForFiles();
+        let abs = path.join(root, line.partner_audio_file);
         if (!fs.existsSync(abs)) {
-          throw new Error(`missing ${line.partner_audio_file}`);
+          // Fall back to short PD clips if a 30s file is missing
+          const fallback = path.join(root, "pd-audio", "pd_partner_1.wav");
+          if (fs.existsSync(fallback)) abs = fallback;
+          else throw new Error(`missing ${line.partner_audio_file}`);
         }
         const durationMs = probeDurationMs(abs);
         const assetIdStable = stableId("asset", deId, "partner");
@@ -434,16 +438,23 @@ export async function seedHollywoodCatalogue(opts?: {
     pushScenes([pd], "scene-pd-white-pongo.json");
   }
 
-  // 3) Factory batches (batch-001, …) — opt-in only.
-  // Default product seed is handcrafted quality (≥25 well-done originals).
-  // Set SEED_FACTORY=1 to add bulk scale scenes toward thousands.
+  // 2c) Always load PD classics batch (25 known public-domain titles, ~30s clips)
+  const batchDir = path.join(seedRoot, "batches");
+  const pdClassics = path.join(batchDir, "batch-pd-classics-25.json");
+  if (fs.existsSync(pdClassics)) {
+    const batch = JSON.parse(fs.readFileSync(pdClassics, "utf8")) as {
+      scenes?: SceneSeed[];
+    };
+    pushScenes(batch.scenes || [], "batches/batch-pd-classics-25.json");
+  }
+
+  // 3) Thin factory batches — opt-in only (SEED_FACTORY=1)
   const wantFactory =
     process.env.SEED_FACTORY === "1" || process.env.SEED_FACTORY === "true";
-  const batchDir = path.join(seedRoot, "batches");
   if (wantFactory && fs.existsSync(batchDir)) {
     const files = fs
       .readdirSync(batchDir)
-      .filter((f) => f.endsWith(".json"))
+      .filter((f) => f.endsWith(".json") && !f.includes("pd-classics"))
       .sort();
     for (const f of files) {
       const batch = JSON.parse(
@@ -453,7 +464,7 @@ export async function seedHollywoodCatalogue(opts?: {
     }
   } else if (!wantFactory) {
     console.log(
-      "  (factory batches skipped — set SEED_FACTORY=1 for bulk scale)"
+      "  (thin factory batches skipped — set SEED_FACTORY=1 for bulk scale)"
     );
   }
 

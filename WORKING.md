@@ -36,6 +36,14 @@ npm run dev --prefix web
 
 ## Changelog
 
+### 2026-08-03 (iPhone start + PD classics pack)
+
+- **iPhone Start take fix:** never silent-return; never hang forever on mic; force `goToIndex`; visible “Starting…” state; mic timeout 8s; need_mic button if recording needs a fresh tap.
+- **25 public-domain classics** batch (`batches/batch-pd-classics-25.json`) — titles people know (Night of the Living Dead, Charade, His Girl Friday, Detour, Plan 9, etc.).
+- **~30s partner clips** — unaltered archival PD film audio (`pd-audio/clip_30s_*.wav`) with terminal-quality disclaimer (not AI star clones).
+- **Truth note:** current 30s rips are from White Pongo (1945) PD print as real film-voice tracks for the pack; per-title reels can replace them film-by-film later without changing the product path.
+- Live: Railway primary. Force bootstrap after deploy to reseed catalogue.
+
 ### 2026-07-30 (Railway LIVE — works first time)
 
 - Dockerfile + ffmpeg + volume `/data` + Postgres service online.

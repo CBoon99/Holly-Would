@@ -110,6 +110,8 @@ export function PerformanceStudio({
   const [recording, setRecording] = useState(false);
   const [mode, setMode] = useState<Mode>("line_by_line");
   const [feedback, setFeedback] = useState<TakeFeedback | null>(null);
+  const [starting, setStarting] = useState(false);
+  const [statusNote, setStatusNote] = useState<string | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -191,13 +193,21 @@ export function PerformanceStudio({
       );
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          channelCount: 1,
-        },
-      });
+      // Simple constraints first — aggressive options break some iPhones
+      const stream = await Promise.race([
+        navigator.mediaDevices.getUserMedia({ audio: true }),
+        new Promise<MediaStream>((_, reject) =>
+          setTimeout(
+            () =>
+              reject(
+                new Error(
+                  "Microphone request timed out. Tap Allow if prompted, or enable mic in Settings."
+                )
+              ),
+            8000
+          )
+        ),
+      ]);
       streamRef.current = stream;
       startMeter(stream);
       return stream;
@@ -466,41 +476,56 @@ export function PerformanceStudio({
    * Run the scene from `index` forward through any partner lines,
    * then stop on the next user line (or idle if done).
    * Non-recursive + single-flight lock = no partner glitch loop.
+   * `force` resets the lock so Start take always works on iPhone.
    */
   const goToIndex = useCallback(
-    async (startIndex: number) => {
-      if (cancelledRef.current) return;
-      if (advancingRef.current) return;
+    async (startIndex: number, force = false) => {
+      // Start take (force) must recover from Strict Mode / stale cancelled flags
+      if (force) cancelledRef.current = false;
+      else if (cancelledRef.current) return;
+      if (advancingRef.current && !force) return;
       advancingRef.current = true;
 
       try {
         const m = manifestRef.current;
-        if (!m) return;
+        if (!m || !m.lines?.length) {
+          setError("Scene script not loaded yet. Wait a second and tap Start again.");
+          setPhase("error");
+          return;
+        }
 
         let index = startIndex;
         while (index < m.lines.length) {
-          if (cancelledRef.current) return;
+          if (cancelledRef.current) {
+            // User navigated away mid-scene
+            return;
+          }
 
           lineIndexRef.current = index;
           setLineIndex(index);
           const line = m.lines[index];
+          if (!line) break;
 
           if (line.isUser) {
-            // Hand control to the user — exit loop until they finish the line
             await beginUserLine(line);
             return;
           }
 
+          setStatusNote(`Partner line ${index + 1} of ${m.lines.length}`);
           await playPartnerLine(line);
           index += 1;
         }
 
-        // Past last line
         lineIndexRef.current = m.lines.length;
         setLineIndex(m.lines.length);
         setPhase("idle");
+        setStatusNote(null);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Could not run scene");
+        setPhase("error");
       } finally {
         advancingRef.current = false;
+        setStarting(false);
       }
     },
     [beginUserLine, playPartnerLine]
@@ -532,14 +557,20 @@ export function PerformanceStudio({
         let blob: Blob;
         if (mr && mr.state !== "inactive") {
           blob = await new Promise<Blob>((resolve) => {
-            mr.onstop = () => {
+            const done = () =>
               resolve(
                 new Blob(chunksRef.current, {
                   type: mr.mimeType || "audio/webm",
                 })
               );
-            };
-            mr.stop();
+            mr.onstop = done;
+            try {
+              mr.stop();
+            } catch {
+              done();
+            }
+            // iOS can fail to fire onstop — never hang forever
+            setTimeout(done, 2500);
           });
         } else {
           blob = new Blob(chunksRef.current, { type: "audio/webm" });
@@ -578,8 +609,8 @@ export function PerformanceStudio({
         }
 
         setUploaded((u) => ({ ...u, [line.dialogueEventId]: true }));
-        // Continue from the *next* line (partners auto-play until next user line)
-        await goToIndex(idx + 1);
+        // Continue from the *next* line (force so lock cannot silently freeze)
+        await goToIndex(idx + 1, true);
       } finally {
         uploadingRef.current = false;
       }
@@ -590,38 +621,92 @@ export function PerformanceStudio({
   finishUserLineRef.current = finishUserLine;
 
   const startScene = async () => {
-    if (!manifestRef.current) return;
+    // iPhone: never silent-return; always change visible state
+    if (starting) return;
+    setStarting(true);
     setError(null);
-    stopPartnerAudio();
-    setUploaded({});
-    setMixUrl(null);
-    setFeedback(null);
-    lineIndexRef.current = 0;
-    setLineIndex(0);
-    advancingRef.current = false;
+    setStatusNote("Starting scene…");
 
-    // Same tap: unlock audio + request mic (mobile needs a real gesture)
-    try {
-      const unlock = document.createElement("audio");
-      unlock.setAttribute("playsinline", "true");
-      unlock.src =
-        "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
-      unlock.volume = 0.01;
-      await unlock.play().catch(() => undefined);
-      unlock.pause();
-    } catch {
-      /* ignore */
-    }
-    try {
-      await ensureMic();
-    } catch {
-      // Continue without mic — we'll ask again with a button before you record
-      streamRef.current = null;
-    }
+    // Watchdog — if anything hangs, unlock the button
+    const watchdog = setTimeout(() => {
+      setStarting(false);
+      setStatusNote(null);
+    }, 15000);
 
-    // Start dialogue immediately (partner lines then your lines)
-    setPhase("partner");
-    await goToIndex(0);
+    try {
+      if (!manifestRef.current) {
+        setError(
+          "Still loading the script. Wait a moment, then tap Start take again."
+        );
+        setPhase("error");
+        return;
+      }
+
+      stopPartnerAudio();
+      setUploaded({});
+      setMixUrl(null);
+      setFeedback(null);
+      lineIndexRef.current = 0;
+      setLineIndex(0);
+      advancingRef.current = false;
+      cancelledRef.current = false;
+
+      // Leave prep UI immediately so the button never looks dead
+      setPhase("partner");
+      setStatusNote("Playing dialogue…");
+
+      // Unlock autoplay — NEVER hang (iOS can leave play() unsettled)
+      try {
+        const unlock = document.createElement("audio");
+        unlock.setAttribute("playsinline", "true");
+        unlock.setAttribute("webkit-playsinline", "true");
+        unlock.src =
+          "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+        unlock.volume = 0.01;
+        await Promise.race([
+          unlock.play().catch(() => undefined),
+          new Promise((r) => setTimeout(r, 400)),
+        ]);
+        try {
+          unlock.pause();
+        } catch {
+          /* ignore */
+        }
+      } catch {
+        /* ignore */
+      }
+
+      // Try to resume AudioContext under the user gesture (helps iOS)
+      try {
+        const AC =
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext?: typeof AudioContext })
+            .webkitAudioContext;
+        if (AC) {
+          const ctx = new AC();
+          await Promise.race([
+            ctx.resume().catch(() => undefined),
+            new Promise((r) => setTimeout(r, 300)),
+          ]);
+          try {
+            await ctx.close();
+          } catch {
+            /* ignore */
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+
+      await goToIndex(0, true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not start dialogue");
+      setPhase("error");
+    } finally {
+      clearTimeout(watchdog);
+      setStarting(false);
+      setStatusNote(null);
+    }
   };
 
   const finishMix = async () => {
@@ -775,11 +860,24 @@ export function PerformanceStudio({
             </ol>
           </div>
           <p className="text-center text-xs text-stage-mist">
-            Tap Start and allow the microphone when asked — then the scene
-            runs. Partner speaks automatically.
+            Tap Start take — dialogue begins immediately. Microphone is only
+            needed when it is your line.
           </p>
-          <button className="btn-primary w-full py-3.5 text-base" onClick={() => void startScene()}>
-            Start take
+          {statusNote && (
+            <p className="text-center text-sm text-stage-gold">{statusNote}</p>
+          )}
+          <button
+            type="button"
+            className="btn-primary w-full select-none py-3.5 text-base"
+            disabled={starting}
+            style={{ WebkitTapHighlightColor: "transparent", touchAction: "manipulation" }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              void startScene();
+            }}
+          >
+            {starting ? "Starting…" : "Start take"}
           </button>
         </div>
       )}
@@ -798,6 +896,9 @@ export function PerformanceStudio({
             </span>
             <span>Your lines {progress}%</span>
           </div>
+          {statusNote && (
+            <p className="text-center text-sm text-stage-gold">{statusNote}</p>
+          )}
           <div className="h-1 overflow-hidden rounded-full bg-white/10">
             <div
               className="h-full rounded-full bg-stage-cream/90 transition-all"
