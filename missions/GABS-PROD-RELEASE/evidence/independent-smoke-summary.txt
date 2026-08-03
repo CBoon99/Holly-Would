@@ -1,0 +1,8 @@
+Independent product acceptance: ACCEPT for production smoke R1-R10
+Date: 2026-08-03
+URL: https://holly-would-web-production.up.railway.app
+scenes: 53 published, 26 PD film, 53 rights approved
+partner audio: WAV present on sampled TTS + PD sessions
+bootstrap dataDir=/data ok=true
+auth/redis/object_storage: not configured (deferred)
+Not tested: real iPhone device UX

@@ -1,0 +1,7 @@
+GABS production smoke 2026-08-03T11:31:17Z
+URL https://holly-would-web-production.up.railway.app
+home 200
+{"ok":true,"publishedScenes":106,"seeded":false,"liveTts":true,"elevenLabsConfigured":true,"dialogueHumAssets":0,"dialogueLiveAssets":0,"dataDir":"/data","hint":"Partner lines should be real TTS audio."}
+scenes 53 pd 26 approved 53
+voiceLive True
+[('elevenlabs_tts', True), ('elevenlabs_stt', True), ('openai_whisper', True), ('deepgram', True), ('database', True), ('redis', False), ('object_storage', False), ('sentry', False), ('railway', False), ('auth', False)]

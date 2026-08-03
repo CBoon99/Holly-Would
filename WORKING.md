@@ -1,28 +1,32 @@
 # WORKING.md — Acting Platform
 
-**Stage:** Phase 0 / V1 sprint in progress  
+**Stage:** V1 production smoke **ACCEPTED** (GABS 2026-08-03)  
 **Profile:** `PROJECT_AGENT_PROFILE.md` v1.0  
-**Mission:** `missions/M0-V1-SPRINT/`
+**Mission:** `missions/GABS-PROD-RELEASE/` (evidence + acceptance)
 
 ## Locked decisions
 
 | Decision | Choice |
 |----------|--------|
 | Initial release | Audio-first, video-ready models |
-| Phase 0 content | One original two-person scene (no bulk film ingest) |
-| V1 sprint stack | Next.js modular monolith + SQLite + local storage + FFmpeg |
-| NestJS / Python workers / Postgres / Redis | Deferred to M1–M2 after vertical slice proven |
-| Partner voice V1 | Pre-baked seed audio (TTS adapter interface present) |
+| Primary production host | **Railway** (not Netlify) |
+| V1 sprint stack | Next.js modular monolith + SQLite on volume + FFmpeg in Docker |
+| NestJS / Python workers / Postgres-primary / Redis / S3 | Deferred to M1–M2 (profile defaults; not yet production) |
+| Partner voice V1 | Pre-baked audio (platform seed + PD archival clips); ElevenLabs adapter present |
 | Auth V1 | Local dev user session |
+| Licensed modern film star voices | **Out of legal scope** |
 
 ## Status
 
 | Area | State |
 |------|-------|
 | Docs / profile / brief | Present |
-| Application code | **V1 Phase 0 loop runnable** (M0-V1-SPRINT) |
-| Deploy | **Primary: Railway** `https://holly-would-web-production.up.railway.app` · Netlify still live |
-| Verify | typecheck + unit tests + API mix smoke pass |
+| Application code | **V1 loop on Railway** |
+| Deploy | **ACCEPTED smoke** — https://holly-would-web-production.up.railway.app |
+| Verify | typecheck + unit tests PASS; independent R1–R10 PASS |
+| Catalogue | 53 published (27 platform_tts + 26 public_domain_film) |
+| Partner audio | Present on Railway volume; independent smoke confirmed WAV |
+| Residual | iPhone human confirm; Auth/Redis/S3; per-title PD reels |
 
 ## How to run
 
@@ -35,6 +39,15 @@ npm run dev --prefix web
 ```
 
 ## Changelog
+
+### 2026-08-03 (GABS full-team production release)
+
+- Risk L3 production write with human order to deploy full team.
+- Green gate: `npm run verify` + build PASS.
+- Independent product tester ACCEPT R1–R10 (API smoke).
+- Railway deploy SUCCESS; durable `dataDir=/data`.
+- Evidence: `missions/GABS-PROD-RELEASE/evidence/` + `ACCEPTANCE.md`.
+- Restore tag: `gabs-release-2026-08-03`.
 
 ### 2026-08-03 (Railway primary production locked)
 

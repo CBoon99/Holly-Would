@@ -1,0 +1,48 @@
+
+> @acting-platform/web@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.22
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · serverActions
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 4.9s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/4) ...
+   Generating static pages (1/4) 
+   Generating static pages (2/4) 
+   Generating static pages (3/4) 
+ ✓ Generating static pages (4/4)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                     Size  First Load JS
+┌ ƒ /                                        5.46 kB         108 kB
+├ ○ /_not-found                                996 B         103 kB
+├ ƒ /api/bootstrap                             154 B         103 kB
+├ ƒ /api/me/takes                              154 B         103 kB
+├ ƒ /api/media/[id]/play                       154 B         103 kB
+├ ƒ /api/performance-sessions                  154 B         103 kB
+├ ƒ /api/performance-sessions/[id]             154 B         103 kB
+├ ƒ /api/performance-sessions/[id]/new-take    154 B         103 kB
+├ ƒ /api/providers/voices                      154 B         103 kB
+├ ƒ /api/scenes                                154 B         103 kB
+├ ƒ /api/system/status                         154 B         103 kB
+├ ƒ /api/takes/[id]                            154 B         103 kB
+├ ƒ /api/takes/[id]/complete                   154 B         103 kB
+├ ƒ /api/takes/[id]/feedback                   154 B         103 kB
+├ ƒ /api/takes/[id]/upload                     154 B         103 kB
+├ ○ /library                                 1.22 kB         104 kB
+└ ƒ /perform/[sceneVersionId]                6.54 kB         109 kB
++ First Load JS shared by all                 102 kB
+  ├ chunks/255-3d881dfa8c72bc56.js           46.3 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js      54.2 kB
+  └ other shared chunks (total)              1.92 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

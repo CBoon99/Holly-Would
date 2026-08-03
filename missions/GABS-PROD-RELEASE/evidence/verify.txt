@@ -1,0 +1,26 @@
+
+> @acting-platform/web@0.1.0 verify
+> npm run typecheck && npm run test
+
+
+> @acting-platform/web@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @acting-platform/web@0.1.0 test
+> vitest run
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/carlboon/Documents/Acting practice, in real movies scences/web
+
+ ✓ src/lib/media/timeline.test.ts (1 test) 1ms
+ ✓ src/lib/feedback/engine.test.ts (4 tests) 2ms
+ ✓ src/lib/providers/elevenlabs.test.ts (2 tests) 1ms
+ ✓ src/lib/rights/engine.test.ts (3 tests) 6ms
+
+ Test Files  4 passed (4)
+      Tests  10 passed (10)
+   Start at  19:28:19
+   Duration  297ms (transform 57ms, setup 0ms, collect 83ms, tests 11ms, environment 0ms, prepare 146ms)
+
